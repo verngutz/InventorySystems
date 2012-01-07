@@ -17,4 +17,7 @@ public class Unit {
 		unitPrice = newPrice;
 	}
 	public int getItemQuantity(){ return itemQuantity; }
+	public void deductFromStock(int quantity){
+		itemQuantity -= quantity;
+	}
 }

@@ -226,6 +226,7 @@ public class Tester {
 								}
 								cashier.sell(currentUnit, quantity);
 								System.out.println("Item added: "+quantity+" "+currentUnit.getUnitName()+" "+currentItem.getItemName());
+								currentUnit.deductFromStock(quantity);
 							}
 							Customer buyer = null;
 							int pointsUsed = 0;
