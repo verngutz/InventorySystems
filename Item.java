@@ -12,4 +12,14 @@ public class Item {
 	public String getItemName(){ return itemName; }
 	public String getItemCategory(){ return itemCategory; }
 	public Iterator<Unit> unitIterator(){ return units.iterator(); }
+	
+	public int hashCode()
+	{
+		return itemCode.hashCode();
+	}
+	
+	public boolean equals(Object o)
+	{
+		return (o instanceof Item) && ((Item)o).itemCode.equals(itemCode);
+	}
 }

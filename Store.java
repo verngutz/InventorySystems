@@ -9,25 +9,47 @@ public class Store {
 	double cashPerCashier;
 	ArrayList<Cashier> cashiers;
 	ArrayList<Transaction> transactions;
+	Delivery currDelivery;
 	
-	public void startDeliveryBatch(){
-		d
+	public Store(double startingCash)
+	{
+		totalCash = startingCash;
 	}
-	public void acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit){
-		inventory.put(accepted, quantity);
-		
+	
+	public void startDeliveryBatch()
+	{
+		currDelivery = new Delivery(this);
 	}
-	public Delivery endDeliveryBatch(){
-		return null;
+	
+	public void acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
+	{
+		if(inventory.containsKey(accepted))
+			inventory.put(accepted, inventory.get(accepted) + quantity);
+		else
+			inventory.put(accepted, quantity);
+			
+		currDelivery.addDeliveryItem();
 	}
-	public void addCashier(Cashier toAdd){
+	
+	public Delivery endDeliveryBatch()
+	{
+		Delivery toReturn = currDelivery;
+		currDelivery = null;
+		return toReturn;
+	}
+	
+	public void addCashier(Cashier toAdd)
+	{
 		cashiers.add(toAdd);
 	}
-	public void removeCashier(Cashier toRemove){
+	
+	public void removeCashier(Cashier toRemove)
+	{
 		cashiers.remove(toRemove);
 	}
-	public Iterator<Transaction> transactionIterator(){
+	
+	public Iterator<Transaction> transactionIterator()
+	{
 		return transactions.iterator();
 	}
-	
 }

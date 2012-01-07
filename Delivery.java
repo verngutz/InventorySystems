@@ -1,4 +1,4 @@
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -11,7 +11,7 @@ public class Delivery {
 	public Delivery(Store receiver)
 	{
 		store = receiver;
-		dateTime = new Timestamp();
+		dateTime = new Timestamp(System.currentTimeMillis());
 	}
 	
 	public Store getStore(){ return store; }

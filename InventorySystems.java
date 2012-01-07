@@ -12,5 +12,8 @@ public class InventorySystems {
 		stores.add(store);
 	}
 	
-	
+	public void addCustomer(Customer customer)
+	{
+		customers.add(customer);
+	}
 }
