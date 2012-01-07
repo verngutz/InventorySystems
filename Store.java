@@ -56,9 +56,10 @@ public class Store {
 		cashPerCashier = totalCash / cashiers.size();
 	}
 	
-	public void removeCashier(Cashier toRemove)
+	public void removeCashier(int index)
 	{
-		cashiers.remove(toRemove);
+		cashiers.remove(index);
+		cashPerCashier = totalCash / cashiers.size();
 	}
 	
 	public Iterator<Transaction> transactionIterator()

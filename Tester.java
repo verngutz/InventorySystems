@@ -125,6 +125,16 @@ public class Tester {
 								in.nextLine();
 								break;
 							case 7:
+								System.out.println("Enter Item Code:");
+								itemCode = in.nextLine();
+								System.out.println("Enter Unit Name:");
+								unitName = in.nextLine();
+								System.out.println("Enter New Price:");
+								unitPrice = in.nextDouble();
+								in.nextLine();
+								system.getItem(itemCode).getUnit(unitName).setUnitPrice(unitPrice);
+								System.out.println("Unit successfully added! Press the enter key to continue.");
+								in.nextLine();
 								break;
 							case 8:
 								System.out.println("Enter Store Id:");
@@ -136,7 +146,15 @@ public class Tester {
 								in.nextLine();
 								break;
 							case 9:
-								
+								System.out.println("Enter Store Id:");
+								id = in.nextInt();
+								in.nextLine();
+								store = system.getStore(id);
+								System.out.println("Enter cashier index");
+								int cashierIndex = in.nextInt();in.nextLine();
+								store.removeCashier(cashierIndex);
+								System.out.println("Cashier successfully removed! Press the enter key to continue.");
+								in.nextLine();
 								break;
 							case 10:
 								break a;
