@@ -14,6 +14,7 @@ public class Store {
 	
 	public Store(int id, double startingCash)
 	{
+		cashiers = new ArrayList<Cashier>();
 		totalCash = startingCash;
 	}
 	

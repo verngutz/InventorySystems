@@ -104,7 +104,8 @@ public class Tester {
 								System.out.println("Enter Item Name:");
 								String itemName = in.nextLine();
 								System.out.println("Enter Item Category");
-								String itemCatoegory = in.nextLine();
+								String itemCategory = in.nextLine();
+								system.addItem(new Item(itemCode, itemName, itemCategory));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -191,8 +192,10 @@ public class Tester {
 								}
 							}
 							cashier.sell(currentUnit, quantity);
-							System.out.println("Item added: "+quantity+" "+currentUnit+" "+currentItem);
+							System.out.println("Item added: "+quantity+" "+currentUnit.getUnitName()+" "+currentItem.getItemName());
 						}
+						System.out.println("Enter customer id (-1 if anonymous buyer).");
+						//do shit like end transaction
 					}
 					break;
 				case 3:
