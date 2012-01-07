@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 
 public class Store {
+	int id;
 	HashMap<Item, Integer> inventory;
 	double totalCash;
 	double cashPerCashier;
@@ -11,7 +12,7 @@ public class Store {
 	ArrayList<Transaction> transactions;
 	Delivery currDelivery;
 	
-	public Store(double startingCash)
+	public Store(int id, double startingCash)
 	{
 		totalCash = startingCash;
 	}
