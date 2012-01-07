@@ -20,7 +20,7 @@ public class Cashier {
 		return toSell.unitIterator();
 	}
 	public void sell(Unit tosell, int quantity){
-		
+		currentTransaction.addUnitsSold(tosell, quantity);
 	}
 	
 	public Transaction endTransaction(Customer loyalBuyer, double cashReceived,int pointsUsed){

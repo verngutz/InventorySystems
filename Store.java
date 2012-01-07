@@ -60,4 +60,8 @@ public class Store {
 	{
 		return transactions.iterator();
 	}
+
+	public Cashier getCashier(int cashierIndex) {
+		return cashiers.get(cashierIndex);
+	}
 }
