@@ -1,4 +1,4 @@
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -11,11 +11,10 @@ public class Transaction {
 	private int pointsUsed;
 	private double revenue;
 	
-	public Transaction()
-	{
+	public Transaction(){
+		dateTime = new Timestamp(System.currentTimeMillis());
 		unitsSold = new HashMap<Unit, Integer>();
 	}
-	
 	public Cashier getCashier(){ return cashier; }
 	public Iterator<Map.Entry<Unit, Integer>> unitsSoldIterator(){
 		return unitsSold.entrySet().iterator();
