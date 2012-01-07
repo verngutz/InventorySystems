@@ -8,21 +8,41 @@ public class Transaction {
 	private HashMap<Unit, Integer> unitsSold;
 	private Timestamp dateTime;
 	private Customer customer;
+	private int pointsUsed;
+	private double revenue;
+	
+	public Transaction()
+	{
+		unitsSold = new HashMap<Unit, Integer>();
+	}
 	
 	public Cashier getCashier(){ return cashier; }
 	public Iterator<Map.Entry<Unit, Integer>> unitsSoldIterator(){
 		return unitsSold.entrySet().iterator();
 	}
 	public double getRevenue(){
-		double revenue = 0;
-		for(Map.Entry<Unit, Integer> entry : unitsSold.entrySet())
-		{
-			revenue += entry.getKey().getUnitPrice() * entry.getValue();
-		}
 		return revenue;
+	}
+	public void setRevenue(double revenue)
+	{
+		this.revenue = revenue;
+	}
+	
+	public int getPointsUsed()
+	{
+		return pointsUsed;
+	}
+	
+	public void setPointsUsed(int pointsUsed)
+	{
+		pointsUsed = pointsUsed;
 	}
 	public Timestamp getDateTime(){ return dateTime; }
 	public Customer getCustomer(){ return customer; }
+	public void setCustomer(Customer customer)
+	{
+		this.customer = customer;
+	}
 	public void addUnitsSold(Unit unit, int quantity){
 		unitsSold.put(unit, quantity);
 	}

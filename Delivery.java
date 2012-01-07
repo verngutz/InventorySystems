@@ -12,6 +12,7 @@ public class Delivery {
 	{
 		store = receiver;
 		dateTime = new Timestamp(System.currentTimeMillis());
+		items = new ArrayList<DeliveryItem>();
 	}
 	
 	public Store getStore(){ return store; }

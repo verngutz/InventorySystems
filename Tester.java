@@ -103,8 +103,9 @@ public class Tester {
 								while(true);
 								System.out.println("Enter Item Name:");
 								String itemName = in.nextLine();
-								System.out.println("Enter Item Category");
-								String itemCatoegory = in.nextLine();
+								System.out.println("Enter Item Category:");
+								String itemCategory = in.nextLine();
+								system.addItem(new Item(itemCode, itemName, itemCategory));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -128,10 +129,9 @@ public class Tester {
 							case 8:
 								System.out.println("Enter Store Id:");
 								id = in.nextInt();
+								in.nextLine();
 								Store store = system.getStore(id);
-								System.out.println("Enter Amount of Cash:");
-								double cash = in.nextDouble();
-								store.addCashier(new Cashier(store, cash));
+								store.addCashier(new Cashier(store));
 								System.out.println("Cashier successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -144,60 +144,107 @@ public class Tester {
 					}
 					break;
 				case 2:
-					System.out.println("======== CASHIER MODE ===========");
-					System.out.println("1 = Make Sale");
+					System.out.println("====== CASHIER MODE ======");
+					System.out.println("==== SELECT AN ACTION ====");
+					System.out.println("1 = Start Day");
+					System.out.println("2 = Make Sale");
+					System.out.println("3 = End Day");
+					System.out.println("==========================");
 					int conf = in.nextInt();
-					if(conf==1){
-						System.out.println("Enter store id");
-						int storeid = in.nextInt();
-						Store store = system.getStore(storeid);
-						System.out.println("Enter cashier index");
-						int cashierIndex = in.nextInt();
-						Cashier cashier = store.getCashier(cashierIndex);
-						System.out.println("Starting transaction...");
-						cashier.startTransaction();
-						HashMap<Unit, Integer> itemsToCheckout = new HashMap<Unit, Integer>();
-						String itemid;
-						a: while(true){
-							System.out.println("Enter item id (0 to end transaction)");
-							itemid = in.next();
-							if(itemid.equals("0")) break a;
-							Unit currentUnit = null;
-							Unit tempUnit;
-							Item currentItem = null;
-							Item tempItem;
-							Iterator<Item> itemsList = system.itemIterator();
-							while(itemsList.hasNext()){
-								tempItem = itemsList.next();
-								if(tempItem.getItemCode().equals(itemid)){
-									currentItem = tempItem;
-									break;
+					switch(conf)
+					{
+						case 1:
+							System.out.println("Enter store id");
+							int storeid = in.nextInt();
+							Store store = system.getStore(storeid);
+							System.out.println("Enter cashier index");
+							int cashierIndex = in.nextInt();
+							Cashier cashier = store.getCashier(cashierIndex);
+							cashier.startDay();
+							System.out.println("Welcome!");
+							break;
+						case 2:
+							System.out.println("Enter store id");
+							storeid = in.nextInt();
+							store = system.getStore(storeid);
+							System.out.println("Enter cashier index");
+							cashierIndex = in.nextInt();
+							cashier = store.getCashier(cashierIndex);
+							System.out.println("Starting transaction...");
+							cashier.startTransaction();
+							HashMap<Unit, Integer> itemsToCheckout = new HashMap<Unit, Integer>();
+							String itemid;
+							a: while(true){
+								System.out.println("Enter item id (0 to end transaction)");
+								itemid = in.next();
+								if(itemid.equals("0")) break a;
+								Unit currentUnit = null;
+								Unit tempUnit;
+								Item currentItem = null;
+								Item tempItem;
+								Iterator<Item> itemsList = system.itemIterator();
+								while(itemsList.hasNext()){
+									tempItem = itemsList.next();
+									if(tempItem.getItemCode().equals(itemid)){
+										currentItem = tempItem;
+										break;
+									}
 								}
-							}
-							Iterator<Unit> unitList = currentItem.unitIterator();
-							while(unitList.hasNext()){
-								tempUnit = unitList.next();
-								System.out.println(tempUnit.getUnitName()+" at "+tempUnit.getUnitPrice());
-							}
-							System.out.println("Enter desired unit of item and quantity separated by a space (e.g., DOZEN 1)");
-							String unitname = in.next();
-							int quantity = in.nextInt();
-							unitList = currentItem.unitIterator();
-							while(unitList.hasNext()){
-								tempUnit = unitList.next();
-								if(tempUnit.getUnitName().equalsIgnoreCase(unitname)){
-									currentUnit = tempUnit;
-									break;
+								Iterator<Unit> unitList = currentItem.unitIterator();
+								while(unitList.hasNext()){
+									tempUnit = unitList.next();
+									System.out.println(tempUnit.getUnitName()+" at "+tempUnit.getUnitPrice());
 								}
+								System.out.println("Enter desired unit of item and quantity separated by a space (e.g., DOZEN 1)");
+								String unitname = in.next();
+								int quantity = in.nextInt();
+								unitList = currentItem.unitIterator();
+								while(unitList.hasNext()){
+									tempUnit = unitList.next();
+									if(tempUnit.getUnitName().equalsIgnoreCase(unitname)){
+										currentUnit = tempUnit;
+										break;
+									}
+								}
+								cashier.sell(currentUnit, quantity);
+								System.out.println("Item added: "+quantity+" "+currentUnit+" "+currentItem);
 							}
-							cashier.sell(currentUnit, quantity);
-							System.out.println("Item added: "+quantity+" "+currentUnit+" "+currentItem);
-						}
+							Customer buyer = null;
+							int pointsUsed = 0;
+							System.out.println("Is customer enrolled in loyalty program? (Y/N)");
+							String answer = in.next();
+							if(answer.equalsIgnoreCase("y"))
+							{
+								System.out.println("Enter customer id: ");
+								int customerId = in.nextInt();
+								buyer = system.getCustomer(customerId);
+								System.out.println("Enter points used: ");
+								pointsUsed = in.nextInt();
+							}
+							Transaction result = cashier.endTransaction(buyer, pointsUsed);
+							System.out.println("Amount due: " + result.getRevenue());
+							if(result != null)
+							{
+								store.addTransaction(result);
+							}
+							break;
+						case 3:
+							System.out.println("Enter store id");
+							storeid = in.nextInt();
+							store = system.getStore(storeid);
+							System.out.println("Enter cashier index");
+							cashierIndex = in.nextInt();
+							cashier = store.getCashier(cashierIndex);
+							cashier.endDay();
+							System.out.println("Goodbye!");
+							break;
 					}
 					break;
 				case 3:
-					System.out.println("======== CUSTOMER MODE ===========");
+					System.out.println("===== CUSTOMER MODE ======");
+					System.out.println("==== SELECT AN ACTION ====");
 					System.out.println("1 = Inquire Points");
+					System.out.println("==========================");
 					conf = in.nextInt();
 					if(conf!=1) break;
 					a: while(true){
@@ -220,10 +267,12 @@ public class Tester {
 					}
 					break;
 				case 4:
-					System.out.println("======== SYSADMIN MODE ===========");
+					System.out.println("====== SYSADMIN MODE =====");
+					System.out.println("==== SELECT AN ACTION ====");
 					System.out.println("1 = Setup Store");
 					System.out.println("2 = Backup System");
 					System.out.println("3 = Restore System");
+					System.out.println("==========================");
 					int choice = in.nextInt();
 					switch(choice){
 					case 1:

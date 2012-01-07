@@ -15,6 +15,9 @@ public class Store {
 	public Store(int id, double startingCash)
 	{
 		totalCash = startingCash;
+		inventory = new HashMap<Item, Integer>();
+		cashiers = new ArrayList<Cashier>();
+		transactions = new ArrayList<Transaction>();
 	}
 	
 	public void startDeliveryBatch()
@@ -49,6 +52,7 @@ public class Store {
 	public void addCashier(Cashier toAdd)
 	{
 		cashiers.add(toAdd);
+		cashPerCashier = totalCash / cashiers.size();
 	}
 	
 	public void removeCashier(Cashier toRemove)
@@ -63,5 +67,21 @@ public class Store {
 
 	public Cashier getCashier(int cashierIndex) {
 		return cashiers.get(cashierIndex);
+	}
+	
+	public double giveCashToCashier()
+	{
+		totalCash -= cashPerCashier;
+		return cashPerCashier;
+	}
+	
+	public void getCashFromCashier(double cash)
+	{
+		totalCash += cash;
+	}
+	
+	public void addTransaction(Transaction transaction)
+	{
+		transactions.add(transaction);
 	}
 }

@@ -70,6 +70,11 @@ public class InventorySystems {
 		return stores.get(id);
 	}
 	
+	public Customer getCustomer(int id)
+	{
+		return customers.get(id);
+	}
+	
 	public boolean containsItem(String itemCode)
 	{
 		return items.containsKey(itemCode);
