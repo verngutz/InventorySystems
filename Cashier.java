@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Map.Entry;
 
 
 public class Cashier {
@@ -33,9 +34,10 @@ public class Cashier {
 	{
 		Transaction toReturn = null;
 		double cashDue = 0;
-		while(currentTransaction.unitsSoldIterator().hasNext())
+		Iterator<Entry<Unit, Integer>> unitsSold = currentTransaction.unitsSoldIterator();
+		while(unitsSold.hasNext())
 		{
-			Map.Entry<Unit, Integer> entry = currentTransaction.unitsSoldIterator().next();
+			Map.Entry<Unit, Integer> entry = unitsSold.next();
 			cashDue += entry.getKey().getUnitPrice() * entry.getValue();
 		}
 		if(loyalBuyer != null)
