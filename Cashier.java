@@ -10,14 +10,11 @@ public class Cashier {
 	public void startTransaction(){
 		currentTransaction = new Transaction();
 	}
-	public Item scanItem(String itemCode){
-		return store.;
-	}
 	public Iterator<Unit> unitsIterator(Item toSell){
 		return toSell.unitIterator();
 	}
 	public void sell(Unit tosell, int quantity){
-		
+		currentTransaction.addUnitsSold(tosell, quantity);
 	}
 	
 	public Transaction endTransaction(Customer loyalBuyer, double cashReceived,int pointsUsed){

@@ -42,7 +42,7 @@ public class InventorySystems {
 		return items.iterator();
 	}
 	
-	public Iteratore<Delivery> deliveryIterator()
+	public Iterator<Delivery> deliveryIterator()
 	{
 		return deliveries.iterator();
 	}

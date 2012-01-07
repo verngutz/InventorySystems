@@ -23,4 +23,7 @@ public class Transaction {
 	}
 	public Timestamp getDateTime(){ return dateTime; }
 	public Customer getCustomer(){ return customer; }
+	public void addUnitsSold(Unit unit, int quantity){
+		unitsSold.put(unit, quantity);
+	}
 }
