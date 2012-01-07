@@ -21,6 +21,11 @@ public class Item {
 	public String getItemCategory(){ return itemCategory; }
 	public Iterator<Unit> unitIterator(){ return units.iterator(); }
 	
+	public void addUnit(Unit unit)
+	{
+		units.add(unit);
+	}
+	
 	public int hashCode()
 	{
 		return itemCode.hashCode();

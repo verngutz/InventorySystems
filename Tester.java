@@ -88,7 +88,7 @@ public class Tester {
 								in.nextLine();
 								break;
 							case 5:
-								String itemCode = 0;
+								String itemCode = "";
 								do
 								{
 									System.out.println("Enter Item Code:");
@@ -104,7 +104,39 @@ public class Tester {
 								String itemName = in.nextLine();
 								System.out.println("Enter Item Category");
 								String itemCatoegory = in.nextLine();
-								System.out.println("");
+								System.out.println("Item successfully added! Press the enter key to continue.");
+								in.nextLine();
+								break;
+							case 6:
+								System.out.println("Enter Item Code:");
+								itemCode = in.nextLine();
+								System.out.println("Enter Unit Name:");
+								String unitName = in.nextLine();
+								System.out.println("Enter Item Quantity:");
+								int quantity = in.nextInt();
+								in.nextLine();
+								System.out.println("Enter Unit Price:");
+								double unitPrice = in.nextDouble();
+								in.nextLine();
+								system.getItem(itemCode).addUnit(new Unit(unitName, unitPrice, quantity));
+								System.out.println("Unit successfully added! Press the enter key to continue.");
+								in.nextLine();
+								break;
+							case 7:
+								break;
+							case 8:
+								System.out.println("Enter Store Id:");
+								id = in.nextInt();
+								Store store = system.getStore(id);
+								System.out.println("Enter Amount of Cash:");
+								double cash = in.nextDouble();
+								store.addCashier(new Cashier(store, cash));
+								System.out.println("Cashier successfully added! Press the enter key to continue.");
+								in.nextLine();
+								break;
+							case 9:
+								
+								break;
 							case 10:
 								break a;
 						}

@@ -6,6 +6,12 @@ public class Cashier {
 	private double cash;
 	private Transaction currentTransaction;
 	
+	public Cashier(Store store, double cash)
+	{
+		this.store = store;
+		this.cash = cash;
+	}
+	
 	public double getCash(){ return cash; }
 	public void startTransaction(){
 		currentTransaction = new Transaction();
