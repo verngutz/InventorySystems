@@ -8,32 +8,89 @@ public class Tester {
 	}
 	
 	public Tester(){
+		InventorySystems system = new InventorySystems();
 		Scanner in;
 		try{
 			in = new Scanner(new File("in.in"));
 		}catch(Exception e){
 			in = new Scanner(System.in);
 		}
-		
-		System.out.println("1 = Manager, 2 = Cashier, 3 = Customer, 4 = System Admin");
-		int user = in.nextInt();
-		switch(user)
+		while(true)
 		{
-			case 1:
-				System.out.println("======== MANAGER MODE ===========");
-				System.out.println("1 = Enroll Customer, 2 = Restock, 3 = Get Customer Report, "
-									+ "4 = Get Cash Position, 5 = Add New Item, 6 = Add New Unit, "
-									+ "7 = Change Unit Price, 8 = Add Cashier, 9 = Remove Cashier");
-				break;
-			case 2:
-			
-				break;
-			case 3:
-			
-				break;
-			case 4:
-			
-				break;
+			System.out.println("====== SELECT A MODE =====");
+			System.out.println("1 = Manager");
+			System.out.println("2 = Cashier");
+			System.out.println("3 = Customer");
+			System.out.println("4 = System Admin");
+			System.out.println("==========================");
+			int user = in.nextInt();
+			switch(user)
+			{
+				case 1:
+					a: while(true)
+					{
+						System.out.println("====== MANAGER MODE ======");
+						System.out.println("==== SELECT AN ACTION ====");
+						System.out.println("1 = Enroll Customer");
+						System.out.println("2 = Restock");
+						System.out.println("3 = Get Customer Report");
+						System.out.println("4 = Get Cash Position");
+						System.out.println("5 = Add New Item");
+						System.out.println("6 = Add New Unit");
+						System.out.println("7 = Change Unit Price");
+						System.out.println("8 = Add Cashier");
+						System.out.println("9 = Remove Cashier");
+						System.out.println("10 = Return to Main Menu");
+						System.out.println("==========================");
+						int action = in.nextInt();
+						in.nextLine();
+						switch(action)
+						{
+							case 1:
+								System.out.println("Enter Customer's First Name:");
+								String firstname = in.nextLine();
+								System.out.println("Enter Customer's Last Name:");
+								String lastname = in.nextLine();
+								System.out.println("Enter Customer's Address:");
+								String address = in.nextLine();
+								System.out.println("Enter Customer's Gender:");
+								String gender = in.nextLine();
+								System.out.println("Enter Customer's Age:");
+								int age = in.nextInt();
+								system.addCustomer(new Customer(firstname, lastname, system.nextCustomerId(), address, gender, age));
+								System.out.println("Customer successfully enrolled!");
+								break;
+							case 2:
+								System.out.println("Enter Store Id:");
+								int id = in.nextInt();
+								Store toRestock = system.getStore(id);
+								toRestock.startDeliveryBatch();
+								while(true)
+								{
+									System.out.println("Enter item code of item delivered, quantity delivered, and wholesale price (e.g. P101 10 100)");
+									System.out.println("Enter \"q\" to quit");
+									String itemCode = in.next();
+									if(itemCode.equals("q")) break;
+									int quantity = in.nextInt();
+									double wholesalePrice = in.nextDouble();
+									toRestock.acceptDeliveryItem(system.getItem(itemCode), quantity, wholesalePrice);
+								}
+								toRestock.endDeliveryBatch();
+							case 10:
+								break a;
+						}
+					}
+					break;
+				case 2:
+				
+					break;
+				case 3:
+				
+					break;
+				case 4:
+				
+					break;
+			}
 		}
 	}
 }

@@ -10,9 +10,6 @@ public class Cashier {
 	public void startTransaction(){
 		currentTransaction = new Transaction();
 	}
-	public Item scanItem(String itemCode){
-		return store.;
-	}
 	public Iterator<Unit> unitsIterator(Item toSell){
 		return toSell.unitIterator();
 	}

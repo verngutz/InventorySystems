@@ -9,7 +9,7 @@ public class Customer {
 	private int ptsEarned;
 	private int ptsRedeemed;
 	
-	public Customer(String firstName, String lastName, int id, String address, String gender)
+	public Customer(String firstName, String lastName, int id, String address, String gender, int age)
 	{
 		this.firstName = firstName;
 		this.lastName = lastName;
