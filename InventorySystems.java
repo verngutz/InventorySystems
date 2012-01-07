@@ -70,6 +70,11 @@ public class InventorySystems {
 		return stores.get(id);
 	}
 	
+	public boolean containsItem(String itemCode)
+	{
+		return items.containsKey(itemCode);
+	}
+	
 	public Item getItem(String itemCode)
 	{
 		return items.get(itemCode);

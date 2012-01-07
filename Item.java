@@ -8,6 +8,14 @@ public class Item {
 	String itemCategory;
 	ArrayList<Unit> units;
 	
+	public Item(String itemCode, String itemName, String itemCategory)
+	{
+		this.itemCode = itemCode;
+		this.itemName = itemName;
+		this.itemCategory = itemCategory;
+		units = new ArrayList<Unit>();
+	}
+	
 	public String getItemCode(){ return itemCode; }
 	public String getItemName(){ return itemName; }
 	public String getItemCategory(){ return itemCategory; }

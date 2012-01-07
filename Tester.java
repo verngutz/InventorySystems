@@ -15,13 +15,14 @@ public class Tester {
 		}catch(Exception e){
 			in = new Scanner(System.in);
 		}
-		while(true)
+		out: while(true)
 		{
 			System.out.println("====== SELECT A MODE =====");
 			System.out.println("1 = Manager");
 			System.out.println("2 = Cashier");
 			System.out.println("3 = Customer");
 			System.out.println("4 = System Admin");
+			System.out.println("5 = Quit");
 			System.out.println("==========================");
 			int user = in.nextInt();
 			switch(user)
@@ -58,7 +59,8 @@ public class Tester {
 								System.out.println("Enter Customer's Age:");
 								int age = in.nextInt();
 								system.addCustomer(new Customer(firstname, lastname, system.nextCustomerId(), address, gender, age));
-								System.out.println("Customer successfully enrolled!");
+								System.out.println("Customer successfully enrolled! Press the enter key to continue.");
+								in.nextLine();
 								break;
 							case 2:
 								System.out.println("Enter Store Id:");
@@ -76,6 +78,33 @@ public class Tester {
 									toRestock.acceptDeliveryItem(system.getItem(itemCode), quantity, wholesalePrice);
 								}
 								toRestock.endDeliveryBatch();
+								break;
+							case 3:
+								System.out.println("This feature is not available yet. Press the enter key to continue.");
+								in.nextLine();
+								break;
+							case 4:
+								System.out.println("This feature is not available yet. Press the enter key to continue.");
+								in.nextLine();
+								break;
+							case 5:
+								String itemCode = 0;
+								do
+								{
+									System.out.println("Enter Item Code:");
+									itemCode = in.nextLine();
+									if(system.containsItem(itemCode))
+									{
+										System.out.println("That item code is already assigned to a different item.");
+									}
+									else break;
+								}
+								while(true);
+								System.out.println("Enter Item Name:");
+								String itemName = in.nextLine();
+								System.out.println("Enter Item Category");
+								String itemCatoegory = in.nextLine();
+								System.out.println("");
 							case 10:
 								break a;
 						}
@@ -90,6 +119,8 @@ public class Tester {
 				case 4:
 				
 					break;
+				case 5:
+					break out;
 			}
 		}
 	}
