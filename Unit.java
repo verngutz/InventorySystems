@@ -5,6 +5,11 @@ public class Unit {
 	Item item;
 	int itemQuantity;
 	
+	public Unit(Item item)
+	{
+		this.item = item;
+	}
+	
 	public Item getItem(){ return item; }
 	public String getUnitName(){ return unitName; }
 	public double getUnitPrice(){ return unitPrice; }

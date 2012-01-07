@@ -23,12 +23,19 @@ public class Store {
 	
 	public void acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
 	{
-		if(inventory.containsKey(accepted))
-			inventory.put(accepted, inventory.get(accepted) + quantity);
-		else
-			inventory.put(accepted, quantity);
+		if(currDelivery == null)
+		{
 			
-		currDelivery.addDeliveryItem();
+		}
+		else
+		{
+			if(inventory.containsKey(accepted))
+				inventory.put(accepted, inventory.get(accepted) + quantity);
+			else
+				inventory.put(accepted, quantity);
+				
+			currDelivery.addDeliveryItem(new DeliveryItem(accepted, quantity, pricePerUnit));
+		}
 	}
 	
 	public Delivery endDeliveryBatch()

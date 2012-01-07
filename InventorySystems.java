@@ -9,11 +9,41 @@ public class InventorySystems {
 	
 	public void addStore(Store newStore)
 	{
-		stores.add(store);
+		stores.add(newStore);
 	}
 	
-	public void addCustomer(Customer customer)
+	public void addCustomer(Customer newCustomer)
 	{
-		customers.add(customer);
+		customers.add(newCustomer);
+	}
+	
+	public void addItem(Item newItem)
+	{
+		items.add(newItem);
+	}
+	
+	public void addDelivery(Delivery newDelivery)
+	{
+		deliveries.add(newDelivery);
+	}
+	
+	public Iterator<Store> storeIterator()
+	{
+		return stores.iterator();
+	}
+	
+	public Iterator<Customer> customerIterator()
+	{
+		return customers.iterator();
+	}
+	
+	public Iterator<Item> itemIterator()
+	{
+		return items.iterator();
+	}
+	
+	public Iteratore<Delivery> deliveryIterator()
+	{
+		return deliveries.iterator();
 	}
 }
