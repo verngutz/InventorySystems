@@ -230,9 +230,8 @@ public class Tester {
 								System.out.println("Enter points used: ");
 								pointsUsed = in.nextInt();
 							}
-							Tuple<Transaction, Double> tuple = cashier.endTransaction(buyer, pointsUsed);
-							Transaction result = tuple.getTrans();
-							System.out.println("Amount due: " + tuple.getAmount());
+							Transaction result = cashier.endTransaction(buyer, pointsUsed);
+							System.out.println("Amount due: " + result.getRevenue());
 							//deduct from stock
 							/*Iterator<Map.Entry<Item, Integer>> it = itemsToCheckout.entrySet().iterator();
 							while(it.hasNext()){
@@ -240,7 +239,7 @@ public class Tester {
 								pair.getKey().deductFromStock(pair.getValue());
 							}
 							*/
-							if(result != null)
+							if(buyer != null)
 							{
 								store.addTransaction(result);
 							}

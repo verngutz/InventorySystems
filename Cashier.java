@@ -27,9 +27,8 @@ public class Cashier {
 		currentTransaction.addItemSold(currentItem, quantity);
 	}
 	
-	public Tuple<Transaction, Double> endTransaction(Customer loyalBuyer, int pointsUsed)
+	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
-		Tuple<Transaction, Double> toReturn = null;
 		double cashDue = 0;
 		Iterator<Entry<Item, Integer>> itemsSold = currentTransaction.itemsSoldIterator();
 		while(itemsSold.hasNext())
@@ -45,10 +44,10 @@ public class Cashier {
 			loyalBuyer.addPointsRedeemed(pointsUsed);
 			cashDue -= pointsUsed;
 			loyalBuyer.addPointsEarned((int)(cashDue / POINTS_PER_PESO));
-			toReturn = new Tuple<Transaction, Double>(currentTransaction, cashDue);
-		}else toReturn = new Tuple<Transaction, Double>(null, cashDue);
+		}
 		currentTransaction.setRevenue(cashDue);
 		cash += cashDue;
+		Transaction toReturn = currentTransaction;
 		currentTransaction = null;
 		return toReturn;
 	}

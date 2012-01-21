@@ -32,7 +32,7 @@ public class Store {
 	{
 		if(currDelivery == null)
 		{
-			
+			throw new IllegalStateException("No active delivery batch.");
 		}
 		else
 		{
