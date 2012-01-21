@@ -24,13 +24,13 @@ public class Store implements Cloneable{
 		transactions = new ArrayList<Transaction>();
 	}
 	
-	public Store(int id, double startingCash, HashMap<Item, Integer> inventory, double cashPerCashier, ArrayList<Cashier> cashiers, ArrayList<Transaction> transactions, Delivery currDelivery)
+	public Store(int id, double startingCash, HashMap<Item, Integer> inventory, double cashPerCashier, ArrayList<Transaction> transactions, Delivery currDelivery)
 	{
 		this.id = id;
 		this.totalCash = startingCash;
 		this.inventory = inventory;
 		this.cashPerCashier = cashPerCashier;
-		this.cashiers = cashiers;
+		this.cashiers = new ArrayList<Cashier>();
 		this.transactions = transactions;
 		this.currDelivery = currDelivery;
 	}
@@ -125,16 +125,16 @@ public class Store implements Cloneable{
 		{
 			inventoryCopy.put((Item)i.clone(), inventory.get(i));
 		}
-		ArrayList<Cashier> cashiersCopy = new ArrayList<Cashier>();
-		for(Cashier c : cashiers)
-		{
-			cashiersCopy.add((Cashier)c.clone());
-		}
 		ArrayList<Transaction> transactionsCopy = new ArrayList<Transaction>();
 		for(Transaction t : transactionsCopy)
 		{
 			transactionsCopy.add((Transaction)t.clone());
 		}
-		return new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, cashiersCopy, transactionsCopy, (Delivery)currDelivery.clone());
+		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, (Delivery)currDelivery.clone());
+		for(Cashier c : cashiers)
+		{
+			s.addCashier(new Cashier(s, c.getCash(), c.getCurrentTransaction()));
+		}
+		return s;
 	}
 }

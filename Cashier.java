@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 
-public class Cashier implements Cloneable{
+public class Cashier {
 
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
@@ -26,6 +26,11 @@ public class Cashier implements Cloneable{
 	public void startDay()
 	{
 		this.cash = store.giveCashToCashier();
+	}
+	
+	public Transaction getCurrentTransaction()
+	{
+		return currentTransaction;
 	}
 	
 	public double getCash(){ return cash; }
@@ -72,11 +77,6 @@ public class Cashier implements Cloneable{
 		store.addCash(cash);
 		cash = 0;
 		return toReturn;
-	}
-	
-	public Cashier clone()
-	{
-		return new Cashier((Store)store.clone(), cash, (Transaction)currentTransaction.clone());
 	}
 }
 
