@@ -13,11 +13,12 @@ public class Store {
 	ArrayList<Transaction> transactions;
 	Delivery currDelivery;
 	
-	public Store(int id, double startingCash)
+	public Store(int id, double startingCash, double cashPerCashier)
 	{
 		this.id = id;
 		cashiers = new ArrayList<Cashier>();
 		totalCash = startingCash;
+		this.cashPerCashier = cashPerCashier;
 		inventory = new HashMap<Item, Integer>();
 		cashiers = new ArrayList<Cashier>();
 		transactions = new ArrayList<Transaction>();
@@ -56,13 +57,13 @@ public class Store {
 	public void addCashier(Cashier toAdd)
 	{
 		cashiers.add(toAdd);
-		cashPerCashier = totalCash / cashiers.size();
+		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
 	public void removeCashier(int index)
 	{
 		cashiers.remove(index);
-		cashPerCashier = totalCash / cashiers.size();
+		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
 	public Iterator<Transaction> transactionIterator()
