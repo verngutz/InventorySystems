@@ -45,6 +45,7 @@ public class Store {
 	
 	public Delivery endDeliveryBatch()
 	{
+		totalCash -= currDelivery.getTotalPrice();
 		Delivery toReturn = currDelivery;
 		currDelivery = null;
 		return toReturn;
@@ -85,5 +86,8 @@ public class Store {
 	public void addTransaction(Transaction transaction)
 	{
 		transactions.add(transaction);
+	}
+	public void deductFromStock(Item item, int quantity){
+		inventory.put(item, inventory.get(item)-quantity);
 	}
 }

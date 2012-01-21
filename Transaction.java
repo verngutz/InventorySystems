@@ -5,7 +5,7 @@ import java.util.*;
 public class Transaction {
 	private Store store;
 	private Cashier cashier;
-	private HashMap<Unit, Integer> unitsSold;
+	private HashMap<Item, Integer> itemsSold;
 	private Timestamp dateTime;
 	private Customer customer;
 	private int pointsUsed;
@@ -13,11 +13,11 @@ public class Transaction {
 	
 	public Transaction(){
 		dateTime = new Timestamp(System.currentTimeMillis());
-		unitsSold = new HashMap<Unit, Integer>();
+		itemsSold = new HashMap<Item, Integer>();
 	}
 	public Cashier getCashier(){ return cashier; }
-	public Iterator<Map.Entry<Unit, Integer>> unitsSoldIterator(){
-		return unitsSold.entrySet().iterator();
+	public Iterator<Map.Entry<Item, Integer>> itemsSoldIterator(){
+		return itemsSold.entrySet().iterator();
 	}
 	public double getRevenue(){
 		return revenue;
@@ -34,7 +34,7 @@ public class Transaction {
 	
 	public void setPointsUsed(int pointsUsed)
 	{
-		pointsUsed = pointsUsed;
+		this.pointsUsed = pointsUsed;
 	}
 	public Timestamp getDateTime(){ return dateTime; }
 	public Customer getCustomer(){ return customer; }
@@ -42,7 +42,7 @@ public class Transaction {
 	{
 		this.customer = customer;
 	}
-	public void addUnitsSold(Unit unit, int quantity){
-		unitsSold.put(unit, quantity);
+	public void addItemSold(Item currentItem, int quantity){
+		itemsSold.put(currentItem, quantity);
 	}
 }

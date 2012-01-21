@@ -38,11 +38,10 @@ public class Tester {
 						System.out.println("3 = Get Customer Report");
 						System.out.println("4 = Get Cash Position");
 						System.out.println("5 = Add New Item");
-						System.out.println("6 = Add New Unit");
-						System.out.println("7 = Change Unit Price");
-						System.out.println("8 = Add Cashier");
-						System.out.println("9 = Remove Cashier");
-						System.out.println("10 = Return to Main Menu");
+						System.out.println("6 = Change Unit Price");
+						System.out.println("7 = Add Cashier");
+						System.out.println("8 = Remove Cashier");
+						System.out.println("9 = Return to Main Menu");
 						System.out.println("==========================");
 						int action = in.nextInt();
 						in.nextLine();
@@ -105,38 +104,25 @@ public class Tester {
 								String itemName = in.nextLine();
 								System.out.println("Enter Item Category:");
 								String itemCategory = in.nextLine();
-								system.addItem(new Item(itemCode, itemName, itemCategory));
+								System.out.println("Enter Item Unit:");
+								String itemUnit = in.nextLine();
+								System.out.println("Enter Unit Price:");
+								double unitPrice = in.nextDouble();
+								system.addItem(new Item(itemCode, itemName, itemCategory, itemUnit, unitPrice));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
 							case 6:
 								System.out.println("Enter Item Code:");
 								itemCode = in.nextLine();
-								System.out.println("Enter Unit Name:");
-								String unitName = in.nextLine();
-								System.out.println("Enter Item Quantity:");
-								int quantity = in.nextInt();
+								System.out.println("Enter New Price:");
+								unitPrice = in.nextDouble();
 								in.nextLine();
-								System.out.println("Enter Unit Price:");
-								double unitPrice = in.nextDouble();
-								in.nextLine();
-								system.getItem(itemCode).addUnit(new Unit(unitName, unitPrice, quantity));
+								system.getItem(itemCode).setUnitPrice(unitPrice);
 								System.out.println("Unit successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
 							case 7:
-								System.out.println("Enter Item Code:");
-								itemCode = in.nextLine();
-								System.out.println("Enter Unit Name:");
-								unitName = in.nextLine();
-								System.out.println("Enter New Price:");
-								unitPrice = in.nextDouble();
-								in.nextLine();
-								system.getItem(itemCode).getUnit(unitName).setUnitPrice(unitPrice);
-								System.out.println("Unit successfully added! Press the enter key to continue.");
-								in.nextLine();
-								break;
-							case 8:
 								System.out.println("Enter Store Id:");
 								id = in.nextInt();
 								in.nextLine();
@@ -145,7 +131,7 @@ public class Tester {
 								System.out.println("Cashier successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
-							case 9:
+							case 8:
 								System.out.println("Enter Store Id:");
 								id = in.nextInt();
 								in.nextLine();
@@ -156,7 +142,7 @@ public class Tester {
 								System.out.println("Cashier successfully removed! Press the enter key to continue.");
 								in.nextLine();
 								break;
-							case 10:
+							case 9:
 								break a;
 						}
 					}
@@ -190,14 +176,12 @@ public class Tester {
 							cashier = store.getCashier(cashierIndex);
 							System.out.println("Starting transaction...");
 							cashier.startTransaction();
-							HashMap<Unit, Integer> itemsToCheckout = new HashMap<Unit, Integer>();
+							HashMap<Item, Integer> itemsToCheckout = new HashMap<Item, Integer>();
 							String itemid;
 							a: while(true){
 								System.out.println("Enter item id (0 to end transaction)");
 								itemid = in.next();
 								if(itemid.equals("0")) break a;
-								Unit currentUnit = null;
-								Unit tempUnit;
 								Item currentItem = null;
 								Item tempItem;
 								Iterator<Item> itemsList = system.itemIterator();
@@ -208,6 +192,7 @@ public class Tester {
 										break;
 									}
 								}
+								/*
 								Iterator<Unit> unitList = currentItem.unitIterator();
 								while(unitList.hasNext()){
 									tempUnit = unitList.next();
@@ -224,9 +209,13 @@ public class Tester {
 										break;
 									}
 								}
-								cashier.sell(currentUnit, quantity);
-								System.out.println("Item added: "+quantity+" "+currentUnit.getUnitName()+" "+currentItem.getItemName());
-								currentUnit.deductFromStock(quantity);
+								*/
+								System.out.println("Enter number of items");
+								int quantity = in.nextInt();
+								cashier.sell(currentItem, quantity);
+								System.out.println("Item added: "+quantity+" "+currentItem.getUnitName()+" "+currentItem.getItemName());
+								//currentUnit.deductFromStock(quantity);
+								itemsToCheckout.put(currentItem, quantity);
 							}
 							Customer buyer = null;
 							int pointsUsed = 0;
@@ -242,6 +231,13 @@ public class Tester {
 							}
 							Transaction result = cashier.endTransaction(buyer, pointsUsed);
 							System.out.println("Amount due: " + result.getRevenue());
+							//deduct from stock
+							/*Iterator<Map.Entry<Item, Integer>> it = itemsToCheckout.entrySet().iterator();
+							while(it.hasNext()){
+								Map.Entry<Item, Integer> pair = it.next();
+								pair.getKey().deductFromStock(pair.getValue());
+							}
+							*/
 							if(result != null)
 							{
 								store.addTransaction(result);
@@ -297,8 +293,9 @@ public class Tester {
 					case 1:
 						System.out.println("Enter starting cash.");
 						double cash = in.nextDouble();
-						system.addStore(new Store(system.nextStoreId(), cash));
-						System.out.println("Store added.");
+						int tempid = system.nextStoreId();
+						system.addStore(new Store(tempid, cash));
+						System.out.println("Store added. StoreID: "+tempid);
 						break;
 					case 2:
 						System.out.println("FEATURE NOT AVAILABLE");

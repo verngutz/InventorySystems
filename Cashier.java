@@ -23,22 +23,25 @@ public class Cashier {
 	public void startTransaction(){
 		currentTransaction = new Transaction();
 	}
+	/*
 	public Iterator<Unit> unitsIterator(Item toSell){
 		return toSell.unitIterator();
 	}
-	public void sell(Unit tosell, int quantity){
-		currentTransaction.addUnitsSold(tosell, quantity);
+	*/
+	public void sell(Item currentItem, int quantity){
+		currentTransaction.addItemSold(currentItem, quantity);
 	}
 	
 	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
 		Transaction toReturn = null;
 		double cashDue = 0;
-		Iterator<Entry<Unit, Integer>> unitsSold = currentTransaction.unitsSoldIterator();
-		while(unitsSold.hasNext())
+		Iterator<Entry<Item, Integer>> itemsSold = currentTransaction.itemsSoldIterator();
+		while(itemsSold.hasNext())
 		{
-			Map.Entry<Unit, Integer> entry = unitsSold.next();
+			Map.Entry<Item, Integer> entry = itemsSold.next();
 			cashDue += entry.getKey().getUnitPrice() * entry.getValue();
+			store.deductFromStock(entry.getKey(), entry.getValue());
 		}
 		if(loyalBuyer != null)
 		{
