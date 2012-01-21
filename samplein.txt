@@ -21,7 +21,7 @@ DOZEN
 120
 
 5
-P1
+P2
 COKE
 BEVERAGE
 CAN
@@ -47,4 +47,10 @@ P1
 2
 P2
 5
+0
+n
+
+2
+3
+0
 0

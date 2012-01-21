@@ -23,18 +23,13 @@ public class Cashier {
 	public void startTransaction(){
 		currentTransaction = new Transaction();
 	}
-	/*
-	public Iterator<Unit> unitsIterator(Item toSell){
-		return toSell.unitIterator();
-	}
-	*/
 	public void sell(Item currentItem, int quantity){
 		currentTransaction.addItemSold(currentItem, quantity);
 	}
 	
-	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
+	public Tuple<Transaction, Double> endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
-		Transaction toReturn = null;
+		Tuple<Transaction, Double> toReturn = null;
 		double cashDue = 0;
 		Iterator<Entry<Item, Integer>> itemsSold = currentTransaction.itemsSoldIterator();
 		while(itemsSold.hasNext())
@@ -50,8 +45,8 @@ public class Cashier {
 			loyalBuyer.addPointsRedeemed(pointsUsed);
 			cashDue -= pointsUsed;
 			loyalBuyer.addPointsEarned((int)(cashDue / POINTS_PER_PESO));
-			toReturn = currentTransaction;
-		}
+			toReturn = new Tuple<Transaction, Double>(currentTransaction, cashDue);
+		}else toReturn = new Tuple<Transaction, Double>(null, cashDue);
 		currentTransaction.setRevenue(cashDue);
 		cash += cashDue;
 		currentTransaction = null;
@@ -60,7 +55,10 @@ public class Cashier {
 	
 	public double endDay()
 	{
+		double toReturn = cash;
 		store.getCashFromCashier(cash);
-		return cash;
+		cash = 0;
+		return toReturn;
 	}
 }
+

@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 
 public class Store {
@@ -14,6 +15,7 @@ public class Store {
 	
 	public Store(int id, double startingCash)
 	{
+		this.id = id;
 		cashiers = new ArrayList<Cashier>();
 		totalCash = startingCash;
 		inventory = new HashMap<Item, Integer>();
@@ -67,7 +69,10 @@ public class Store {
 	{
 		return transactions.iterator();
 	}
-
+	
+	public Iterator<Cashier> cashierIterator(){
+		return cashiers.iterator();
+	}
 	public Cashier getCashier(int cashierIndex) {
 		return cashiers.get(cashierIndex);
 	}
@@ -89,5 +94,15 @@ public class Store {
 	}
 	public void deductFromStock(Item item, int quantity){
 		inventory.put(item, inventory.get(item)-quantity);
+	}
+	
+	public double getTotalCash(){
+		return totalCash;
+	}
+	public int getStoreID(){
+		return id;
+	}
+	public Iterator<Map.Entry<Item, Integer>> inventoryIterator(){
+		return inventory.entrySet().iterator();
 	}
 }

@@ -23,7 +23,8 @@ public class Tester {
 			System.out.println("2 = Cashier");
 			System.out.println("3 = Customer");
 			System.out.println("4 = System Admin");
-			System.out.println("5 = Quit");
+			System.out.println("5 = Debug Mode");
+			System.out.println("6 = Quit");
 			System.out.println("==========================");
 			int user = in.nextInt();
 			switch(user)
@@ -229,8 +230,9 @@ public class Tester {
 								System.out.println("Enter points used: ");
 								pointsUsed = in.nextInt();
 							}
-							Transaction result = cashier.endTransaction(buyer, pointsUsed);
-							System.out.println("Amount due: " + result.getRevenue());
+							Tuple<Transaction, Double> tuple = cashier.endTransaction(buyer, pointsUsed);
+							Transaction result = tuple.getTrans();
+							System.out.println("Amount due: " + tuple.getAmount());
 							//deduct from stock
 							/*Iterator<Map.Entry<Item, Integer>> it = itemsToCheckout.entrySet().iterator();
 							while(it.hasNext()){
@@ -306,6 +308,52 @@ public class Tester {
 					}
 					break;
 				case 5:
+					System.out.println("1 = View Customer List");
+					System.out.println("2 = View Inventory List");
+					System.out.println("3 = View Store List");
+					choice = in.nextInt();
+					switch(choice){
+					case 1:
+						Iterator<Customer> cust = system.customerIterator();
+						while(cust.hasNext()){
+							Customer curr = cust.next();
+							System.out.println(curr.getId()+": "+curr.getLastName()+", "+curr.getFirstName()+
+							" PTS EARNED: "+curr.getPointsEarned()+" REDEEMED PTS: "+curr.getPointsRedeemed()+" USABLE PTS: "+curr.getUsablePoints());
+							
+						}
+						break;
+					case 2:
+						Iterator<Item> items = system.itemIterator();
+						while(items.hasNext()){
+							Item curr = items.next();
+							System.out.println(curr.getItemCode()+": "+curr.getItemCategory()+" "+curr.getItemName()+" "+curr.getUnitName()+" "+curr.getUnitPrice());
+						}
+						break;
+						
+					case 3:
+						Iterator<Store> stores = system.storeIterator();
+						while(stores.hasNext()){
+							Store store = stores.next();
+							System.out.println("Store ID: "+store.getStoreID()+" Cash: "+store.getTotalCash());
+							Iterator<Cashier> cashiers = store.cashierIterator();
+							int counter=0;
+							while(cashiers.hasNext()){
+								System.out.println("Cashier index: "+counter+" Cash: "+cashiers.next().getCash());
+								counter++;
+							}
+							Iterator<Map.Entry<Item, Integer>> inventory = store.inventoryIterator();
+							System.out.println("Drawing Inventory table...");
+							while(inventory.hasNext()){
+								Map.Entry<Item, Integer> curr = inventory.next();
+								System.out.println("Item: "+curr.getKey().getItemCode()+" "+curr.getKey().getItemName()+"Quantity left: "+curr.getValue());
+							}
+						}
+						break;
+					default:
+						break;
+					}
+					break;
+				case 6:
 					break out;
 			}
 		}
