@@ -1,5 +1,5 @@
 
-public class DeliveryItem
+public class DeliveryItem implements Cloneable
 {
 	Item delivered;
 	int quantity;
@@ -14,4 +14,9 @@ public class DeliveryItem
 	
 	public int getQuantity(){ return quantity; }
 	public double getWholeSalePrice(){ return wholeSalePrice; }
+	
+	public DeliveryItem clone()
+	{
+		return new DeliveryItem((Item)delivered.clone(), quantity, wholeSalePrice);
+	}
 }

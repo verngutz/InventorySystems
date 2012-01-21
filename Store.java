@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class Store {
+public class Store implements Cloneable{
 	int id;
 	HashMap<Item, Integer> inventory;
 	double totalCash;
@@ -21,6 +21,17 @@ public class Store {
 		inventory = new HashMap<Item, Integer>();
 		cashiers = new ArrayList<Cashier>();
 		transactions = new ArrayList<Transaction>();
+	}
+	
+	public Store(int id, double startingCash, HashMap<Item, Integer> inventory, double cashPerCashier, ArrayList<Cashier> cashiers, ArrayList<Transaction> transactions, Delivery currDelivery)
+	{
+		this.id = id;
+		this.totalCash = startingCash;
+		this.inventory = inventory;
+		this.cashPerCashier = cashPerCashier;
+		this.cashiers = cashiers;
+		this.transactions = transactions;
+		this.currDelivery = currDelivery;
 	}
 	
 	public void startDeliveryBatch()
@@ -83,7 +94,7 @@ public class Store {
 		return cashPerCashier;
 	}
 	
-	public void getCashFromCashier(double cash)
+	public void addCash(double cash)
 	{
 		totalCash += cash;
 	}
@@ -104,5 +115,25 @@ public class Store {
 	}
 	public Iterator<Map.Entry<Item, Integer>> inventoryIterator(){
 		return inventory.entrySet().iterator();
+	}
+	
+	public Store clone()
+	{
+		HashMap<Item, Integer> inventoryCopy = new HashMap<Item, Integer>();
+		for(Item i : inventory.keySet())
+		{
+			inventoryCopy.put((Item)i.clone(), inventory.get(i));
+		}
+		ArrayList<Cashier> cashiersCopy = new ArrayList<Cashier>();
+		for(Cashier c : cashiers)
+		{
+			cashiersCopy.add((Cashier)c.clone());
+		}
+		ArrayList<Transaction> transactionsCopy = new ArrayList<Transaction>();
+		for(Transaction t : transactionsCopy)
+		{
+			transactionsCopy.add((Transaction)t.clone());
+		}
+		return new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, cashiersCopy, transactionsCopy, (Delivery)currDelivery.clone());
 	}
 }

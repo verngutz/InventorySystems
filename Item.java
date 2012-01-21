@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashMap;
 
-public class Item {
+public class Item implements Cloneable{
 	String itemCode;
 	String itemName;
 	String itemCategory;
@@ -35,5 +35,10 @@ public class Item {
 	public boolean equals(Object o)
 	{
 		return (o instanceof Item) && ((Item)o).itemCode.equals(itemCode);
+	}
+	
+	public Item clone()
+	{
+		return new Item(itemCode, itemName, itemCategory, unitName, unitPrice);
 	}
 }

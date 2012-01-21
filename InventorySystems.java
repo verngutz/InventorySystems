@@ -84,4 +84,37 @@ public class InventorySystems {
 	{
 		return items.get(itemCode);
 	}
+	
+	public ISMemento saveToMemento()
+	{
+		ArrayList<Store> storesCopy = new ArrayList<Store>();
+		for(Store s : stores)
+		{
+			storesCopy.add((Store)s.clone());
+		}
+		ArrayList<Customer> customersCopy = new ArrayList<Customer>();
+		for(Customer c : customers)
+		{
+			customersCopy.add((Customer)c.clone());
+		}
+		HashMap<String, Item> itemsCopy = new HashMap<String, Item>();
+		for(String key : items.keySet())
+		{
+			itemsCopy.put(key, (Item)items.get(key).clone());
+		}
+		ArrayList<Delivery> deliveriesCopy = new ArrayList<Delivery>();
+		for(Delivery d : deliveries)
+		{
+			deliveriesCopy.add((Delivery)d.clone());
+		}
+		return new ISMemento(storesCopy, customersCopy, itemsCopy, deliveriesCopy);
+	}
+	
+	public void restoreFromMemento(ISMemento memento)
+	{
+		stores = memento.getStores();
+		customers = memento.getCustomers();
+		items = memento.getItems();
+		deliveries = memento.getDeliveries();
+	}
 }

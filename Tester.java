@@ -8,6 +8,7 @@ public class Tester {
 	}
 	
 	public Tester(){
+		LinkedList<ISMemento> saveStack = new LinkedList<ISMemento>();
 		InventorySystems system = new InventorySystems();
 		Scanner in;
 		try{
@@ -299,10 +300,19 @@ public class Tester {
 						System.out.println("Store added. StoreID: "+tempid);
 						break;
 					case 2:
-						System.out.println("FEATURE NOT AVAILABLE");
+						saveStack.push(system.saveToMemento());
+						System.out.println("System successfully backed up.");
 						break;
 					case 3:
-						System.out.println("FEATURE NOT AVAILABLE");
+						if(saveStack.size() > 0)
+						{
+							system.restoreFromMemento(saveStack.pop());
+							System.out.println("System successfully restored to previous restore point.");
+						}
+						else
+						{
+							System.out.println("No restore points available.");
+						}
 						break;
 					}
 					break;

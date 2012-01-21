@@ -2,7 +2,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 
-public class Transaction {
+public class Transaction implements Cloneable{
 	private Store store;
 	private Cashier cashier;
 	private HashMap<Item, Integer> itemsSold;
@@ -15,6 +15,18 @@ public class Transaction {
 		dateTime = new Timestamp(System.currentTimeMillis());
 		itemsSold = new HashMap<Item, Integer>();
 	}
+	
+	public Transaction(Store store, Cashier cashier, HashMap<Item, Integer> itemsSold, Timestamp dateTime, Customer customer, int pointsUsed, double revenue)
+	{
+		this.store = store;
+		this.cashier = cashier;
+		this.itemsSold = itemsSold;
+		this.dateTime = dateTime;
+		this.customer = customer;
+		this.pointsUsed = pointsUsed;
+		this.revenue = revenue;
+	}
+	
 	public Cashier getCashier(){ return cashier; }
 	public Iterator<Map.Entry<Item, Integer>> itemsSoldIterator(){
 		return itemsSold.entrySet().iterator();
@@ -44,5 +56,15 @@ public class Transaction {
 	}
 	public void addItemSold(Item currentItem, int quantity){
 		itemsSold.put(currentItem, quantity);
+	}
+	
+	public Transaction clone()
+	{
+		HashMap<Item, Integer> itemsSoldCopy = new HashMap<Item, Integer>();
+		for(Item i : itemsSoldCopy.keySet())
+		{
+			itemsSoldCopy.put((Item)i.clone(), itemsSold.get(i));
+		}
+		return new Transaction((Store)store.clone(), (Cashier)cashier.clone(), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
 	}
 }

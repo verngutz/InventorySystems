@@ -1,5 +1,5 @@
 
-public class Customer {
+public class Customer implements Cloneable{
 	private String firstName;
 	private String lastName;
 	private int id;
@@ -19,6 +19,18 @@ public class Customer {
 		this.age = age;
 		this.ptsEarned = 0;
 		this.ptsRedeemed = 0;
+	}
+	
+	public Customer(String firstName, String lastName, int id, String address, String gender, int age, int ptsEarned, int ptsRedeemed)
+	{
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.id = id;
+		this.address = address;
+		this.gender = gender;
+		this.age = age;
+		this.ptsEarned = ptsEarned;
+		this.ptsRedeemed = ptsRedeemed;
 	}
 	
 	public String getFirstName()
@@ -69,5 +81,10 @@ public class Customer {
 	public int getUsablePoints()
 	{
 		return ptsEarned - ptsRedeemed; 
+	}
+	
+	public Customer clone()
+	{
+		return new Customer(firstName, lastName, id, address, gender, age, ptsEarned, ptsRedeemed);
 	}
 }

@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 
-public class Cashier {
+public class Cashier implements Cloneable{
 
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
@@ -12,6 +12,13 @@ public class Cashier {
 	public Cashier(Store store)
 	{
 		this.store = store;
+	}
+	
+	public Cashier(Store store, double cash, Transaction currentTransaction)
+	{
+		this.store = store;
+		this.cash = cash;
+		this.currentTransaction = currentTransaction;
 	}
 	
 	public void startDay()
@@ -29,6 +36,10 @@ public class Cashier {
 	
 	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
+		if(loyalBuyer != null && loyalBuyer.getUsablePoints() < pointsUsed)
+		{
+			throw new IllegalArgumentException("Customer does not have enough points to use.");
+		}
 		double cashDue = 0;
 		Iterator<Entry<Item, Integer>> itemsSold = currentTransaction.itemsSoldIterator();
 		while(itemsSold.hasNext())
@@ -39,10 +50,11 @@ public class Cashier {
 		}
 		if(loyalBuyer != null)
 		{
+			int realPointsUsed = (int)(cashDue - Math.min(cashDue - pointsUsed, -1));
 			currentTransaction.setCustomer(loyalBuyer);
-			currentTransaction.setPointsUsed(pointsUsed);
-			loyalBuyer.addPointsRedeemed(pointsUsed);
-			cashDue -= pointsUsed;
+			currentTransaction.setPointsUsed(realPointsUsed);
+			loyalBuyer.addPointsRedeemed(realPointsUsed);
+			cashDue -= realPointsUsed;
 			loyalBuyer.addPointsEarned((int)(cashDue / POINTS_PER_PESO));
 		}
 		currentTransaction.setRevenue(cashDue);
@@ -55,9 +67,14 @@ public class Cashier {
 	public double endDay()
 	{
 		double toReturn = cash;
-		store.getCashFromCashier(cash);
+		store.addCash(cash);
 		cash = 0;
 		return toReturn;
+	}
+	
+	public Cashier clone()
+	{
+		return new Cashier((Store)store.clone(), cash, (Transaction)currentTransaction.clone());
 	}
 }
 
