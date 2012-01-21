@@ -26,17 +26,6 @@ public class Item {
 	public void setUnitPrice(double newPrice){
 		unitPrice = newPrice;
 	}
-	//public Iterator<Unit> unitIterator(){ return units.values().iterator(); }
-	
-	/*public void addUnit(Unit unit)
-	{
-		units.put(unit.getUnitName(), unit);
-	}
-	
-	public Unit getUnit(String unitName)
-	{
-		return units.get(unitName);
-	}*/
 	
 	public int hashCode()
 	{
