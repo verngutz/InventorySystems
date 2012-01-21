@@ -228,6 +228,7 @@ public class Tester {
 								System.out.println("Enter customer id: ");
 								int customerId = in.nextInt();
 								buyer = system.getCustomer(customerId);
+								System.out.println("Usable points: "+buyer.getUsablePoints());
 								System.out.println("Enter points used: ");
 								pointsUsed = in.nextInt();
 							}
@@ -296,7 +297,9 @@ public class Tester {
 						System.out.println("Enter starting cash.");
 						double cash = in.nextDouble();
 						int tempid = system.nextStoreId();
-						system.addStore(new Store(tempid, cash));
+						System.out.println("Enter cash per cashier");
+						double cpc = in.nextDouble();
+						system.addStore(new Store(tempid, cash, cpc));
 						System.out.println("Store added. StoreID: "+tempid);
 						break;
 					case 2:
@@ -354,7 +357,7 @@ public class Tester {
 							System.out.println("Drawing Inventory table...");
 							while(inventory.hasNext()){
 								Map.Entry<Item, Integer> curr = inventory.next();
-								System.out.println("Item: "+curr.getKey().getItemCode()+" "+curr.getKey().getItemName()+"Quantity left: "+curr.getValue());
+								System.out.println("Item: "+curr.getKey().getItemCode()+" "+curr.getKey().getItemName()+" Quantity left: "+curr.getValue());
 							}
 						}
 						break;

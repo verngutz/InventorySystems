@@ -29,7 +29,8 @@ public class Delivery implements Cloneable{
 		Iterator<DeliveryItem> iter = itemIterator();
 		double totalPrice = 0;
 		while(iter.hasNext()){
-			totalPrice += iter.next().getWholeSalePrice();
+			DeliveryItem ditem = iter.next();
+			totalPrice += ditem.getWholeSalePrice()*ditem.getQuantity();
 		}
 		return totalPrice; 
 	}
