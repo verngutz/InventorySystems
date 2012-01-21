@@ -76,7 +76,9 @@ public class Cashier implements Cloneable{
 	
 	public Cashier clone()
 	{
-		return new Cashier((Store)store.clone(), cash, (Transaction)currentTransaction.clone());
+		if(currentTransaction!=null)
+			return new Cashier( store, cash, (Transaction)currentTransaction.clone());
+		else return new Cashier( store, cash, null);
 	}
 }
 

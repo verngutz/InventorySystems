@@ -65,6 +65,6 @@ public class Transaction implements Cloneable{
 		{
 			itemsSoldCopy.put((Item)i.clone(), itemsSold.get(i));
 		}
-		return new Transaction((Store)store.clone(), (Cashier)cashier.clone(), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
+		return new Transaction(store, cashier, itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
 	}
 }
