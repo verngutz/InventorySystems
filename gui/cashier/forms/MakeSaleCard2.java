@@ -25,6 +25,8 @@ public class MakeSaleCard2 {
 	private JTextField textField_4;
 	private JTextField textField_6;
 	private JTextField textField_7;
+	private JTextField textField_5;
+	private JTextField textField_8;
 	
 	public JSplitPane getCard(Container con){
 		if(makesale==null){
@@ -47,9 +49,11 @@ public class MakeSaleCard2 {
 		scrollPane.setViewportView(panel_1);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.MIN_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
+				ColumnSpec.decode("max(39dlu;default):grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -84,6 +88,9 @@ public class MakeSaleCard2 {
 		JLabel lblItem = new JLabel("Item");
 		panel_1.add(lblItem, "4, 2");
 		
+		JLabel lblPrice = new JLabel("Price");
+		panel_1.add(lblPrice, "6, 2");
+		
 		textField_3 = new JTextField();
 		textField_3.setEditable(false);
 		panel_1.add(textField_3, "2, 4, fill, default");
@@ -94,6 +101,11 @@ public class MakeSaleCard2 {
 		panel_1.add(textField_4, "4, 4, fill, default");
 		textField_4.setColumns(10);
 		
+		textField_5 = new JTextField();
+		textField_5.setEditable(false);
+		panel_1.add(textField_5, "6, 4, fill, default");
+		textField_5.setColumns(10);
+		
 		textField_7 = new JTextField();
 		textField_7.setEditable(false);
 		panel_1.add(textField_7, "2, 6, fill, default");
@@ -103,6 +115,11 @@ public class MakeSaleCard2 {
 		textField_6.setEditable(false);
 		panel_1.add(textField_6, "4, 6, fill, default");
 		textField_6.setColumns(10);
+		
+		textField_8 = new JTextField();
+		textField_8.setEditable(false);
+		panel_1.add(textField_8, "6, 6, fill, default");
+		textField_8.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		makesale.setLeftComponent(panel);
