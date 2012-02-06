@@ -18,12 +18,13 @@ import com.jgoodies.forms.layout.*;
 public class MakeSaleCard2 {
 	private JSplitPane makesale;
 	private Container con;
-	
-	private JTextField txtItem;
-	private JTextField txtQuantity;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_6;
+	private JTextField textField_7;
 	
 	public JSplitPane getCard(Container con){
 		if(makesale==null){
@@ -42,17 +43,66 @@ public class MakeSaleCard2 {
 		JScrollPane scrollPane = new JScrollPane();
 		makesale.setRightComponent(scrollPane);
 		
-		txtItem = new JTextField();
-		txtItem.setEditable(false);
-		txtItem.setText("Item");
-		scrollPane.setViewportView(txtItem);
-		txtItem.setColumns(10);
+		JPanel panel_1 = new JPanel();
+		scrollPane.setViewportView(panel_1);
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		txtQuantity = new JTextField();
-		txtQuantity.setEditable(false);
-		txtQuantity.setText("Quantity");
-		scrollPane.setRowHeaderView(txtQuantity);
-		txtQuantity.setColumns(10);
+		JLabel lblQuantity_1 = new JLabel("Quantity");
+		panel_1.add(lblQuantity_1, "2, 2");
+		
+		JLabel lblItem = new JLabel("Item");
+		panel_1.add(lblItem, "4, 2");
+		
+		textField_3 = new JTextField();
+		textField_3.setEditable(false);
+		panel_1.add(textField_3, "2, 4, fill, default");
+		textField_3.setColumns(10);
+		
+		textField_4 = new JTextField();
+		textField_4.setEditable(false);
+		panel_1.add(textField_4, "4, 4, fill, default");
+		textField_4.setColumns(10);
+		
+		textField_7 = new JTextField();
+		textField_7.setEditable(false);
+		panel_1.add(textField_7, "2, 6, fill, default");
+		textField_7.setColumns(10);
+		
+		textField_6 = new JTextField();
+		textField_6.setEditable(false);
+		panel_1.add(textField_6, "4, 6, fill, default");
+		textField_6.setColumns(10);
 		
 		JPanel panel = new JPanel();
 		makesale.setLeftComponent(panel);
@@ -99,7 +149,9 @@ public class MakeSaleCard2 {
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				//add to receipt and append txtItem and txtQuantity
+				//add to receipt and append Quantity and Item in the ScrollPane
+				//my suggestion is to loop it, and keep adding JTextField()'s to 'panel_1'
+				//the increments are by 2's. an example is textfield_3,4,7,6
 			}
 		});
 		panel.add(btnAdd, "4, 8, fill, top");
