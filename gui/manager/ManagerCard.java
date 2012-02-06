@@ -78,7 +78,7 @@ public class ManagerCard {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MA2.getLabel());
+				cl.show(con, Card.MA21.getLabel());
 			}
 		});
 		manager.add(btnNewButton, "2, 4");

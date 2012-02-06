@@ -1,11 +1,11 @@
-package gui.cashier.forms;
+package gui.manager.forms;
 
 import gui.Card;
 
-import java.awt.CardLayout;
 import java.awt.Container;
 
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,8 +15,8 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class MakeSaleCard2 {
-	private JSplitPane makesale;
+public class RestockCard2 {
+	private JSplitPane restockpane;
 	private Container con;
 	private JTextField textField;
 	private JTextField textField_1;
@@ -27,14 +27,15 @@ public class MakeSaleCard2 {
 	private JTextField textField_7;
 	private JTextField textField_5;
 	private JTextField textField_8;
+	private JTextField textField_9;
 	
 	public JSplitPane getCard(Container con){
-		if(makesale==null){
-			makesale = new JSplitPane();
+		if(restockpane==null){
+			restockpane = new JSplitPane();
 			this.con = con;
 			init();
 		}
-		return makesale;
+		return restockpane;
 	}
 	
 	/**
@@ -42,7 +43,7 @@ public class MakeSaleCard2 {
 	 */
 	public void init(){
 		JScrollPane scrollPane = new JScrollPane();
-		makesale.setRightComponent(scrollPane);
+		restockpane.setRightComponent(scrollPane);
 		
 		JPanel panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
@@ -121,7 +122,7 @@ public class MakeSaleCard2 {
 		textField_8.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		makesale.setLeftComponent(panel);
+		restockpane.setLeftComponent(panel);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("85px:grow"),
@@ -161,6 +162,20 @@ public class MakeSaleCard2 {
 		panel.add(textField_1, "4, 4, fill, default");
 		textField_1.setColumns(10);
 		
+		JButton btnEnd = new JButton("End");
+		btnEnd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnEnd.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				//go to payment page
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MANAGER.getLabel());
+			}
+		});
+		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
@@ -170,18 +185,15 @@ public class MakeSaleCard2 {
 				//the increments are by 2's. an example is textfield_3,4,7,6
 			}
 		});
-		panel.add(btnAdd, "4, 8, fill, top");
 		
-		JButton btnEnd = new JButton("End");
-		btnEnd.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				//go to payment page
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.CA3.getLabel());
-			}
-		});
-		panel.add(btnEnd, "4, 10");
+		JLabel lblWholesalePrice = new JLabel("Wholesale Price:");
+		panel.add(lblWholesalePrice, "2, 6, right, default");
+		
+		textField_9 = new JTextField();
+		panel.add(textField_9, "4, 6, fill, default");
+		textField_9.setColumns(10);
+		panel.add(btnAdd, "4, 10, fill, top");
+		panel.add(btnEnd, "4, 12");
 		
 		JLabel lblAmountDue = new JLabel("Amount Due:");
 		panel.add(lblAmountDue, "2, 14");

@@ -7,6 +7,7 @@ import gui.sysadmin.SystemAdminCard;
 import gui.sysadmin.forms.SetupStoreCard;
 import gui.manager.*;
 import gui.manager.forms.*;
+
 import java.awt.EventQueue;
 
 import javax.swing.*;
@@ -23,12 +24,6 @@ public class MainAppWindow {
 	
 	private static MainAppWindow maw;
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
 	
 	
 
@@ -196,14 +191,17 @@ public class MainAppWindow {
 		JPanel ma1 = (new EnrollCustomerCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(ma1, Card.MA1.getLabel());
 		
-		JPanel ma2 = (new RestockCard()).getCard(frame.getContentPane());
-		frame.getContentPane().add(ma2, Card.MA2.getLabel());
+		JPanel ma21 = (new RestockCard1()).getCard(frame.getContentPane());
+		frame.getContentPane().add(ma21, Card.MA21.getLabel());
+		
+		JSplitPane ma22 = (new RestockCard2()).getCard(frame.getContentPane());
+		frame.getContentPane().add(ma22, Card.MA22.getLabel());
 		
 		JPanel ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
-		frame.getContentPane().add(ma3, Card.MA3.getLabel());
+		//frame.getContentPane().add(ma3, Card.MA3.getLabel());
 		
 		JPanel ma4 = (new CashPositionCard()).getCard(frame.getContentPane());
-		frame.getContentPane().add(ma4, Card.MA4.getLabel());
+		//frame.getContentPane().add(ma4, Card.MA4.getLabel());
 		
 		JPanel ma5 = (new AddItemCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(ma5, Card.MA5.getLabel());
