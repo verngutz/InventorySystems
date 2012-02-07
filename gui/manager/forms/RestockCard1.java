@@ -99,7 +99,7 @@ public class RestockCard1
 					JOptionPane.showMessageDialog(restockpanel, "Store not found.");
 					return;
 				}
-				restockCard2.setStoreId(storeId);
+				restockCard2.setStore(s);
 				s.startDeliveryBatch();
 				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();

@@ -41,26 +41,36 @@ public class Store implements Cloneable{
 		currDelivery = new Delivery(this);
 	}
 	
-	public void acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
+	public double acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
 	{
 		if(currDelivery == null)
 		{
 			throw new IllegalStateException("No active delivery batch.");
 		}
-		else
-		{
-			if(inventory.containsKey(accepted))
-				inventory.put(accepted, inventory.get(accepted) + quantity);
-			else
-				inventory.put(accepted, quantity);
 				
-			currDelivery.addDeliveryItem(new DeliveryItem(accepted, quantity, pricePerUnit));
-		}
+		currDelivery.addDeliveryItem(new DeliveryItem(accepted, quantity, pricePerUnit));
+		return quantity * pricePerUnit;
 	}
 	
 	public Delivery endDeliveryBatch()
 	{
-		totalCash -= currDelivery.getTotalPrice();
+		if(currDelivery == null)
+		{
+			throw new IllegalStateException("No active delivery batch.");
+		}
+		Iterator<DeliveryItem> iterator = currDelivery.itemIterator();
+		while(iterator.hasNext())
+		{
+			DeliveryItem i = iterator.next();
+			Item item = i.getDeliveredItem();
+			int quantity = i.getQuantity();
+			double price = i.getWholeSalePrice();
+			if(inventory.containsKey(item))
+				inventory.put(item, inventory.get(item) + quantity);
+			else
+				inventory.put(item, quantity);
+			totalCash -= quantity * price;
+		}
 		Delivery toReturn = currDelivery;
 		currDelivery = null;
 		return toReturn;

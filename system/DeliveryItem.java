@@ -13,6 +13,7 @@ public class DeliveryItem implements Cloneable
 		this.wholeSalePrice = wholeSalePrice;
 	}
 	
+	public Item getDeliveredItem() { return delivered; }
 	public int getQuantity(){ return quantity; }
 	public double getWholeSalePrice(){ return wholeSalePrice; }
 	
