@@ -107,6 +107,16 @@ public class MakeSaleCard3 {
 				cl.show(con, Card.CASHIER.getLabel());
 			}
 		});
+		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.CASHIER.getLabel());
+			}
+		});
+		makesale.add(btnCancel, "2, 16");
 		makesale.add(btnEndTransaction, "4, 16, left, default");
 	}
 }
