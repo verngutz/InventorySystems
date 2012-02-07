@@ -5,7 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class Store implements Cloneable{
+public class Store implements Cloneable
+{
 	int id;
 	HashMap<Item, Integer> inventory;
 	double totalCash;
@@ -36,19 +37,24 @@ public class Store implements Cloneable{
 		this.currDelivery = currDelivery;
 	}
 	
+	public double getCashPerCashier()
+	{
+		return cashPerCashier;
+	}
+	
 	public void startDeliveryBatch()
 	{
 		currDelivery = new Delivery(this);
 	}
 	
-	public double acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
+	public double acceptTransactionItem(Item accepted, int quantity, double pricePerUnit)
 	{
 		if(currDelivery == null)
 		{
 			throw new IllegalStateException("No active delivery batch.");
 		}
 				
-		currDelivery.addDeliveryItem(new DeliveryItem(accepted, quantity, pricePerUnit));
+		currDelivery.addTransactionItem(new TransactionItem(accepted, quantity, pricePerUnit));
 		return quantity * pricePerUnit;
 	}
 	
@@ -58,13 +64,13 @@ public class Store implements Cloneable{
 		{
 			throw new IllegalStateException("No active delivery batch.");
 		}
-		Iterator<DeliveryItem> iterator = currDelivery.itemIterator();
+		Iterator<TransactionItem> iterator = currDelivery.itemIterator();
 		while(iterator.hasNext())
 		{
-			DeliveryItem i = iterator.next();
-			Item item = i.getDeliveredItem();
+			TransactionItem i = iterator.next();
+			Item item = i.getItem();
 			int quantity = i.getQuantity();
-			double price = i.getWholeSalePrice();
+			double price = i.getPrice();
 			if(inventory.containsKey(item))
 				inventory.put(item, inventory.get(item) + quantity);
 			else
@@ -103,10 +109,13 @@ public class Store implements Cloneable{
 		return transactions.iterator();
 	}
 	
-	public Iterator<Cashier> cashierIterator(){
+	public Iterator<Cashier> cashierIterator()
+	{
 		return cashiers.iterator();
 	}
-	public Cashier getCashier(int cashierIndex) {
+	
+	public Cashier getCashier(int cashierIndex) 
+	{
 		return cashiers.get(cashierIndex);
 	}
 	
@@ -125,17 +134,24 @@ public class Store implements Cloneable{
 	{
 		transactions.add(transaction);
 	}
-	public void deductFromStock(Item item, int quantity){
+	
+	public void deductFromStock(Item item, int quantity)
+	{
 		inventory.put(item, inventory.get(item)-quantity);
 	}
 	
-	public double getTotalCash(){
+	public double getTotalCash()
+	{
 		return totalCash;
 	}
-	public int getStoreID(){
+	
+	public int getStoreID()
+	{
 		return id;
 	}
-	public Iterator<Map.Entry<Item, Integer>> inventoryIterator(){
+	
+	public Iterator<Map.Entry<Item, Integer>> inventoryIterator()
+	{
 		return inventory.entrySet().iterator();
 	}
 	
@@ -154,7 +170,7 @@ public class Store implements Cloneable{
 		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, currDelivery == null ? null : (Delivery)currDelivery.clone());
 		for(Cashier c : cashiers)
 		{
-			s.addCashier(new Cashier(s, c.getCash(), c.getCurrentTransaction()));
+			s.addCashier(new Cashier(s, c.getCash(), c.getCurrentTransaction(), c.isOnline()));
 		}
 		return s;
 	}

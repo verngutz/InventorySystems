@@ -35,6 +35,13 @@ public class MainAppWindow
 	private RemoveCashierCard removeCashierCard;
 	private RestockCard1 restockCard1;
 	private RestockCard2 restockCard2;
+	
+	private MakeSaleCard1 makeSaleCard1;
+	private MakeSaleCard2 makeSaleCard2;
+	private MakeSaleCard3 makeSaleCard3;
+	
+	private StartDayCard startDayCard;
+	private EndDayCard endDayCard;
 
 	public static void main(String[] args) 
 	{
@@ -152,6 +159,11 @@ public class MainAppWindow
 			{
 				if (arg0.getStateChange() == ItemEvent.SELECTED) 
 				{
+					//makeSaleCard1.resetFields();
+					//makeSaleCard2.resetFields();
+					//makeSaleCard3.resetFields();
+					startDayCard.resetFields();
+					endDayCard.resetFields();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
 					cl.show(frame.getContentPane(), Card.CASHIER.getLabel());
 				} 
@@ -205,19 +217,24 @@ public class MainAppWindow
 		JPanel cashier = (new CashierCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(cashier, Card.CASHIER.getLabel());
 		
-		JPanel panel = (new MakeSaleCard1()).getCard(frame.getContentPane());
+		makeSaleCard1 = new MakeSaleCard1();
+		JPanel panel = makeSaleCard1.getCard(frame.getContentPane());
 		frame.getContentPane().add(panel, Card.CA1.getLabel());
 		
-		JSplitPane splitPane = (new MakeSaleCard2()).getCard(frame.getContentPane());
+		makeSaleCard2 = new MakeSaleCard2();
+		JSplitPane splitPane = makeSaleCard2.getCard(frame.getContentPane());
 		frame.getContentPane().add(splitPane, Card.CA2.getLabel());
 		
-		JPanel makesale = (new MakeSaleCard3()).getCard(frame.getContentPane());
+		makeSaleCard3 = new MakeSaleCard3();
+		JPanel makesale = makeSaleCard3.getCard(frame.getContentPane());
 		frame.getContentPane().add(makesale, Card.CA3.getLabel());
 		
-		JPanel startday = (new StartDayCard()).getCard(frame.getContentPane());
+		startDayCard = new StartDayCard();
+		JPanel startday = startDayCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(startday, Card.CA4.getLabel());
 		
-		JPanel endday = (new EndDayCard()).getCard(frame.getContentPane());
+		endDayCard = new EndDayCard();
+		JPanel endday = endDayCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(endday, Card.CA5.getLabel());
 		// cashier view end
 		

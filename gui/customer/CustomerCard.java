@@ -31,9 +31,6 @@ public class CustomerCard
 
 	private Container con;
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public JPanel getCard(Container con)
 	{
 		if(customer==null)

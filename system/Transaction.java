@@ -3,21 +3,23 @@ import java.sql.Timestamp;
 import java.util.*;
 
 
-public class Transaction implements Cloneable{
+public class Transaction implements Cloneable
+{
 	private Store store;
 	private Cashier cashier;
-	private HashMap<Item, Integer> itemsSold;
+	private ArrayList<TransactionItem> itemsSold;
 	private Timestamp dateTime;
 	private Customer customer;
 	private int pointsUsed;
 	private double revenue;
 	
-	public Transaction(){
+	public Transaction()
+	{
 		dateTime = new Timestamp(System.currentTimeMillis());
-		itemsSold = new HashMap<Item, Integer>();
+		itemsSold = new ArrayList<TransactionItem>();
 	}
 	
-	public Transaction(Store store, Cashier cashier, HashMap<Item, Integer> itemsSold, Timestamp dateTime, Customer customer, int pointsUsed, double revenue)
+	public Transaction(Store store, Cashier cashier, ArrayList<TransactionItem> itemsSold, Timestamp dateTime, Customer customer, int pointsUsed, double revenue)
 	{
 		this.store = store;
 		this.cashier = cashier;
@@ -29,12 +31,17 @@ public class Transaction implements Cloneable{
 	}
 	
 	public Cashier getCashier(){ return cashier; }
-	public Iterator<Map.Entry<Item, Integer>> itemsSoldIterator(){
-		return itemsSold.entrySet().iterator();
+	
+	public Iterator<TransactionItem> itemsSoldIterator()
+	{
+		return itemsSold.iterator();
 	}
-	public double getRevenue(){
+	
+	public double getRevenue()
+	{
 		return revenue;
 	}
+	
 	public void setRevenue(double revenue)
 	{
 		this.revenue = revenue;
@@ -49,24 +56,28 @@ public class Transaction implements Cloneable{
 	{
 		this.pointsUsed = pointsUsed;
 	}
+	
 	public Timestamp getDateTime(){ return dateTime; }
 	public Customer getCustomer(){ return customer; }
+	
 	public void setCustomer(Customer customer)
 	{
 		this.customer = customer;
 	}
-	public void addItemSold(Item currentItem, int quantity){
-		itemsSold.put(currentItem, quantity);
+	
+	public void addItemSold(Item currentItem, int quantity, double price)
+	{
+		itemsSold.add(new TransactionItem(currentItem, quantity, price));
 	}
 	
 	public Transaction clone()
 	{
-		HashMap<Item, Integer> itemsSoldCopy = new HashMap<Item, Integer>();
-		for(Item i : itemsSoldCopy.keySet())
+		ArrayList<TransactionItem> itemsSoldCopy = new ArrayList<TransactionItem>();
+		for(TransactionItem i : itemsSold)
 		{
-			itemsSoldCopy.put((Item)i.clone(), itemsSold.get(i));
+			itemsSoldCopy.add(new TransactionItem((Item)i.getItem().clone(), i.getQuantity(), i.getPrice()));
 		}
 		Store s = (Store)store.clone();
-		return new Transaction(s, new Cashier(s, cashier.getCash(), cashier.getCurrentTransaction()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
+		return new Transaction(s, new Cashier(s, cashier.getCash(), cashier.getCurrentTransaction(), cashier.isOnline()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
 	}
 }

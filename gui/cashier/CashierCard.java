@@ -10,34 +10,46 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class CashierCard {
+public class CashierCard 
+{
 	private JPanel cashier;
 	private Container con;
 	
-	public JPanel getCard(Container con){
-		if(cashier==null){
+	public JPanel getCard(Container con)
+	{
+		if(cashier==null)
+		{
 			cashier = new JPanel();
 			this.con = con;
 			init();
 		}
 		return cashier;
 	}
-	public void init(){
-		cashier.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	
+	public void init()
+	{
+		cashier.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JButton btnStartDay = new JButton("Start Day");
-		btnStartDay.addMouseListener(new MouseAdapter() {
+		btnStartDay.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CA4.getLabel());
 			}
@@ -45,9 +57,11 @@ public class CashierCard {
 		cashier.add(btnStartDay, "2, 2");
 		
 		JButton btnMakeSale = new JButton("Make Sale");
-		btnMakeSale.addMouseListener(new MouseAdapter() {
+		btnMakeSale.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CA1.getLabel());
 			}
@@ -55,9 +69,11 @@ public class CashierCard {
 		cashier.add(btnMakeSale, "2, 4");
 		
 		JButton btnEndDay = new JButton("End Day");
-		btnEndDay.addMouseListener(new MouseAdapter() {
+		btnEndDay.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CA5.getLabel());
 			}

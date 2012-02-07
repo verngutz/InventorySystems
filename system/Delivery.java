@@ -7,16 +7,16 @@ import java.util.Iterator;
 public class Delivery implements Cloneable{
 	Store store;
 	Timestamp dateTime;
-	ArrayList<DeliveryItem> items;
+	ArrayList<TransactionItem> items;
 	
 	public Delivery(Store receiver)
 	{
 		store = receiver;
 		dateTime = new Timestamp(System.currentTimeMillis());
-		items = new ArrayList<DeliveryItem>();
+		items = new ArrayList<TransactionItem>();
 	}
 	
-	public Delivery(Store receiver, Timestamp dateTime, ArrayList<DeliveryItem> items)
+	public Delivery(Store receiver, Timestamp dateTime, ArrayList<TransactionItem> items)
 	{
 		store = receiver;
 		this.dateTime = dateTime;
@@ -25,26 +25,26 @@ public class Delivery implements Cloneable{
 	
 	public Store getStore(){ return store; }
 	public Timestamp getDateTime(){ return dateTime; }
-	public Iterator<DeliveryItem> itemIterator(){ return items.iterator(); }
+	public Iterator<TransactionItem> itemIterator(){ return items.iterator(); }
 	public double getTotalPrice(){ 
-		Iterator<DeliveryItem> iter = itemIterator();
+		Iterator<TransactionItem> iter = itemIterator();
 		double totalPrice = 0;
 		while(iter.hasNext()){
-			DeliveryItem ditem = iter.next();
-			totalPrice += ditem.getWholeSalePrice()*ditem.getQuantity();
+			TransactionItem ditem = iter.next();
+			totalPrice += ditem.getPrice()*ditem.getQuantity();
 		}
 		return totalPrice; 
 	}
-	public void addDeliveryItem(DeliveryItem item){
+	public void addTransactionItem(TransactionItem item){
 		items.add(item);
 	}
 	
 	public Delivery clone()
 	{
-		ArrayList<DeliveryItem> itemsCopy = new ArrayList<DeliveryItem>();
-		for(DeliveryItem d : itemsCopy)
+		ArrayList<TransactionItem> itemsCopy = new ArrayList<TransactionItem>();
+		for(TransactionItem d : itemsCopy)
 		{
-			itemsCopy.add((DeliveryItem)d.clone());
+			itemsCopy.add(new TransactionItem(d.getItem(), d.getQuantity(), d.getPrice()));
 		}
 		return new Delivery(store, dateTime, itemsCopy);
 	}
