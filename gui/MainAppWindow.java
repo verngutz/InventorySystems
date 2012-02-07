@@ -17,6 +17,8 @@ import com.jgoodies.forms.layout.*;
 import java.awt.*;
 import com.jgoodies.forms.factories.FormFactory;
 
+import system.Tester;
+
 public class MainAppWindow 
 {
 	private static MainAppWindow maw;
@@ -36,6 +38,11 @@ public class MainAppWindow
 
 	public static void main(String[] args) 
 	{
+		if(args.length > 0)
+		{
+			new Tester(args[0]);
+		}
+		
 		EventQueue.invokeLater(new Runnable() 
 		{
 			public void run() 
