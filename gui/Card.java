@@ -13,6 +13,7 @@ public enum Card {
 	MA6("Change Unit Price"),
 	MA7("Add Cashier"),
 	MA8("Remove Cashier"),
+	MA9("Item Summary"),
 	CASHIER("Cashier"),
 	CA1("Make Sale"),
 	CA2("Make Sale2"),
