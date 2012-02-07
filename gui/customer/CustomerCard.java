@@ -3,17 +3,21 @@ package gui.customer;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.awt.Frame;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import system.SystemBox;
+import system.Customer;
 
 public class CustomerCard{
 	private JPanel customer;
@@ -69,6 +73,31 @@ public class CustomerCard{
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				//inquire event
+				String customerIdString = textField_2.getText();
+				int customerId = 0;
+				try
+				{
+					customerId = Integer.parseInt(customerIdString);
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Supplied Customer ID is in an improper format.");
+					return;
+				}
+				Customer c = null;
+				try
+				{
+					c = SystemBox.getSystem().getCustomer(customerId);
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Customer not found.");
+					return;
+				}
+				textField_3.setText(c.getFirstName() + " " + c.getLastName());
+				textField_4.setText(c.getPointsEarned() + "");
+				textField_5.setText(c.getPointsRedeemed() + "");
+				textField_6.setText(c.getUsablePoints() + "");
 			}
 		});
 		customer.add(btnNewButton, "4, 4, left, default");
@@ -77,7 +106,6 @@ public class CustomerCard{
 		customer.add(lblNewLabel, "2, 6, right, default");
 		
 		textField_3 = new JTextField();
-		textField_3.setText("<display customer name here>");
 		textField_3.setEditable(false);
 		customer.add(textField_3, "4, 6, fill, default");
 		textField_3.setColumns(10);
@@ -86,7 +114,6 @@ public class CustomerCard{
 		customer.add(lblPoints, "2, 8, right, default");
 		
 		textField_4 = new JTextField();
-		textField_4.setText("<display points earned here>");
 		textField_4.setEditable(false);
 		customer.add(textField_4, "4, 8, fill, default");
 		textField_4.setColumns(10);
@@ -95,7 +122,6 @@ public class CustomerCard{
 		customer.add(lblPointsRedeamed, "2, 10, right, default");
 		
 		textField_5 = new JTextField();
-		textField_5.setText("<display points redeemed here>");
 		textField_5.setEditable(false);
 		customer.add(textField_5, "4, 10, fill, default");
 		textField_5.setColumns(10);
@@ -104,7 +130,6 @@ public class CustomerCard{
 		customer.add(lblUsablePoints, "2, 12, right, default");
 		
 		textField_6 = new JTextField();
-		textField_6.setText("<display usable points here>");
 		textField_6.setEditable(false);
 		customer.add(textField_6, "4, 12, fill, default");
 		textField_6.setColumns(10);

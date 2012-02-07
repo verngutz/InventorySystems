@@ -17,15 +17,10 @@ import com.jgoodies.forms.layout.*;
 import java.awt.*;
 import com.jgoodies.forms.factories.FormFactory;
 
-
 public class MainAppWindow {
 
-	
-	
 	private static MainAppWindow maw;
 	private JFrame frame;
-	
-	
 
 	/**
 	 * Launch the application.

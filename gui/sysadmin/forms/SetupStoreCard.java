@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JOptionPane;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
@@ -21,6 +22,9 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
+import system.SystemBox;
+import system.Store;
 
 public class SetupStoreCard {
 	private JPanel sysadmin_setup;
@@ -78,18 +82,36 @@ public class SetupStoreCard {
 		sysadmin_setup.add(textField_1, "4, 6, fill, default");
 		textField_1.setColumns(10);
 		
-		JLabel lblStoreId = new JLabel("Store ID:");
-		lblStoreId.setHorizontalAlignment(SwingConstants.RIGHT);
-		sysadmin_setup.add(lblStoreId, "2, 8");
-		
-		JLabel label = new JLabel("<this should display the next id>");
-		sysadmin_setup.add(label, "4, 8");
-		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				//submit and parse the form then go back to sysadmin
+				double cash = 0;
+				try
+				{
+					cash = Double.parseDouble(textField.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Supplied Starting Cash is in an improper format.");
+					return;
+				}
+				double cashPerCashier = 0;
+				try
+				{
+					cashPerCashier = Double.parseDouble(textField_1.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Supplied Cash per Cashier is in an improper format.");
+					return;
+				}
+				int storeId = SystemBox.getSystem().nextStoreId();
+				SystemBox.getSystem().addStore(new Store(storeId, cash, cashPerCashier));
+				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Successfully set up store with ID " + storeId + ".");
+				textField.setText("");
+				textField_1.setText("");
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.SYSADMIN.getLabel());
 			}
@@ -105,7 +127,7 @@ public class SetupStoreCard {
 			}
 		});
 		sysadmin_setup.add(btnCancel, "2, 14");
-		sysadmin_setup.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, textField_1, btnAdd, btnCancel, lblStartingCash, lblCashPerCashier, lblStoreId, label, lblNewStore}));
+		sysadmin_setup.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, textField_1, btnAdd, btnCancel, lblStartingCash, lblCashPerCashier, lblNewStore}));
 		
 	}
 }
