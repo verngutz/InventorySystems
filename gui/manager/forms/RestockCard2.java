@@ -210,7 +210,7 @@ public class RestockCard2
 					return;
 				}
 				Item accepted = SystemBox.getSystem().getItem(textField.getText());
-				double added = store.acceptTransactionItem(accepted, quantity, price);
+				double added = store.acceptDeliveryItem(accepted, quantity, price);
 				
 				textField.setText("");
 				textField_1.setText("");
