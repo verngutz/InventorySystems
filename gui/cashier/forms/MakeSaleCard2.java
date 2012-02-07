@@ -193,5 +193,15 @@ public class MakeSaleCard2 {
 		panel.add(textField_2, "2, 16, fill, default");
 		textField_2.setColumns(10);
 		
+		JButton btnCancel = new JButton("Cancel");
+		btnCancel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.CASHIER.getLabel());
+			}
+		});
+		panel.add(btnCancel, "2, 18");
+		
 	}
 }
