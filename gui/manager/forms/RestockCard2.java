@@ -53,9 +53,6 @@ public class RestockCard2
 		return restockpane;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void init()
 	{
 		JScrollPane scrollPane = new JScrollPane();

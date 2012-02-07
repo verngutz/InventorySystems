@@ -76,7 +76,7 @@ public class Tester
 									if(itemCode.equals("q")) break;
 									int quantity = in.nextInt();
 									double wholesalePrice = in.nextDouble();
-									toRestock.acceptTransactionItem(SystemBox.getSystem().getItem(itemCode), quantity, wholesalePrice);
+									toRestock.acceptDeliveryItem(SystemBox.getSystem().getItem(itemCode), quantity, wholesalePrice);
 								}
 								toRestock.endDeliveryBatch();
 								break;

@@ -105,7 +105,7 @@ public class StartDayCard
 				int cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField.getText());
+					cashierindex = Integer.parseInt(textField_1.getText());
 				}
 				catch(NumberFormatException nfe)
 				{

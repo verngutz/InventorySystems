@@ -42,9 +42,6 @@ public class RestockCard1
 		return restockpanel;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void init()
 	{
 		restockpanel.setLayout(new FormLayout(

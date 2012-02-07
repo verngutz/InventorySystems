@@ -14,15 +14,29 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class MakeSaleCard1 {
+import system.SystemBox;
+import system.Store;
+import system.Cashier;
+
+public class MakeSaleCard1 
+{
 	private JPanel makesale;
 	private Container con;
 	
 	private JTextField textField;
 	private JTextField textField_1;
 	
-	public JPanel getCard(Container con){
-		if(makesale==null){
+	private MakeSaleCard2 makeSaleCard2;
+	
+	public MakeSaleCard1(MakeSaleCard2 makeSaleCard2)
+	{
+		this.makeSaleCard2 = makeSaleCard2;
+	}
+	
+	public JPanel getCard(Container con)
+	{
+		if(makesale==null)
+		{
 			makesale = new JPanel();
 			this.con = con;
 			init();
@@ -30,23 +44,29 @@ public class MakeSaleCard1 {
 		return makesale;
 	}
 	
-	public void init(){
-		makesale.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	public void init()
+	{
+		makesale.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblStoreId = new JLabel("Store ID:");
 		makesale.add(lblStoreId, "2, 2, right, default");
@@ -63,9 +83,59 @@ public class MakeSaleCard1 {
 		textField_1.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addMouseListener(new MouseAdapter() {
+		btnOk.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
+				int storeId = 0;
+				try
+				{
+					storeId = Integer.parseInt(textField.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Specified Store ID is in an improper format.");
+					return;
+				}
+				Store s = null;
+				try
+				{
+					s = SystemBox.getSystem().getStore(storeId);
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Store not found.");
+					return;
+				}
+				int cashierindex = 0;
+				try
+				{
+					cashierindex = Integer.parseInt(textField_1.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Specified Cashier Index is in an improper format.");
+					return;
+				}
+				Cashier c = null;
+				try
+				{
+					c = s.getCashier(cashierindex);
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
+					return;
+				}
+				if(!c.isOnline())
+				{
+					JOptionPane.showMessageDialog(makesale, "Store " + storeId + " Cashier " + cashierindex + " is not online.");
+					return;
+				}
+				resetFields();
+				c.startTransaction();
+				makeSaleCard2.setCashier(c);
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CA2.getLabel());
 			}
@@ -73,14 +143,22 @@ public class MakeSaleCard1 {
 		makesale.add(btnOk, "2, 8");
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CASHIER.getLabel());
 			}
 		});
 		makesale.add(btnCancel, "2, 10");
-		
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
+		textField_1.setText("");
 	}
 }

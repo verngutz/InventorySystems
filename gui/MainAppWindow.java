@@ -159,9 +159,9 @@ public class MainAppWindow
 			{
 				if (arg0.getStateChange() == ItemEvent.SELECTED) 
 				{
-					//makeSaleCard1.resetFields();
-					//makeSaleCard2.resetFields();
-					//makeSaleCard3.resetFields();
+					makeSaleCard1.resetFields();
+					makeSaleCard2.resetFields();
+					makeSaleCard3.resetFields();
 					startDayCard.resetFields();
 					endDayCard.resetFields();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
@@ -217,18 +217,18 @@ public class MainAppWindow
 		JPanel cashier = (new CashierCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(cashier, Card.CASHIER.getLabel());
 		
-		makeSaleCard1 = new MakeSaleCard1();
-		JPanel panel = makeSaleCard1.getCard(frame.getContentPane());
-		frame.getContentPane().add(panel, Card.CA1.getLabel());
-		
-		makeSaleCard2 = new MakeSaleCard2();
-		JSplitPane splitPane = makeSaleCard2.getCard(frame.getContentPane());
-		frame.getContentPane().add(splitPane, Card.CA2.getLabel());
-		
 		makeSaleCard3 = new MakeSaleCard3();
 		JPanel makesale = makeSaleCard3.getCard(frame.getContentPane());
 		frame.getContentPane().add(makesale, Card.CA3.getLabel());
 		
+		makeSaleCard2 = new MakeSaleCard2(makeSaleCard3);
+		JSplitPane splitPane = makeSaleCard2.getCard(frame.getContentPane());
+		frame.getContentPane().add(splitPane, Card.CA2.getLabel());
+		
+		makeSaleCard1 = new MakeSaleCard1(makeSaleCard2);
+		JPanel panel = makeSaleCard1.getCard(frame.getContentPane());
+		frame.getContentPane().add(panel, Card.CA1.getLabel());
+
 		startDayCard = new StartDayCard();
 		JPanel startday = startDayCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(startday, Card.CA4.getLabel());

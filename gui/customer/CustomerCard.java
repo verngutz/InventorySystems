@@ -89,7 +89,7 @@ public class CustomerCard
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Specified Customer ID is in an improper format.");
+					JOptionPane.showMessageDialog(customer, "Specified Customer ID is in an improper format.");
 					return;
 				}
 				Customer c = null;
@@ -99,7 +99,7 @@ public class CustomerCard
 				}
 				catch(IndexOutOfBoundsException ioobe)
 				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Customer not found.");
+					JOptionPane.showMessageDialog(customer, "Customer not found.");
 					return;
 				}
 				textField_3.setText(c.getFirstName() + " " + c.getLastName());

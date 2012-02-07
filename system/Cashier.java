@@ -13,6 +13,7 @@ public class Cashier
 	private double cash;
 	private Transaction currentTransaction;
 	private boolean online;
+	private double rawCashDue;
 	
 	public Cashier(Store store)
 	{
@@ -28,9 +29,19 @@ public class Cashier
 		this.online = online;
 	}
 	
+	public Store getStore()
+	{
+		return store;
+	}
+	
 	public boolean isOnline()
 	{
 		return online;
+	}
+	
+	public double getRawCashDue()
+	{
+		return rawCashDue;
 	}
 	
 	public void startDay()
@@ -52,6 +63,7 @@ public class Cashier
 			throw new IllegalStateException("Cashier is not online.");
 		}
 		currentTransaction = new Transaction();
+		rawCashDue = 0;
 	}
 	
 	public void sell(Item currentItem, int quantity)
@@ -65,6 +77,7 @@ public class Cashier
 			throw new IllegalStateException("No active transaction.");
 		}
 		currentTransaction.addItemSold(currentItem, quantity, currentItem.getUnitPrice());
+		rawCashDue += quantity * currentItem.getUnitPrice();
 	}
 	
 	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
@@ -81,12 +94,11 @@ public class Cashier
 		{
 			throw new IllegalArgumentException("Customer does not have enough points to use.");
 		}
-		double cashDue = 0;
+		double cashDue = rawCashDue;
 		Iterator<TransactionItem> itemsSold = currentTransaction.itemsSoldIterator();
 		while(itemsSold.hasNext())
 		{
 			TransactionItem entry = itemsSold.next();
-			cashDue += entry.getPrice() * entry.getQuantity();
 			store.deductFromStock(entry.getItem(), entry.getQuantity());
 		}
 		if(loyalBuyer != null)
@@ -101,6 +113,7 @@ public class Cashier
 		cash += cashDue;
 		Transaction toReturn = currentTransaction;
 		currentTransaction = null;
+		rawCashDue = 0;
 		return toReturn;
 	}
 	

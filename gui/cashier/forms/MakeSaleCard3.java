@@ -16,7 +16,13 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class MakeSaleCard3 {
+import system.SystemBox;
+import system.Customer;
+import system.Cashier;
+import system.Transaction;
+
+public class MakeSaleCard3 
+{
 	private JPanel makesale;
 	private Container con;
 	
@@ -25,40 +31,54 @@ public class MakeSaleCard3 {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	
-	public JPanel getCard(Container con){
-		if(makesale==null){
+	private Cashier cashier;
+	
+	public void setCashier(Cashier c)
+	{
+		cashier = c;
+		textField_3.setText(c.getRawCashDue() + "");
+	}
+	
+	public JPanel getCard(Container con)
+	{
+		if(makesale==null)
+		{
 			makesale = new JPanel();
 			this.con = con;
 			init();
 		}
 		return makesale;
 	}
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
-		makesale.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("90dlu:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	
+	public void init()
+	{
+		makesale.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("90dlu:grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblLoyalCustomerId = new JLabel("Loyal Customer ID:");
 		makesale.add(lblLoyalCustomerId, "2, 2, right, default");
@@ -68,10 +88,33 @@ public class MakeSaleCard3 {
 		textField.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Fetch Customer Info");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		btnNewButton.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
-				//fetch info
+			public void mousePressed(MouseEvent e) 
+			{
+				String customerIdString = textField.getText();
+				int customerId = 0;
+				try
+				{
+					customerId = Integer.parseInt(customerIdString);
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Specified Customer ID is in an improper format.");
+					return;
+				}
+				Customer c = null;
+				try
+				{
+					c = SystemBox.getSystem().getCustomer(customerId);
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					JOptionPane.showMessageDialog(makesale, "Customer not found.");
+					return;
+				}
+				textField_1.setText(c.getUsablePoints() + "");
 			}
 		});
 		makesale.add(btnNewButton, "4, 4, left, default");
@@ -100,23 +143,96 @@ public class MakeSaleCard3 {
 		textField_3.setColumns(10);
 		
 		JButton btnEndTransaction = new JButton("End Transaction");
-		btnEndTransaction.addMouseListener(new MouseAdapter() {
+		btnEndTransaction.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
+				Transaction t;
+				String customerIdString = textField.getText();
+				if(customerIdString.equals(""))
+				{
+					t = cashier.endTransaction(null, 0);
+				}
+				else
+				{
+					int customerId = 0;
+					try
+					{
+						customerId = Integer.parseInt(customerIdString);
+					}
+					catch(NumberFormatException nfe)
+					{
+						JOptionPane.showMessageDialog(makesale, "Specified Customer ID is in an improper format.");
+						return;
+					}
+					Customer c = null;
+					try
+					{
+						c = SystemBox.getSystem().getCustomer(customerId);
+					}
+					catch(IndexOutOfBoundsException ioobe)
+					{
+						JOptionPane.showMessageDialog(makesale, "Customer not found.");
+						return;
+					}
+					int pointsUsed = 0;
+					try
+					{
+						pointsUsed = Integer.parseInt(textField_2.getText());
+					}
+					catch(NumberFormatException nfe)
+					{
+						JOptionPane.showMessageDialog(makesale, "Specified Points to Use is in an improper format.");
+						return;
+					}
+					if(pointsUsed < c.getUsablePoints())
+					{
+						JOptionPane.showMessageDialog(makesale, "Customer " + c.getFirstName() + " " + c.getLastName() + " does not have enough points.");
+						return;
+					}
+					if(pointsUsed > Double.parseDouble(textField_3.getText()))
+					{
+						JOptionPane.showMessageDialog(makesale, "Too many points specified.");
+						return;
+					}
+					t = cashier.endTransaction(c, pointsUsed);
+					cashier.getStore().addTransaction(t);
+				}
+				JOptionPane.showMessageDialog(makesale, "Transaction ended. Total amount due: " + t.getRevenue());
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CASHIER.getLabel());
 			}
 		});
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0) 
+			{
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.CASHIER.getLabel());
 			}
 		});
 		makesale.add(btnCancel, "2, 16");
 		makesale.add(btnEndTransaction, "4, 16, left, default");
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
+		textField_1.setText("");
+		textField_2.setText("");
+		textField_3.setText("");
+	}
+	
+	public void returnToPreviousScreen()
+	{
+		resetFields();
+		CardLayout cl = (CardLayout) con.getLayout();
+		cl.show(con, Card.CASHIER.getLabel());
 	}
 }

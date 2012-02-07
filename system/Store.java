@@ -47,7 +47,7 @@ public class Store implements Cloneable
 		currDelivery = new Delivery(this);
 	}
 	
-	public double acceptTransactionItem(Item accepted, int quantity, double pricePerUnit)
+	public double acceptDeliveryItem(Item accepted, int quantity, double pricePerUnit)
 	{
 		if(currDelivery == null)
 		{
