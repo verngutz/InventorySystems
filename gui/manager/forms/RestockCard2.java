@@ -218,7 +218,7 @@ public class RestockCard2
 				textField.setText("");
 				textField_1.setText("");
 				textField_9.setText("");
-				//textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
+				textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
 				
 				JTextField tempQuantity = new JTextField();
 				JTextField tempItem = new JTextField();
@@ -287,7 +287,7 @@ public class RestockCard2
 	{
 		textField.setText("");
 		textField_1.setText("");
-		textField_2.setText("");
+		textField_2.setText("0.0");
 		textField_9.setText("");
 		
 		for(JTextField j : transactionDetails)
