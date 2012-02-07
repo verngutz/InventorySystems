@@ -19,7 +19,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import system.SystemBox;
 import system.Customer;
 
-public class CustomerCard{
+public class CustomerCard
+{
 	private JPanel customer;
 	
 	private JTextField textField_2;
@@ -33,33 +34,42 @@ public class CustomerCard{
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public JPanel getCard(Container con){
-		if(customer==null){
+	public JPanel getCard(Container con)
+	{
+		if(customer==null)
+		{
 			customer=new JPanel();
 			this.con = con;
 			init();
 		}
 		return customer;
 	}
-	public void init(){
-		customer.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(119dlu;default):grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	
+	public void init()
+	{
+		customer.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("max(119dlu;default):grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblCustomerId = new JLabel("Customer ID:");
 		customer.add(lblCustomerId, "2, 2, right, default");
@@ -69,10 +79,11 @@ public class CustomerCard{
 		textField_2.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Inquire");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		btnNewButton.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				//inquire event
+			public void mousePressed(MouseEvent arg0) 
+			{
 				String customerIdString = textField_2.getText();
 				int customerId = 0;
 				try
@@ -81,7 +92,7 @@ public class CustomerCard{
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Supplied Customer ID is in an improper format.");
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(customer), "Specified Customer ID is in an improper format.");
 					return;
 				}
 				Customer c = null;
@@ -133,5 +144,14 @@ public class CustomerCard{
 		textField_6.setEditable(false);
 		customer.add(textField_6, "4, 12, fill, default");
 		textField_6.setColumns(10);
+	}
+	
+	public void resetFields()
+	{
+		textField_2.setText("");
+		textField_3.setText("");
+		textField_4.setText("");
+		textField_5.setText("");
+		textField_6.setText("");
 	}
 }

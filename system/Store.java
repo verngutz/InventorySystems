@@ -69,13 +69,23 @@ public class Store implements Cloneable{
 	public void addCashier(Cashier toAdd)
 	{
 		cashiers.add(toAdd);
+	}
+	
+	public void addCashier()
+	{
+		cashiers.add(new Cashier(this));
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
-	public void removeCashier(int index)
+	public void removeCashier()
 	{
-		cashiers.remove(index);
+		cashiers.remove(cashiers.size() - 1);
 		//cashPerCashier = totalCash / cashiers.size();
+	}
+	
+	public int getNumCashiers()
+	{
+		return cashiers.size();
 	}
 	
 	public Iterator<Transaction> transactionIterator()

@@ -15,7 +15,8 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class RestockCard2 {
+public class RestockCard2 
+{
 	private JSplitPane restockpane;
 	private Container con;
 	private JTextField textField;
@@ -29,8 +30,17 @@ public class RestockCard2 {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	
-	public JSplitPane getCard(Container con){
-		if(restockpane==null){
+	private int storeId;
+	
+	public void setStoreId(int id)
+	{
+		storeId = id;
+	}
+	
+	public JSplitPane getCard(Container con)
+	{
+		if(restockpane==null)
+		{
 			restockpane = new JSplitPane();
 			this.con = con;
 			init();
@@ -38,49 +48,52 @@ public class RestockCard2 {
 		return restockpane;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
+	public void init()
+	{
 		JScrollPane scrollPane = new JScrollPane();
 		restockpane.setRightComponent(scrollPane);
 		
 		JPanel panel_1 = new JPanel();
 		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.MIN_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(39dlu;default):grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		panel_1.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.MIN_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("max(39dlu;default):grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblQuantity_1 = new JLabel("Quantity");
 		panel_1.add(lblQuantity_1, "2, 2");
@@ -123,30 +136,35 @@ public class RestockCard2 {
 		
 		JPanel panel = new JPanel();
 		restockpane.setLeftComponent(panel);
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("85px:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(55dlu;default):grow"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("23px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		panel.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+			ColumnSpec.decode("85px:grow"),
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("max(55dlu;default):grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.LINE_GAP_ROWSPEC,
+			RowSpec.decode("23px"),
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblItemId = new JLabel("Item ID:");
 		panel.add(lblItemId, "2, 2, right, default");
@@ -163,13 +181,11 @@ public class RestockCard2 {
 		textField_1.setColumns(10);
 		
 		JButton btnEnd = new JButton("End");
-		btnEnd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnEnd.addMouseListener(new MouseAdapter() {
+		btnEnd.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
 				//go to payment page
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.MANAGER.getLabel());
@@ -177,9 +193,11 @@ public class RestockCard2 {
 		});
 		
 		JButton btnAdd = new JButton("Add");
-		btnAdd.addMouseListener(new MouseAdapter() {
+		btnAdd.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
 				//add to receipt and append Quantity and Item in the ScrollPane
 				//my suggestion is to loop it, and keep adding JTextField()'s to 'panel_1'
 				//the increments are by 2's. an example is textfield_3,4,7,6
@@ -204,6 +222,19 @@ public class RestockCard2 {
 		textField_2.setText("0.0");
 		panel.add(textField_2, "2, 16, fill, default");
 		textField_2.setColumns(10);
-		
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
+		textField_1.setText("");
+		textField_2.setText("");
+		textField_3.setText("");
+		textField_4.setText("");
+		textField_6.setText("");
+		textField_7.setText("");
+		textField_5.setText("");
+		textField_8.setText("");
+		textField_9.setText("");
 	}
 }

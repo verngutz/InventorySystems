@@ -14,14 +14,27 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class RestockCard1 {
+import system.SystemBox;
+import system.Store;
+
+public class RestockCard1 
+{
 	private JPanel restockpanel;
 	private Container con;
 	
 	private JTextField textField;
 	
-	public JPanel getCard(Container con){
-		if(restockpanel==null){
+	private RestockCard2 restockCard2;
+	
+	public RestockCard1(RestockCard2 restockCard2)
+	{
+		this.restockCard2 = restockCard2;
+	}
+	
+	public JPanel getCard(Container con)
+	{
+		if(restockpanel==null)
+		{
 			restockpanel = new JPanel();
 			this.con = con;
 			init();
@@ -29,26 +42,29 @@ public class RestockCard1 {
 		return restockpanel;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
-		restockpanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	public void init()
+	{
+		restockpanel.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblStoreId = new JLabel("Store ID:");
 		restockpanel.add(lblStoreId, "2, 2, right, default");
@@ -58,9 +74,34 @@ public class RestockCard1 {
 		textField.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addMouseListener(new MouseAdapter() {
+		btnOk.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
+				int storeId = 0;
+				try
+				{
+					storeId = Integer.parseInt(textField.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(restockpanel, "Specified Store ID is in an improper format.");
+					return;
+				}
+				Store s = null;
+				try
+				{
+					s = SystemBox.getSystem().getStore(storeId);
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					JOptionPane.showMessageDialog(restockpanel, "Store not found.");
+					return;
+				}
+				restockCard2.setStoreId(storeId);
+				s.startDeliveryBatch();
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.MA22.getLabel());
 			}
@@ -68,14 +109,21 @@ public class RestockCard1 {
 		restockpanel.add(btnOk, "2, 8");
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) 
+			{
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.MANAGER.getLabel());
 			}
 		});
 		restockpanel.add(btnCancel, "2, 10");
-		
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
 	}
 }

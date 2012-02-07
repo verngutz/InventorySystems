@@ -15,7 +15,11 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class ChangePriceCard {
+import system.SystemBox;
+import system.Item;
+
+public class ChangePriceCard 
+{
 	private JPanel panel;
 	private Container con;
 	private JTextField textField;
@@ -23,40 +27,46 @@ public class ChangePriceCard {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	
-	public JPanel getCard(Container con){
-		if(panel==null){
+	public JPanel getCard(Container con)
+	{
+		if(panel==null)
+		{
 			panel = new JPanel();
 			this.con = con;
 			init();
 		}
 		return panel;
 	}
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	
+	public void init()
+	{
+		panel.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblItemCode = new JLabel("Item Code:");
 		panel.add(lblItemCode, "2, 2, right, default");
@@ -66,10 +76,24 @@ public class ChangePriceCard {
 		textField.setColumns(10);
 		
 		JButton btnInquireCode = new JButton("Inquire Code");
-		btnInquireCode.addMouseListener(new MouseAdapter() {
+		btnInquireCode.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				//fetch code info
+			public void mousePressed(MouseEvent arg0) 
+			{
+				if(textField.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
+				}
+				else if(SystemBox.getSystem().containsItem(textField.getText()))
+				{
+					textField_1.setText(SystemBox.getSystem().getItem(textField.getText()).getItemName());
+					textField_2.setText(SystemBox.getSystem().getItem(textField.getText()).getUnitPrice() + "");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(panel, "Item not found.");
+				}
 			}
 		});
 		panel.add(btnInquireCode, "2, 4");
@@ -98,26 +122,62 @@ public class ChangePriceCard {
 		textField_3.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addMouseListener(new MouseAdapter() {
+		btnOk.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				//update price
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MANAGER.getLabel());
+			public void mousePressed(MouseEvent arg0) 
+			{
+				if(textField.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
+					return;
+				}
+				if(!SystemBox.getSystem().containsItem(textField.getText()))
+				{
+					JOptionPane.showMessageDialog(panel, "Item not found.");
+					return;
+				}
+				double newPrice = 0;
+				try
+				{
+					newPrice = Double.parseDouble(textField_3.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(panel, "Specified New Price is in an improper format.");
+					return;
+				}
+				SystemBox.getSystem().getItem(textField.getText()).setUnitPrice(newPrice);
+				JOptionPane.showMessageDialog(panel, "Price successfully changed.");
+				returnToPreviousScreen();
 			}
 		});
 		panel.add(btnOk, "2, 14");
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MANAGER.getLabel());
+			public void mousePressed(MouseEvent arg0) 
+			{
+				returnToPreviousScreen();
 			}
 		});
 		panel.add(btnCancel, "2, 16");
-		
-		
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
+		textField_1.setText("");
+		textField_2.setText("");
+		textField_3.setText("");
+	}
+	
+	public void returnToPreviousScreen()
+	{
+		resetFields();
+		CardLayout cl = (CardLayout) con.getLayout();
+		cl.show(con, Card.MANAGER.getLabel());
 	}
 }

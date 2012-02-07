@@ -15,7 +15,11 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-public class EnrollCustomerCard {
+import system.SystemBox;
+import system.Customer;
+
+public class EnrollCustomerCard 
+{
 	private JPanel panel;
 	private Container con;
 	private JTextField textField_1;
@@ -23,55 +27,51 @@ public class EnrollCustomerCard {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField;
-	private JTextField textField_5;
 	
-	public JPanel getCard(Container con){
+	public JPanel getCard(Container con)
+	{
 		panel = new JPanel();
 		this.con = con;
 		init();
 		return panel;
 	}
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+	
+	public void init()
+	{
+		panel.setLayout(new FormLayout(
+		new ColumnSpec[] 
+		{
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.DEFAULT_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+		},
+		new RowSpec[] 
+		{
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblEnrollCustomer = new JLabel("Enroll Customer:");
 		panel.add(lblEnrollCustomer, "2, 2, right, default");
-		
-		JLabel lblCustomerId = new JLabel("Customer ID:");
-		panel.add(lblCustomerId, "2, 4, right, default");
-		
-		textField_5 = new JTextField();
-		textField_5.setEditable(false);
-		panel.add(textField_5, "4, 4, fill, default");
-		textField_5.setColumns(10);
 		
 		JLabel lblFirstName = new JLabel("First Name:");
 		panel.add(lblFirstName, "2, 6, right, default");
@@ -109,26 +109,54 @@ public class EnrollCustomerCard {
 		textField_4.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addMouseListener(new MouseAdapter() {
+		btnOk.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				//submit form
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MANAGER.getLabel());
+			public void mousePressed(MouseEvent arg0) 
+			{
+				int id = SystemBox.getSystem().nextCustomerId();
+				int age = 0;
+				try
+				{
+					age = Integer.parseInt(textField_4.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(panel), "Supplied Age is in an improper format.");
+					return;
+				}
+				SystemBox.getSystem().addCustomer(new Customer(textField_1.getText(), textField_2.getText(), id, textField.getText(), textField_3.getText(), age));
+				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(panel), "Successfully enrolled customer with ID " + id + ".");
+				returnToPreviousScreen();
 			}
 		});
 		panel.add(btnOk, "2, 18");
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MANAGER.getLabel());
+			public void mousePressed(MouseEvent arg0) 
+			{
+				returnToPreviousScreen();
 			}
 		});
-		panel.add(btnCancel, "2, 20");
-		
-		
+		panel.add(btnCancel, "2, 20");	
+	}
+	
+	public void resetFields()
+	{
+		textField.setText("");
+		textField_1.setText("");
+		textField_2.setText("");
+		textField_3.setText("");
+		textField_4.setText("");
+	}
+	
+	public void returnToPreviousScreen()
+	{
+		resetFields();
+		CardLayout cl = (CardLayout) con.getLayout();
+		cl.show(con, Card.MANAGER.getLabel());
 	}
 }
