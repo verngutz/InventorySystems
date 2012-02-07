@@ -34,31 +34,31 @@ public class ManagerCard
 		return manager;
 	}
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void init()
 	{
-		manager.setLayout(new FormLayout(
-		new ColumnSpec[] 
-		{
-			FormFactory.RELATED_GAP_COLSPEC,
-			FormFactory.MIN_COLSPEC,
-			FormFactory.RELATED_GAP_COLSPEC,
-			FormFactory.MIN_COLSPEC,
-		},
-		new RowSpec[] 
-		{
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-			FormFactory.RELATED_GAP_ROWSPEC,
-			FormFactory.DEFAULT_ROWSPEC,
-		}));
+		manager.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.MIN_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.MIN_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JButton btnEnrollCustomer = new JButton("Enroll Customer");
 		btnEnrollCustomer.addMouseListener(new MouseAdapter() 
@@ -94,6 +94,16 @@ public class ManagerCard
 				cl.show(con, Card.MA21.getLabel());
 			}
 		});
+		
+		JButton btnGetItemSummary = new JButton("Get Item Summary");
+		btnGetItemSummary.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MA9.getLabel());
+			}
+		});
+		manager.add(btnGetItemSummary, "6, 2");
 		manager.add(btnNewButton, "2, 4");
 		
 		JButton btnNewButton_3 = new JButton("Change Unit Price");

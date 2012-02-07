@@ -35,6 +35,7 @@ public class MainAppWindow
 	private RemoveCashierCard removeCashierCard;
 	private RestockCard1 restockCard1;
 	private RestockCard2 restockCard2;
+	private ItemSummaryCard itemSummaryCard;
 	
 	private MakeSaleCard1 makeSaleCard1;
 	private MakeSaleCard2 makeSaleCard2;
@@ -254,11 +255,11 @@ public class MainAppWindow
 		JPanel ma21 = restockCard1.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma21, Card.MA21.getLabel());
 		
-		JPanel ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
-		//frame.getContentPane().add(ma3, Card.MA3.getLabel());
+		JSplitPane ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
+		frame.getContentPane().add(ma3, Card.MA3.getLabel());
 		
-		JPanel ma4 = (new CashPositionCard()).getCard(frame.getContentPane());
-		//frame.getContentPane().add(ma4, Card.MA4.getLabel());
+		JSplitPane ma4 = (new CashPositionCard()).getCard(frame.getContentPane());
+		frame.getContentPane().add(ma4, Card.MA4.getLabel());
 		
 		addItemCard = new AddItemCard();
 		JPanel ma5 = addItemCard.getCard(frame.getContentPane());
@@ -275,6 +276,10 @@ public class MainAppWindow
 		removeCashierCard = new RemoveCashierCard();
 		JPanel ma8 = removeCashierCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma8, Card.MA8.getLabel());
+		
+		itemSummaryCard = new ItemSummaryCard();
+		JSplitPane ma9 = itemSummaryCard.getCard(frame.getContentPane());
+		frame.getContentPane().add(ma9, Card.MA9.getLabel());
 		//manager view end
 	}
 }
