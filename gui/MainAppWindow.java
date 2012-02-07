@@ -254,8 +254,8 @@ public class MainAppWindow
 		JPanel ma21 = restockCard1.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma21, Card.MA21.getLabel());
 		
-		JPanel ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
-		//frame.getContentPane().add(ma3, Card.MA3.getLabel());
+		JSplitPane ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
+		frame.getContentPane().add(ma3, Card.MA3.getLabel());
 		
 		JPanel ma4 = (new CashPositionCard()).getCard(frame.getContentPane());
 		//frame.getContentPane().add(ma4, Card.MA4.getLabel());
