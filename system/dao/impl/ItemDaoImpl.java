@@ -92,12 +92,12 @@ public class ItemDaoImpl implements ItemDao {
         }
 	}
 
-	public Delivery get(String itemCode){
+	public Item get(String itemCode){
 		Session session = null;
         try 
         {
             session = SessionFactorySingleton.getSessionFactory().openSession();
-            return (Delivery) session.get(Delivery.class, itemCode);
+            return (Item) session.get(Item.class, itemCode);
 
         }
         finally 
