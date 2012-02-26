@@ -137,6 +137,8 @@ public class Store implements Cloneable
 	
 	public void deductFromStock(Item item, int quantity)
 	{
+		if(inventory.get(item) < quantity)
+			throw new IllegalArgumentException("There aren't enough items with item code " + item.getItemCode() + " available in stock for this transaction.");
 		inventory.put(item, inventory.get(item)-quantity);
 	}
 	

@@ -150,11 +150,9 @@ public class MakeSaleCard3
 			{
 				Transaction t;
 				String customerIdString = textField.getText();
-				if(customerIdString.equals(""))
-				{
-					t = cashier.endTransaction(null, 0);
-				}
-				else
+				Customer c = null;
+				int pointsUsed = 0;
+				if(!customerIdString.equals(""))
 				{
 					int customerId = 0;
 					try
@@ -166,7 +164,6 @@ public class MakeSaleCard3
 						JOptionPane.showMessageDialog(makesale, "Specified Customer ID is in an improper format.");
 						return;
 					}
-					Customer c = null;
 					try
 					{
 						c = SystemBox.getSystem().getCustomer(customerId);
@@ -176,17 +173,19 @@ public class MakeSaleCard3
 						JOptionPane.showMessageDialog(makesale, "Customer not found.");
 						return;
 					}
-					int pointsUsed = 0;
-					try
+					if(!textField_2.getText().equals(""))
 					{
-						pointsUsed = Integer.parseInt(textField_2.getText());
+						try
+						{
+							pointsUsed = Integer.parseInt(textField_2.getText());
+						}
+						catch(NumberFormatException nfe)
+						{
+							JOptionPane.showMessageDialog(makesale, "Specified Points to Use is in an improper format.");
+							return;
+						}
 					}
-					catch(NumberFormatException nfe)
-					{
-						JOptionPane.showMessageDialog(makesale, "Specified Points to Use is in an improper format.");
-						return;
-					}
-					if(pointsUsed < c.getUsablePoints())
+					if(pointsUsed > c.getUsablePoints())
 					{
 						JOptionPane.showMessageDialog(makesale, "Customer " + c.getFirstName() + " " + c.getLastName() + " does not have enough points.");
 						return;
@@ -196,7 +195,18 @@ public class MakeSaleCard3
 						JOptionPane.showMessageDialog(makesale, "Too many points specified.");
 						return;
 					}
+				}
+				try
+				{
 					t = cashier.endTransaction(c, pointsUsed);
+				}
+				catch(IllegalArgumentException iae)
+				{
+					JOptionPane.showMessageDialog(makesale, iae.getMessage());
+					return;
+				}
+				if(c != null)
+				{
 					cashier.getStore().addTransaction(t);
 				}
 				JOptionPane.showMessageDialog(makesale, "Transaction ended. Total amount due: " + t.getRevenue());

@@ -36,6 +36,7 @@ public class MainAppWindow
 	private RestockCard1 restockCard1;
 	private RestockCard2 restockCard2;
 	private ItemSummaryCard itemSummaryCard;
+	private CashPositionCard cashPositionCard;
 	
 	private MakeSaleCard1 makeSaleCard1;
 	private MakeSaleCard2 makeSaleCard2;
@@ -43,9 +44,10 @@ public class MainAppWindow
 	
 	private StartDayCard startDayCard;
 	private EndDayCard endDayCard;
-
 	public static void main(String[] args) 
 	{
+		args = new String[1];
+		args[0] = "samplein.txt";
 		if(args.length > 0)
 		{
 			new Tester(args[0]);
@@ -145,6 +147,7 @@ public class MainAppWindow
 					removeCashierCard.resetFields();
 					restockCard1.resetFields();
 					restockCard2.resetFields();
+					cashPositionCard.resetFields();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
 					cl.show(frame.getContentPane(), Card.MANAGER.getLabel());
 				} 
@@ -258,7 +261,8 @@ public class MainAppWindow
 		JSplitPane ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(ma3, Card.MA3.getLabel());
 		
-		JSplitPane ma4 = (new CashPositionCard()).getCard(frame.getContentPane());
+		cashPositionCard = new CashPositionCard();
+		JSplitPane ma4 = cashPositionCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma4, Card.MA4.getLabel());
 		
 		addItemCard = new AddItemCard();
