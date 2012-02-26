@@ -255,8 +255,8 @@ public class CustomerReportCard {
 				price.setEditable(false);
 				
 				quantity.setText(ti.getQuantity() + "");
-				item.setText(ti.getItem().getItemCode() + ": " + ti.getItem().getItemName() + " at " +  (ti.getPrice() / ti.getQuantity()) + " per " + ti.getItem().getUnitName());
-				price.setText(ti.getPrice() + "");
+				item.setText(ti.getItem().getItemCode() + ": " + ti.getItem().getItemName() + " at " + ti.getPrice() + " per " + ti.getItem().getUnitName());
+				price.setText(ti.getPrice() * ti.getQuantity() + "");
 				
 				panel_1.add(quantity, "2, " + transactionDrawingPosition + ", fill, default");
 				panel_1.add(item, "4, " + transactionDrawingPosition + ", fill, default");
