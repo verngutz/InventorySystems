@@ -1,6 +1,9 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -102,4 +105,20 @@ public class CustomerDaoImpl implements CustomerDao {
             session.close();
         }
 	}
+	public List<Customer> getCustomers()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Customer");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }
