@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.StoreDao;
-import system.entity.Store;
+import system.Store;
 
 public class StoreDaoImpl implements StoreDao {
 

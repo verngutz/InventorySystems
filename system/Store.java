@@ -1,5 +1,5 @@
 package system;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,11 +8,11 @@ import java.util.Map;
 public class Store implements Cloneable
 {
 	int id;
-	HashMap<Item, Integer> inventory;
+	Map<Item, Integer> inventory;
 	double totalCash;
 	double cashPerCashier;
-	ArrayList<Cashier> cashiers;
-	ArrayList<Transaction> transactions;
+	List<Cashier> cashiers;
+	List<TransactionE> transactions;
 	Delivery currDelivery;
 	
 	public Store(int id, double startingCash, double cashPerCashier)
@@ -23,10 +23,10 @@ public class Store implements Cloneable
 		this.cashPerCashier = cashPerCashier;
 		inventory = new HashMap<Item, Integer>();
 		cashiers = new ArrayList<Cashier>();
-		transactions = new ArrayList<Transaction>();
+		transactions = new ArrayList<TransactionE>();
 	}
 	
-	public Store(int id, double startingCash, HashMap<Item, Integer> inventory, double cashPerCashier, ArrayList<Transaction> transactions, Delivery currDelivery)
+	public Store(int id, double startingCash, HashMap<Item, Integer> inventory, double cashPerCashier, ArrayList<TransactionE> transactions, Delivery currDelivery)
 	{
 		this.id = id;
 		this.totalCash = startingCash;
@@ -91,17 +91,17 @@ public class Store implements Cloneable
 		cashiers.add(toAdd);
 	}
 	
-	public void addCashier(Long cashierID)
+	public void addCashier(int cashierID)
 	{
 		cashiers.add(new Cashier(this, cashierID));
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
-	public void removeCashier(Long cashierID)
+	public void removeCashier(int cashierID)
 	{
 		for(int i = 0; i < cashiers.size(); i++)
 		{
-			if(cashiers.get(i).getIndex().equals(cashierID))
+			if(cashiers.get(i).getIndex()==cashierID)
 			{
 				cashiers.remove(i);
 				return;
@@ -116,7 +116,7 @@ public class Store implements Cloneable
 		return cashiers.size();
 	}
 	
-	public Iterator<Transaction> transactionIterator()
+	public Iterator<TransactionE> transactionIterator()
 	{
 		return transactions.iterator();
 	}
@@ -126,10 +126,10 @@ public class Store implements Cloneable
 		return cashiers.iterator();
 	}
 	
-	public Cashier getCashier(Long cashierIndex) 
+	public Cashier getCashier(int cashierIndex) 
 	{
 		for(int i = 0; i < cashiers.size(); i++)
-			if(cashiers.get(i).getIndex().equals(cashierIndex))
+			if(cashiers.get(i).getIndex()==cashierIndex)
 				return cashiers.get(i);
 		return null;
 	}
@@ -147,7 +147,7 @@ public class Store implements Cloneable
 		totalCash += cash;
 	}
 	
-	public void addTransaction(Transaction transaction)
+	public void addTransaction(TransactionE transaction)
 	{
 		transactions.add(transaction);
 	}
@@ -181,10 +181,10 @@ public class Store implements Cloneable
 		{
 			inventoryCopy.put((Item)i.clone(), inventory.get(i));
 		}
-		ArrayList<Transaction> transactionsCopy = new ArrayList<Transaction>();
-		for(Transaction t : transactionsCopy)
+		ArrayList<TransactionE> transactionsCopy = new ArrayList<TransactionE>();
+		for(TransactionE t : transactionsCopy)
 		{
-			transactionsCopy.add((Transaction)t.clone());
+			transactionsCopy.add((TransactionE)t.clone());
 		}
 		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, currDelivery == null ? null : (Delivery)currDelivery.clone());
 		for(Cashier c : cashiers)
@@ -192,5 +192,45 @@ public class Store implements Cloneable
 			s.addCashier(new Cashier(s, c.getIndex(), c.getCash(), c.getCurrentTransaction(), c.isOnline()));
 		}
 		return s;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Map<Item, Integer> getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Map<Item, Integer> inventory) {
+		this.inventory = inventory;
+	}
+
+	public List<Cashier> getCashiers() {
+		return cashiers;
+	}
+
+	public void setCashiers(List<Cashier> cashiers) {
+		this.cashiers = cashiers;
+	}
+
+	public List<TransactionE> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<TransactionE> transactions) {
+		this.transactions = transactions;
+	}
+
+	public void setTotalCash(double totalCash) {
+		this.totalCash = totalCash;
+	}
+
+	public void setCashPerCashier(double cashPerCashier) {
+		this.cashPerCashier = cashPerCashier;
 	}
 }

@@ -34,36 +34,10 @@ public class Customer implements Cloneable{
 		this.ptsRedeemed = ptsRedeemed;
 	}
 	
-	public String getFirstName()
-	{
-		return firstName;
+	public Customer() {
+		// TODO Auto-generated constructor stub
 	}
-	
-	public String getLastName()
-	{
-		return lastName;
-	}
-	
-	public int getId()
-	{
-		return id;
-	}
-	
-	public String getAddress()
-	{
-		return address;
-	}
-	
-	public String getGender()
-	{
-		return gender;
-	}
-	
-	public int getPointsEarned()
-	{
-		return ptsEarned;
-	}
-	
+
 	public void addPointsEarned(int points)
 	{
 		ptsEarned += points;
@@ -87,5 +61,69 @@ public class Customer implements Cloneable{
 	public Customer clone()
 	{
 		return new Customer(firstName, lastName, id, address, gender, age, ptsEarned, ptsRedeemed);
+	}
+	//getters setters
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getPtsEarned() {
+		return ptsEarned;
+	}
+
+	public void setPtsEarned(int ptsEarned) {
+		this.ptsEarned = ptsEarned;
+	}
+
+	public int getPtsRedeemed() {
+		return ptsRedeemed;
+	}
+
+	public void setPtsRedeemed(int ptsRedeemed) {
+		this.ptsRedeemed = ptsRedeemed;
 	}
 }

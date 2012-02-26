@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.CustomerDao;
-import system.entity.Customer;
+import system.Customer;
 
 public class CustomerDaoImpl implements CustomerDao {
 

@@ -7,7 +7,7 @@ import org.hibernate.cfg.Configuration;
 
 import system.dao.*;
 import system.dao.impl.*;
-import system.entity.*;
+import system.*;
 
 public class HibernateTest
 {
@@ -20,8 +20,8 @@ public class HibernateTest
         // set the singleton do all the dao objects can have easy access to it
         SessionFactorySingleton.setSessionFactory(factory);
                 
-        testSaveItem();
-        //testSaveCustomer();
+        //testSaveItem();
+        testSaveCustomer();
         //testGet();
        
     	// WARNING:
@@ -47,8 +47,8 @@ public class HibernateTest
     	CustomerDao cusdao = new CustomerDaoImpl();
     	
     	Customer c = new Customer();
-    	c.setFirstName("vern");
-    	c.setLastName("gucci");
+    	c.setFirstName("verny");
+    	c.setLastName("guccib");
     	
     	cusdao.save(c);
 	}
@@ -58,7 +58,7 @@ public class HibernateTest
     	ItemDao itemdao = new ItemDaoImpl();
     	
     	Item item = new Item();
-    	item.setItemCode("P1");
+    	item.setItemCode("P3");
     	item.setItemName("Egg");
     	item.setUnitName("Dozen");
     	item.setItemCategory("Produce");

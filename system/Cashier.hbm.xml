@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="system" >
+<class name="Cashier" table="CASHIER">
+
+<id name="index" column="CASHIER_INDEX">
+	<generator class="native"/>
+</id>
+
+<many-to-one name="store"
+     		 cascade="all"
+			 column="STORE_ID"
+			 lazy="false"
+			 class="Store"/>
+			 
+<property name="cash" type="double" column="CASH"/>
+
+</class>
+
+</hibernate-mapping>
+	

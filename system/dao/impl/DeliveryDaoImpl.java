@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.DeliveryDao;
-import system.entity.Delivery;
+import system.Delivery;
 
 public class DeliveryDaoImpl implements DeliveryDao {
 

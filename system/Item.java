@@ -46,4 +46,20 @@ public class Item implements Cloneable{
 	{
 		return new Item(itemCode, itemName, itemCategory, unitName, unitPrice);
 	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public void setItemCategory(String itemCategory) {
+		this.itemCategory = itemCategory;
+	}
+
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
 }

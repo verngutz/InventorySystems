@@ -103,7 +103,7 @@ public class CustomerCard
 					return;
 				}
 				textField_3.setText(c.getFirstName() + " " + c.getLastName());
-				textField_4.setText(c.getPointsEarned() + "");
+				textField_4.setText(c.getPtsEarned() + "");
 				textField_5.setText(c.getPointsRedeemed() + "");
 				textField_6.setText(c.getUsablePoints() + "");
 			}

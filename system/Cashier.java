@@ -1,24 +1,25 @@
 package system;
 import java.util.*;
 
+
 public class Cashier 
 {
-	private Long index;
+	private int index;
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
 	private double cash;
-	private Transaction currentTransaction;
+	private TransactionE currentTransaction;
 	private boolean online;
 	private double rawCashDue;
 	
-	public Cashier(Store store, Long index)
+	public Cashier(Store store, int index)
 	{
 		this.store = store;
 		this.index = index;
 		online = false;
 	}
 	
-	public Cashier(Store store, Long index, double cash, Transaction currentTransaction, boolean online)
+	public Cashier(Store store, int index, double cash, TransactionE currentTransaction, boolean online)
 	{
 		this.store = store;
 		this.index = index;
@@ -32,7 +33,7 @@ public class Cashier
 		return store;
 	}
 	
-	public Long getIndex()
+	public int getIndex()
 	{
 		return index;
 	}
@@ -53,7 +54,7 @@ public class Cashier
 		online = true;
 	}
 	
-	public Transaction getCurrentTransaction()
+	public TransactionE getCurrentTransaction()
 	{
 		return currentTransaction;
 	}
@@ -65,7 +66,7 @@ public class Cashier
 		{
 			throw new IllegalStateException("Cashier is not online.");
 		}
-		currentTransaction = new Transaction();
+		currentTransaction = new TransactionE();
 		rawCashDue = 0;
 	}
 	
@@ -83,7 +84,7 @@ public class Cashier
 		rawCashDue += quantity * currentItem.getUnitPrice();
 	}
 	
-	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
+	public TransactionE endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
 		if(!online)
 		{
@@ -114,7 +115,7 @@ public class Cashier
 		}
 		currentTransaction.setRevenue(cashDue);
 		cash += cashDue;
-		Transaction toReturn = currentTransaction;
+		TransactionE toReturn = currentTransaction;
 		currentTransaction = null;
 		rawCashDue = 0;
 		return toReturn;
@@ -132,5 +133,18 @@ public class Cashier
 		cash = 0;
 		return toReturn;
 	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public void setCash(double cash) {
+		this.cash = cash;
+	}
+	
 }
 

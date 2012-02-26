@@ -19,7 +19,7 @@ import com.jgoodies.forms.layout.*;
 import system.Cashier;
 import system.Customer;
 import system.SystemBox;
-import system.Transaction;
+import system.TransactionE;
 
 public class MakeSaleCard3 
 {
@@ -148,7 +148,7 @@ public class MakeSaleCard3
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				Transaction t;
+				TransactionE t;
 				String customerIdString = textField.getText();
 				Customer c = null;
 				int pointsUsed = 0;

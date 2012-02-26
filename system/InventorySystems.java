@@ -1,6 +1,9 @@
 package system;
 import java.util.*;
 
+import system.dao.CustomerDao;
+import system.dao.impl.CustomerDaoImpl;
+
 
 public class InventorySystems {
 	ArrayList<Store> stores;
@@ -31,6 +34,8 @@ public class InventorySystems {
 	
 	public void addCustomer(Customer newCustomer)
 	{
+		CustomerDao cusdao = new CustomerDaoImpl();
+		cusdao.save(newCustomer);
 		customers.add(newCustomer);
 	}
 	

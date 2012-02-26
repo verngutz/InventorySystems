@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.CashierDao;
-import system.entity.Cashier;
+import system.Cashier;
 
 public class CashierDaoImpl implements CashierDao {
 

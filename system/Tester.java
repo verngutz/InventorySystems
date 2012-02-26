@@ -128,7 +128,7 @@ public class Tester
 								id = in.nextInt();
 								in.nextLine();
 								System.out.println("Enter Cashier Id:");
-								long cashierid = in.nextLong();
+								int cashierid = in.nextInt();
 								in.nextLine();
 								Store store = SystemBox.getSystem().getStore(id);
 								store.addCashier(cashierid);
@@ -140,7 +140,7 @@ public class Tester
 								id = in.nextInt();
 								in.nextLine();
 								System.out.println("Enter Cashier Id:");
-								cashierid = in.nextLong();
+								cashierid = in.nextInt();
 								store = SystemBox.getSystem().getStore(id);
 								store.removeCashier(cashierid);
 								System.out.println("Cashier successfully removed! Press the enter key to continue.");
@@ -166,7 +166,7 @@ public class Tester
 							int storeid = in.nextInt();
 							Store store = SystemBox.getSystem().getStore(storeid);
 							System.out.println("Enter cashier index");
-							long cashierIndex = in.nextLong();
+							int cashierIndex = in.nextInt();
 							Cashier cashier = store.getCashier(cashierIndex);
 							cashier.startDay();
 							System.out.println("Welcome!");
@@ -234,7 +234,7 @@ public class Tester
 								System.out.println("Enter points used: ");
 								pointsUsed = in.nextInt();
 							}
-							Transaction result = cashier.endTransaction(buyer, pointsUsed);
+							TransactionE result = cashier.endTransaction(buyer, pointsUsed);
 							System.out.println("Amount due: " + result.getRevenue());
 							//deduct from stock
 							/*Iterator<Map.Entry<Item, Integer>> it = itemsToCheckout.entrySet().iterator();
@@ -280,7 +280,7 @@ public class Tester
 								current = temp;
 						}
 						System.out.println("Customer: "+current.getLastName()+", "+current.getFirstName());
-						System.out.println("Points Earned: "+current.getPointsEarned());
+						System.out.println("Points Earned: "+current.getPtsEarned());
 						System.out.println("Points Redeemed: "+current.getPointsRedeemed());
 						System.out.println("Usable Points: "+current.getUsablePoints());
 						break a;
@@ -332,7 +332,7 @@ public class Tester
 						while(cust.hasNext()){
 							Customer curr = cust.next();
 							System.out.println(curr.getId()+": "+curr.getLastName()+", "+curr.getFirstName()+
-							" PTS EARNED: "+curr.getPointsEarned()+" REDEEMED PTS: "+curr.getPointsRedeemed()+" USABLE PTS: "+curr.getUsablePoints());
+							" PTS EARNED: "+curr.getPtsEarned()+" REDEEMED PTS: "+curr.getPointsRedeemed()+" USABLE PTS: "+curr.getUsablePoints());
 							
 						}
 						break;

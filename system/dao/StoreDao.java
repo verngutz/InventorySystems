@@ -1,6 +1,6 @@
 package system.dao;
 
-import system.entity.Store;
+import system.Store;
 
 public interface StoreDao {
 	public void save(Store s);

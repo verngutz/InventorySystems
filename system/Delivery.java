@@ -1,13 +1,14 @@
 package system;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Iterator;
 
 
 public class Delivery implements Cloneable{
+	int id;
 	Store store;
 	Timestamp dateTime;
-	ArrayList<TransactionItem> items;
+	List<TransactionItem> items;
 	
 	public Delivery(Store receiver)
 	{
@@ -16,7 +17,7 @@ public class Delivery implements Cloneable{
 		items = new ArrayList<TransactionItem>();
 	}
 	
-	public Delivery(Store receiver, Timestamp dateTime, ArrayList<TransactionItem> items)
+	public Delivery(Store receiver, Timestamp dateTime, List<TransactionItem> items)
 	{
 		store = receiver;
 		this.dateTime = dateTime;
@@ -47,5 +48,29 @@ public class Delivery implements Cloneable{
 			itemsCopy.add(new TransactionItem(d.getItem(), d.getQuantity(), d.getPrice()));
 		}
 		return new Delivery(store, dateTime, itemsCopy);
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<TransactionItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<TransactionItem> items) {
+		this.items = items;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public void setDateTime(Timestamp dateTime) {
+		this.dateTime = dateTime;
 	}
 }

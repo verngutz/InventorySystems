@@ -1,6 +1,6 @@
 package system.dao;
 
-import system.entity.Item;
+import system.Item;
 
 public interface ItemDao {
 	public void save(Item it);

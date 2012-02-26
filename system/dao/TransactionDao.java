@@ -1,6 +1,6 @@
 package system.dao;
 
-import system.entity.TransactionE;
+import system.TransactionE;
 
 public interface TransactionDao {
 	public void save(TransactionE t);

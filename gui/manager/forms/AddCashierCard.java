@@ -104,10 +104,10 @@ public class AddCashierCard
 					JOptionPane.showMessageDialog(addcashier, "Store not found.");
 					return;
 				}
-				long cashierindex = 0;
+				int cashierindex = 0;
 				try
 				{
-					cashierindex = Long.parseLong(textField_1.getText());
+					cashierindex = Integer.parseInt(textField_1.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -119,7 +119,7 @@ public class AddCashierCard
 					JOptionPane.showMessageDialog(addcashier, "Store " + storeId + " already has a Cashier " + cashierindex + ". Please use another Cashier ID.");
 					return;
 				}
-				s.addCashier((long)cashierindex);
+				s.addCashier(cashierindex);
 				JOptionPane.showMessageDialog(addcashier, "Cashier successfully added. Store " + storeId + " now has " + s.getNumCashiers() + " cashier(s).");
 				returnToPreviousScreen();
 			}

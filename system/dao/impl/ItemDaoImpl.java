@@ -4,7 +4,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import system.entity.*;
+import system.*;
 import system.dao.*;
 
 public class ItemDaoImpl implements ItemDao {

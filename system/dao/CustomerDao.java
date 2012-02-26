@@ -1,6 +1,6 @@
 package system.dao;
 
-import system.entity.*;
+import system.*;
 
 public interface CustomerDao {
 	public void save(Customer c);

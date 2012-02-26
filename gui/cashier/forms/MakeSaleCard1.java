@@ -108,10 +108,10 @@ public class MakeSaleCard1
 					JOptionPane.showMessageDialog(makesale, "Store not found.");
 					return;
 				}
-				long cashierindex = 0;
+				int cashierindex = 0;
 				try
 				{
-					cashierindex = Long.parseLong(textField_1.getText());
+					cashierindex = Integer.parseInt(textField_1.getText());
 				}
 				catch(NumberFormatException nfe)
 				{

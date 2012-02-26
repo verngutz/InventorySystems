@@ -23,12 +23,12 @@
 		<!-- see the SQL statements Hibernate generates to talk to the DB -->
 		<property name="show_sql">true</property>
 			
-		<mapping resource="system/entity/Item.hbm.xml"/>
-		<mapping resource="system/entity/Cashier.hbm.xml"/>
-		<mapping resource="system/entity/Customer.hbm.xml"/>
-		<mapping resource="system/entity/Delivery.hbm.xml"/>
-		<mapping resource="system/entity/Store.hbm.xml"/>
-		<mapping resource="system/entity/TransactionE.hbm.xml"/>
-		<mapping resource="system/entity/TransactionItem.hbm.xml"/>
+		<mapping resource="system/Item.hbm.xml"/>
+		<mapping resource="system/Cashier.hbm.xml"/>
+		<mapping resource="system/Customer.hbm.xml"/>
+		<mapping resource="system/Delivery.hbm.xml"/>
+		<mapping resource="system/Store.hbm.xml"/>
+		<mapping resource="system/TransactionE.hbm.xml"/>
+		<mapping resource="system/TransactionItem.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

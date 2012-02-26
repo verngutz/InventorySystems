@@ -5,7 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.TransactionItemDao;
-import system.entity.TransactionItem;
+import system.TransactionItem;
 
 public class TransactionItemDaoImpl implements TransactionItemDao {
 

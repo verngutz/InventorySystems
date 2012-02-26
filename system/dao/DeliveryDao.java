@@ -1,6 +1,6 @@
 package system.dao;
 
-import system.entity.Delivery;
+import system.Delivery;
 
 public interface DeliveryDao {
 	public void save(Delivery d);
