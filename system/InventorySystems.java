@@ -1,97 +1,44 @@
 package system;
+import gui.MainAppWindow;
+
 import java.util.*;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import system.dao.*;
 import system.dao.impl.*;
 
 
 public class InventorySystems {
-	ArrayList<Store> stores;
-	ArrayList<Customer> customers;
-	HashMap<String, Item> items;
-	ArrayList<Delivery> deliveries;
-	
-	public InventorySystems()
-	{
-		stores = new ArrayList<Store>();
-		customers = new ArrayList<Customer>();
-		items = new HashMap<String, Item>();
-		deliveries = new ArrayList<Delivery>();
-	}
 	
 	public void addStore(Store newStore)
 	{
-		for(int i = 0; i < stores.size(); i++)
-		{
-			if(stores.get(i).getStoreID() == newStore.getStoreID())
-			{
-				stores.set(i, newStore);
-				return;
-			}
-		}
-		stores.add(newStore);
+		StoreDao storedao = new StoreDaoImpl();
+		storedao.save(newStore);
 	}
 	
 	public void addCustomer(Customer newCustomer)
 	{
 		CustomerDao cusdao = new CustomerDaoImpl();
 		cusdao.save(newCustomer);
-		customers.add(newCustomer);
 	}
 	
 	public void addItem(Item newItem)
 	{
 		ItemDao itedao = new ItemDaoImpl();
 		itedao.save(newItem);
-		
-		//items.put(newItem.getItemCode(), newItem);
 	}
 	
 	public void addDelivery(Delivery newDelivery)
 	{
 		DeliveryDao deldao = new DeliveryDaoImpl();
 		deldao.save(newDelivery);
-		//deliveries.add(newDelivery);
-	}
-	
-	public Iterator<Store> storeIterator()
-	{
-		return stores.iterator();
-	}
-	
-	public Iterator<Customer> customerIterator()
-	{
-		return customers.iterator();
-	}
-	
-	public Iterator<Item> itemIterator()
-	{
-		return items.values().iterator();
-	}
-	
-	public Iterator<Delivery> deliveryIterator()
-	{
-		return deliveries.iterator();
-	}
-	
-	public int nextCustomerId()
-	{
-		return customers.size();
-	}
-	
-	public int nextStoreId()
-	{
-		return stores.size();
 	}
 	
 	public Store getStore(int id)
 	{
-		for(int i = 0; i < stores.size(); i++)
-		{
-			if(stores.get(i).getStoreID() == id)
-				return stores.get(i);
-		}
-		throw new IndexOutOfBoundsException();
+		StoreDao storedao = new StoreDaoImpl();
 	}
 	
 	public Customer getCustomer(int id)

@@ -57,11 +57,19 @@ public class MainAppWindow
 	
 	private StartDayCard startDayCard;
 	private EndDayCard endDayCard;
+	
+	private static SessionFactory factory;
+	
+	public static SessionFactory getSessionFactory()
+	{
+		return factory;
+	}
+	
 	public static void main(String[] args) 
 	{
 		Configuration configuration = new Configuration();
         configuration.configure(new File("hibernate.cfg.xml"));
-        SessionFactory factory = configuration.buildSessionFactory();
+        factory = configuration.buildSessionFactory();
         
         // set the singleton do all the dao objects can have easy access to it
         SessionFactorySingleton.setSessionFactory(factory);
