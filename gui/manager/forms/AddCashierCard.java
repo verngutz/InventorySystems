@@ -4,6 +4,8 @@ import gui.Card;
 
 import java.awt.Container;
 
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -25,6 +27,7 @@ public class AddCashierCard
 	private Container con;
 	
 	private JTextField textField;
+	private JTextField textField_1;
 	
 	public JPanel getCard(Container con)
 	{
@@ -68,6 +71,13 @@ public class AddCashierCard
 		addcashier.add(textField, "4, 2, left, default");
 		textField.setColumns(10);
 		
+		JLabel lblCashierIndex = new JLabel("Cashier ID:");
+		addcashier.add(lblCashierIndex, "2, 4, right, default");
+		
+		textField_1 = new JTextField();
+		addcashier.add(textField_1, "4, 4, left, default");
+		textField_1.setColumns(10);
+		
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addMouseListener(new MouseAdapter() 
 		{
@@ -94,7 +104,22 @@ public class AddCashierCard
 					JOptionPane.showMessageDialog(addcashier, "Store not found.");
 					return;
 				}
-				s.addCashier();
+				long cashierindex = 0;
+				try
+				{
+					cashierindex = Long.parseLong(textField_1.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(addcashier, "Specified Cashier ID is in an improper format.");
+					return;
+				}
+				if(s.getCashier(cashierindex) != null)
+				{
+					JOptionPane.showMessageDialog(addcashier, "Store " + storeId + " already has a Cashier " + cashierindex + ". Please use another Cashier ID.");
+					return;
+				}
+				s.addCashier((long)cashierindex);
 				JOptionPane.showMessageDialog(addcashier, "Cashier successfully added. Store " + storeId + " now has " + s.getNumCashiers() + " cashier(s).");
 				returnToPreviousScreen();
 			}
@@ -116,6 +141,7 @@ public class AddCashierCard
 	public void resetFields()
 	{
 		textField.setText("");
+		textField_1.setText("");
 	}
 	
 	public void returnToPreviousScreen()

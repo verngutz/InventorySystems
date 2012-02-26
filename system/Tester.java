@@ -127,8 +127,11 @@ public class Tester
 								System.out.println("Enter Store Id:");
 								id = in.nextInt();
 								in.nextLine();
+								System.out.println("Enter Cashier Id:");
+								long cashierid = in.nextLong();
+								in.nextLine();
 								Store store = SystemBox.getSystem().getStore(id);
-								store.addCashier();
+								store.addCashier(cashierid);
 								System.out.println("Cashier successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -136,8 +139,10 @@ public class Tester
 								System.out.println("Enter Store Id:");
 								id = in.nextInt();
 								in.nextLine();
+								System.out.println("Enter Cashier Id:");
+								cashierid = in.nextLong();
 								store = SystemBox.getSystem().getStore(id);
-								store.removeCashier();
+								store.removeCashier(cashierid);
 								System.out.println("Cashier successfully removed! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -161,7 +166,7 @@ public class Tester
 							int storeid = in.nextInt();
 							Store store = SystemBox.getSystem().getStore(storeid);
 							System.out.println("Enter cashier index");
-							int cashierIndex = in.nextInt();
+							long cashierIndex = in.nextLong();
 							Cashier cashier = store.getCashier(cashierIndex);
 							cashier.startDay();
 							System.out.println("Welcome!");
@@ -363,6 +368,7 @@ public class Tester
 					}
 					break;
 				case 6:
+					System.out.println("Bye");
 					break out;
 			}
 		}

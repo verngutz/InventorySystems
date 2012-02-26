@@ -69,7 +69,7 @@ public class StartDayCard
 		startday.add(textField, "4, 2, left, default");
 		textField.setColumns(10);
 		
-		JLabel lblCashierIndex = new JLabel("Cashier Index:");
+		JLabel lblCashierIndex = new JLabel("Cashier ID:");
 		startday.add(lblCashierIndex, "2, 4, right, default");
 		
 		textField_1 = new JTextField();
@@ -102,14 +102,14 @@ public class StartDayCard
 					JOptionPane.showMessageDialog(startday, "Store not found.");
 					return;
 				}
-				int cashierindex = 0;
+				long cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField_1.getText());
+					cashierindex = Long.parseLong(textField_1.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(startday, "Specified Cashier Index is in an improper format.");
+					JOptionPane.showMessageDialog(startday, "Specified Cashier ID is in an improper format.");
 					return;
 				}
 				Cashier c = null;

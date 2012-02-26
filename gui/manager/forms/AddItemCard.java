@@ -144,6 +144,28 @@ public class AddItemCard
 					JOptionPane.showMessageDialog(panel, "An item with the specified Item Code already exists.");
 					return;
 				}
+				if(textField_1.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Item Name specified.");
+					return;
+				}
+				if(textField_2.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Item Category specified.");
+					return;
+				}
+
+				if(textField_3.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Unit Name specified.");
+					return;
+				}
+				
+				if(textField_4.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(panel, "No Unit Price specified.");
+					return;
+				}
 				double price = 0;
 				try
 				{

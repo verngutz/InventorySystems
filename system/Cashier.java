@@ -7,7 +7,7 @@ import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class Cashier 
 {
-
+	private Long index;
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
 	private double cash;
@@ -15,15 +15,17 @@ public class Cashier
 	private boolean online;
 	private double rawCashDue;
 	
-	public Cashier(Store store)
+	public Cashier(Store store, Long index)
 	{
 		this.store = store;
+		this.index = index;
 		online = false;
 	}
 	
-	public Cashier(Store store, double cash, Transaction currentTransaction, boolean online)
+	public Cashier(Store store, Long index, double cash, Transaction currentTransaction, boolean online)
 	{
 		this.store = store;
+		this.index = index;
 		this.cash = cash;
 		this.currentTransaction = currentTransaction;
 		this.online = online;
@@ -32,6 +34,11 @@ public class Cashier
 	public Store getStore()
 	{
 		return store;
+	}
+	
+	public Long getIndex()
+	{
+		return index;
 	}
 	
 	public boolean isOnline()

@@ -87,15 +87,23 @@ public class Store implements Cloneable
 		cashiers.add(toAdd);
 	}
 	
-	public void addCashier()
+	public void addCashier(Long cashierID)
 	{
-		cashiers.add(new Cashier(this));
+		cashiers.add(new Cashier(this, cashierID));
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
-	public void removeCashier()
+	public void removeCashier(Long cashierID)
 	{
-		cashiers.remove(cashiers.size() - 1);
+		for(int i = 0; i < cashiers.size(); i++)
+		{
+			if(cashiers.get(i).getIndex().equals(cashierID))
+			{
+				cashiers.remove(i);
+				return;
+			}
+		}
+		throw new IllegalArgumentException();
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
@@ -114,9 +122,12 @@ public class Store implements Cloneable
 		return cashiers.iterator();
 	}
 	
-	public Cashier getCashier(int cashierIndex) 
+	public Cashier getCashier(Long cashierIndex) 
 	{
-		return cashiers.get(cashierIndex);
+		for(int i = 0; i < cashiers.size(); i++)
+			if(cashiers.get(i).getIndex().equals(cashierIndex))
+				return cashiers.get(i);
+		return null;
 	}
 	
 	public double giveCashToCashier()
@@ -172,7 +183,7 @@ public class Store implements Cloneable
 		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, currDelivery == null ? null : (Delivery)currDelivery.clone());
 		for(Cashier c : cashiers)
 		{
-			s.addCashier(new Cashier(s, c.getCash(), c.getCurrentTransaction(), c.isOnline()));
+			s.addCashier(new Cashier(s, c.getIndex(), c.getCash(), c.getCurrentTransaction(), c.isOnline()));
 		}
 		return s;
 	}

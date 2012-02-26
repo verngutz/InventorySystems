@@ -78,6 +78,6 @@ public class Transaction implements Cloneable
 			itemsSoldCopy.add(new TransactionItem((Item)i.getItem().clone(), i.getQuantity(), i.getPrice()));
 		}
 		Store s = (Store)store.clone();
-		return new Transaction(s, new Cashier(s, cashier.getCash(), cashier.getCurrentTransaction(), cashier.isOnline()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
+		return new Transaction(s, new Cashier(s, cashier.getIndex(), cashier.getCash(), cashier.getCurrentTransaction(), cashier.isOnline()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
 	}
 }
