@@ -164,12 +164,19 @@ public class RestockCard2
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				Delivery d = store.endDeliveryBatch();
-				SystemBox.getSystem().addDelivery(d);
-				JOptionPane.showMessageDialog(restockpane, "Delivery ended. The total amount due is " + d.getTotalPrice() + ".");
-				resetFields();
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MANAGER.getLabel());
+				try
+				{
+					Delivery d = store.endDeliveryBatch();
+					SystemBox.getSystem().addDelivery(d);
+					JOptionPane.showMessageDialog(restockpane, "Delivery ended. The total amount due is " + d.getTotalPrice() + ".");
+					resetFields();
+					CardLayout cl = (CardLayout) con.getLayout();
+					cl.show(con, Card.MANAGER.getLabel());
+				}
+				catch(IllegalStateException ise)
+				{
+					JOptionPane.showMessageDialog(restockpane, ise.getMessage());
+				}
 			}
 		});
 		

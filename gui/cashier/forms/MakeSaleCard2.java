@@ -187,13 +187,18 @@ public class MakeSaleCard2 {
 					JOptionPane.showMessageDialog(makesale, "Specified Quantity is in an improper format.");
 					return;
 				}
+				if(quantity <= 0)
+				{
+					JOptionPane.showMessageDialog(makesale, "Specified Quantity must be greater than 0.");
+					return;
+				}
 				Item toSell = SystemBox.getSystem().getItem(textField.getText());
 				cashier.sell(toSell, quantity);
 				double added = quantity * toSell.getUnitPrice();
 				
 				textField.setText("");
 				textField_1.setText("");
-				//textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
+				textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
 				
 				JTextField tempQuantity = new JTextField();
 				JTextField tempItem = new JTextField();
@@ -269,7 +274,7 @@ public class MakeSaleCard2 {
 	{
 		textField.setText("");
 		textField_1.setText("");
-		textField_2.setText("");
+		textField_2.setText("0.0");
 		
 		for(JTextField j : transactionDetails)
 		{

@@ -64,6 +64,10 @@ public class Store implements Cloneable
 		{
 			throw new IllegalStateException("No active delivery batch.");
 		}
+		if(currDelivery.getTotalPrice() > totalCash)
+		{
+			throw new IllegalStateException("Specified store does not have enough store balance to pay for this restock operation.");
+		}
 		Iterator<TransactionItem> iterator = currDelivery.itemIterator();
 		while(iterator.hasNext())
 		{
@@ -87,15 +91,23 @@ public class Store implements Cloneable
 		cashiers.add(toAdd);
 	}
 	
-	public void addCashier()
+	public void addCashier(Long cashierID)
 	{
-		cashiers.add(new Cashier(this));
+		cashiers.add(new Cashier(this, cashierID));
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
-	public void removeCashier()
+	public void removeCashier(Long cashierID)
 	{
-		cashiers.remove(cashiers.size() - 1);
+		for(int i = 0; i < cashiers.size(); i++)
+		{
+			if(cashiers.get(i).getIndex().equals(cashierID))
+			{
+				cashiers.remove(i);
+				return;
+			}
+		}
+		throw new IllegalArgumentException();
 		//cashPerCashier = totalCash / cashiers.size();
 	}
 	
@@ -114,13 +126,18 @@ public class Store implements Cloneable
 		return cashiers.iterator();
 	}
 	
-	public Cashier getCashier(int cashierIndex) 
+	public Cashier getCashier(Long cashierIndex) 
 	{
-		return cashiers.get(cashierIndex);
+		for(int i = 0; i < cashiers.size(); i++)
+			if(cashiers.get(i).getIndex().equals(cashierIndex))
+				return cashiers.get(i);
+		return null;
 	}
 	
 	public double giveCashToCashier()
 	{
+		if(totalCash < cashPerCashier)
+			throw new IllegalStateException("Specified store does not have enough store-wide balance to begin another cashier's operations.");
 		totalCash -= cashPerCashier;
 		return cashPerCashier;
 	}
@@ -137,6 +154,8 @@ public class Store implements Cloneable
 	
 	public void deductFromStock(Item item, int quantity)
 	{
+		if(inventory.get(item) < quantity)
+			throw new IllegalArgumentException("There aren't enough items with item code " + item.getItemCode() + " available in stock for this transaction.");
 		inventory.put(item, inventory.get(item)-quantity);
 	}
 	
@@ -170,7 +189,7 @@ public class Store implements Cloneable
 		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, currDelivery == null ? null : (Delivery)currDelivery.clone());
 		for(Cashier c : cashiers)
 		{
-			s.addCashier(new Cashier(s, c.getCash(), c.getCurrentTransaction(), c.isOnline()));
+			s.addCashier(new Cashier(s, c.getIndex(), c.getCash(), c.getCurrentTransaction(), c.isOnline()));
 		}
 		return s;
 	}

@@ -18,6 +18,14 @@ public class InventorySystems {
 	
 	public void addStore(Store newStore)
 	{
+		for(int i = 0; i < stores.size(); i++)
+		{
+			if(stores.get(i).getStoreID() == newStore.getStoreID())
+			{
+				stores.set(i, newStore);
+				return;
+			}
+		}
 		stores.add(newStore);
 	}
 	
@@ -68,7 +76,12 @@ public class InventorySystems {
 	
 	public Store getStore(int id)
 	{
-		return stores.get(id);
+		for(int i = 0; i < stores.size(); i++)
+		{
+			if(stores.get(i).getStoreID() == id)
+				return stores.get(i);
+		}
+		throw new IndexOutOfBoundsException();
 	}
 	
 	public Customer getCustomer(int id)

@@ -103,22 +103,18 @@ public class EndDayCard
 					JOptionPane.showMessageDialog(endday, "Store not found.");
 					return;
 				}
-				int cashierindex = 0;
+				long cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField_1.getText());
+					cashierindex = Long.parseLong(textField_1.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(endday, "Specified Cashier Index is in an improper format.");
+					JOptionPane.showMessageDialog(endday, "Specified Cashier ID is in an improper format.");
 					return;
 				}
-				Cashier c = null;
-				try
-				{
-					c = s.getCashier(cashierindex);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Cashier c = s.getCashier(cashierindex);
+				if(c == null)
 				{
 					JOptionPane.showMessageDialog(endday, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
