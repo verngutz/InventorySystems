@@ -1,10 +1,8 @@
 package system;
 import java.util.*;
 
-import system.dao.CustomerDao;
-import system.dao.ItemDao;
-import system.dao.impl.CustomerDaoImpl;
-import system.dao.impl.ItemDaoImpl;
+import system.dao.*;
+import system.dao.impl.*;
 
 
 public class InventorySystems {
@@ -46,12 +44,14 @@ public class InventorySystems {
 		ItemDao itedao = new ItemDaoImpl();
 		itedao.save(newItem);
 		
-		items.put(newItem.getItemCode(), newItem);
+		//items.put(newItem.getItemCode(), newItem);
 	}
 	
 	public void addDelivery(Delivery newDelivery)
 	{
-		deliveries.add(newDelivery);
+		DeliveryDao deldao = new DeliveryDaoImpl();
+		deldao.save(newDelivery);
+		//deliveries.add(newDelivery);
 	}
 	
 	public Iterator<Store> storeIterator()
