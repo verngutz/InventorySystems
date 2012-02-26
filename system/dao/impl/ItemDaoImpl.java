@@ -92,6 +92,20 @@ public class ItemDaoImpl implements ItemDao {
         }
 	}
 
+	public Item get(String itemCode){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (Item) session.get(Item.class, itemCode);
+
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+	
 	public List<Item> getItems()
     {
         Session session = null;
