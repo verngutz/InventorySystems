@@ -206,7 +206,7 @@ public class Store implements Cloneable
 		Store s = new Store(getStoreID(), totalCash, inventoryCopy, cashPerCashier, transactionsCopy, currDelivery == null ? null : (Delivery)currDelivery.clone());
 		for(Cashier c : cashiers)
 		{
-			s.addCashier(new Cashier(s, c.getIndex(), c.getCash(), c.getCurrentTransaction(), c.isOnline()));
+			s.addCashier(new Cashier(s, c.getIndex(), c.getCash(), c.getCurrentTransaction(), c.getOnline()));
 		}
 		return s;
 	}

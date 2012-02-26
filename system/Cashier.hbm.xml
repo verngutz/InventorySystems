@@ -18,6 +18,7 @@
 			 
 <property name="cash" type="double" column="CASH"/>
 
+<property name="online" type="boolean" column="ONLINE_STATUS"/>
 </class>
 
 </hibernate-mapping>

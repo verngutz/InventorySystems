@@ -120,7 +120,7 @@ public class RemoveCashierCard
 					JOptionPane.showMessageDialog(removecashier, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
 				}
-				if(c.isOnline())
+				if(c.getOnline())
 				{
 					JOptionPane.showMessageDialog(removecashier, "Store " + storeId + " Cashier " + cashierindex + " is still online and cannot be removed.");
 					return;

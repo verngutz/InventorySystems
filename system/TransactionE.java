@@ -79,7 +79,7 @@ public class TransactionE implements Cloneable
 			itemsSoldCopy.add(new TransactionItem((Item)i.getItem().clone(), i.getQuantity(), i.getPrice()));
 		}
 		Store s = (Store)store.clone();
-		return new TransactionE(s, new Cashier(s, cashier.getIndex(), cashier.getCash(), cashier.getCurrentTransaction(), cashier.isOnline()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
+		return new TransactionE(s, new Cashier(s, cashier.getIndex(), cashier.getCash(), cashier.getCurrentTransaction(), cashier.getOnline()), itemsSoldCopy, dateTime, (Customer)customer.clone(), pointsUsed, revenue);
 	}
 
 	public int getId() {

@@ -1,6 +1,8 @@
 package system;
 import java.util.*;
 
+import system.dao.impl.CashierDaoImpl;
+
 
 public class Cashier 
 {
@@ -43,7 +45,7 @@ public class Cashier
 		return index;
 	}
 	
-	public boolean isOnline()
+	public boolean getOnline()
 	{
 		return online;
 	}
@@ -57,6 +59,8 @@ public class Cashier
 	{
 		this.cash = store.giveCashToCashier();
 		online = true;
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(this);
 	}
 	
 	public TransactionE getCurrentTransaction()
@@ -136,6 +140,10 @@ public class Cashier
 		double toReturn = cash;
 		store.addCash(cash);
 		cash = 0;
+
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(this);
+		
 		return toReturn;
 	}
 
@@ -150,6 +158,9 @@ public class Cashier
 	public void setCash(double cash) {
 		this.cash = cash;
 	}
-	
+
+	public void setOnline(boolean online) {
+		this.online = online;
+	}
 }
 

@@ -1,5 +1,7 @@
 package system;
 
+import system.dao.impl.CustomerDaoImpl;
+
 public class Customer implements Cloneable{
 	private String firstName;
 	private String lastName;
@@ -41,11 +43,6 @@ public class Customer implements Cloneable{
 	public void addPointsEarned(int points)
 	{
 		ptsEarned += points;
-	}
-	
-	public int getPointsRedeemed()
-	{
-		return ptsRedeemed;
 	}
 	
 	public void addPointsRedeemed(int points)

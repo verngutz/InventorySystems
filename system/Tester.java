@@ -285,7 +285,7 @@ public class Tester
 						{
 							System.out.println("Customer: "+current.getLastName()+", "+current.getFirstName());
 							System.out.println("Points Earned: "+current.getPtsEarned());
-							System.out.println("Points Redeemed: "+current.getPointsRedeemed());
+							System.out.println("Points Redeemed: "+current.getPtsRedeemed());
 							System.out.println("Usable Points: "+current.getUsablePoints());
 						}
 						break a;
