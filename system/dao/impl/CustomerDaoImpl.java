@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.CustomerDao;
+import system.Cashier;
 import system.Customer;
 
 public class CustomerDaoImpl implements CustomerDao {
@@ -87,5 +88,18 @@ public class CustomerDaoImpl implements CustomerDao {
             session.close();
         }
 	}
+	
+	public Customer get(int id){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (Customer) session.get(Customer.class, id);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
 }

@@ -1,6 +1,9 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -87,5 +90,35 @@ public class TransactionDaoImpl implements TransactionDao {
             session.close();
         }
 	}
+	
+	public TransactionE get(int id){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (TransactionE) session.get(TransactionE.class, id);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+	
+	public List<TransactionE> getTransactions()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from TransactionE");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }

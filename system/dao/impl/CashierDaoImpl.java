@@ -1,8 +1,12 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 
 import system.dao.CashierDao;
 import system.Cashier;
@@ -87,5 +91,35 @@ public class CashierDaoImpl implements CashierDao {
             session.close();
         }
 	}
+	
+	public Cashier get(int index){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (Cashier) session.get(Cashier.class, index);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+	
+	public List<Cashier> getCashiers()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Cashier");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }

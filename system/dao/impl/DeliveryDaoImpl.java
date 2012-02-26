@@ -1,10 +1,14 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.DeliveryDao;
+import system.Cashier;
 import system.Delivery;
 
 public class DeliveryDaoImpl implements DeliveryDao {
@@ -87,5 +91,34 @@ public class DeliveryDaoImpl implements DeliveryDao {
             session.close();
         }
 	}
+	
+	public Delivery get(int id){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (Delivery) session.get(Delivery.class, id);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+	public List<Delivery> getDeliveries()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Delivery");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }

@@ -36,7 +36,7 @@ public class InventorySystems {
 	{
 		CustomerDao cusdao = new CustomerDaoImpl();
 		cusdao.save(newCustomer);
-		customers.add(newCustomer);
+		//customers.add(newCustomer);
 	}
 	
 	public void addItem(Item newItem)
