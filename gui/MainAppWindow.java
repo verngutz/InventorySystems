@@ -12,12 +12,24 @@ import java.awt.EventQueue;
 
 import javax.swing.*;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import java.awt.event.*;
 import com.jgoodies.forms.layout.*;
 import java.awt.*;
+import java.io.File;
+
 import com.jgoodies.forms.factories.FormFactory;
 
+import system.Customer;
+import system.Item;
 import system.Tester;
+import system.dao.CustomerDao;
+import system.dao.ItemDao;
+import system.dao.impl.CustomerDaoImpl;
+import system.dao.impl.ItemDaoImpl;
+import system.dao.impl.SessionFactorySingleton;
 
 public class MainAppWindow 
 {
@@ -47,6 +59,13 @@ public class MainAppWindow
 	private EndDayCard endDayCard;
 	public static void main(String[] args) 
 	{
+		Configuration configuration = new Configuration();
+        configuration.configure(new File("hibernate.cfg.xml"));
+        SessionFactory factory = configuration.buildSessionFactory();
+        
+        // set the singleton do all the dao objects can have easy access to it
+        SessionFactorySingleton.setSessionFactory(factory);
+        
 		args = new String[1];
 		args[0] = "samplein.txt";
 		if(args.length > 0)
@@ -69,6 +88,8 @@ public class MainAppWindow
 				}
 			}
 		});
+
+        SessionFactorySingleton.getSessionFactory().close();
 	}
 	
 	public static MainAppWindow getMainAppWindow()
