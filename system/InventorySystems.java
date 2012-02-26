@@ -2,7 +2,9 @@ package system;
 import java.util.*;
 
 import system.dao.CustomerDao;
+import system.dao.ItemDao;
 import system.dao.impl.CustomerDaoImpl;
+import system.dao.impl.ItemDaoImpl;
 
 
 public class InventorySystems {
@@ -41,6 +43,9 @@ public class InventorySystems {
 	
 	public void addItem(Item newItem)
 	{
+		ItemDao itedao = new ItemDaoImpl();
+		itedao.save(newItem);
+		
 		items.put(newItem.getItemCode(), newItem);
 	}
 	

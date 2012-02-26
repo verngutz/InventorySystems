@@ -233,7 +233,7 @@ public class RestockCard2
 				tempTotalPrice.setEditable(false);
 				
 				tempQuantity.setText(quantity + "");
-				tempItem.setText(accepted.getItemName() + " at " + price + " each");
+				tempItem.setText(accepted.getItemName() + " at " + price + " per " + accepted.getUnitName());
 				tempTotalPrice.setText(quantity * price + "");
 				
 				panel_1.add(tempQuantity, "2, " + transactionDrawingPosition + ", fill, default");

@@ -37,6 +37,14 @@ public class Store implements Cloneable
 		this.currDelivery = currDelivery;
 	}
 	
+	public int checkInventory(Item i)
+	{
+		if(inventory.containsKey(i))
+			return inventory.get(i);
+		else
+			return 0;
+	}
+	
 	public double getCashPerCashier()
 	{
 		return cashPerCashier;
