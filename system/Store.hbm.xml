@@ -7,7 +7,7 @@
 <class name="Store" table="STORE">
 
 <id name="id" column="STORE_ID">
-	<generator class="native"/>
+	<generator class="assigned"/>
 </id>
 
 <property name="totalCash" type="double" column="TOTAL_CASH"/>
@@ -30,7 +30,7 @@
 	<one-to-many class="TransactionE"/>
 </list>
 
-<map name="inventory" table="STORE_INVENTORY" cascade="all">
+<map name="inventory" table="STORE_INVENTORY" cascade="all" lazy="false">
 	<key column="STORE_ID"/>
 	
 	<index-many-to-many column="ITEM_CODE" class="Item"/>

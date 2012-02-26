@@ -10,9 +10,10 @@
     <key-property name="index" type="integer" column="INDEX"/>
     <key-many-to-one name="store" cascade="all" lazy="false" class="Store" column="STORE_ID"/>
 </composite-id>
-			 
+	 
 <property name="cash" type="double" column="CASH"/>
 
+<property name="online" type="boolean" column="ONLINE_STATUS"/>
 </class>
 
 </hibernate-mapping>

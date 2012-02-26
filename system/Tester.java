@@ -23,8 +23,7 @@ public class Tester
 			System.out.println("2 = Cashier");
 			System.out.println("3 = Customer");
 			System.out.println("4 = System Admin");
-			System.out.println("5 = Debug Mode");
-			System.out.println("6 = Quit");
+			System.out.println("5 = Quit");
 			System.out.println("==========================");
 			int user = in.nextInt();
 			switch(user)
@@ -108,7 +107,15 @@ public class Tester
 								System.out.println("Enter Item Unit:");
 								String itemUnit = in.nextLine();
 								System.out.println("Enter Unit Price:");
-								double unitPrice = in.nextDouble();
+								double unitPrice = 0;
+								try
+								{
+									unitPrice = in.nextDouble();
+								}
+								catch(InputMismatchException ime)
+								{
+									System.out.println(itemName + " " + itemCategory + " " + itemUnit + " " + unitPrice);
+								}
 								SystemBox.getSystem().addItem(new Item(itemCode, itemName, itemCategory, itemUnit, unitPrice));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();
@@ -188,7 +195,7 @@ public class Tester
 								if(itemid.equals("0")) break a;
 								Item currentItem = null;
 								Item tempItem;
-								Iterator<Item> itemsList = SystemBox.getSystem().itemIterator();
+								Iterator<Item> itemsList = SystemBox.getSystem().getItemList().iterator();
 								while(itemsList.hasNext()){
 									tempItem = itemsList.next();
 									if(tempItem.getItemCode().equals(itemid)){
@@ -271,18 +278,16 @@ public class Tester
 						System.out.println("Enter customer id");
 						int id = in.nextInt();
 						System.out.println("Fetching your info...");
-						Customer current = null;
-						Customer temp;
-						Iterator<Customer> customers = SystemBox.getSystem().customerIterator();
-						while(customers.hasNext()){
-							temp = customers.next();
-							if(temp.getId()==id)
-								current = temp;
+						Customer current = SystemBox.getSystem().getCustomer(id);
+						if(current == null)
+							System.out.println("Customer not found.");
+						else
+						{
+							System.out.println("Customer: "+current.getLastName()+", "+current.getFirstName());
+							System.out.println("Points Earned: "+current.getPtsEarned());
+							System.out.println("Points Redeemed: "+current.getPtsRedeemed());
+							System.out.println("Usable Points: "+current.getUsablePoints());
 						}
-						System.out.println("Customer: "+current.getLastName()+", "+current.getFirstName());
-						System.out.println("Points Earned: "+current.getPtsEarned());
-						System.out.println("Points Redeemed: "+current.getPointsRedeemed());
-						System.out.println("Usable Points: "+current.getUsablePoints());
 						break a;
 					}
 					break;
@@ -296,13 +301,14 @@ public class Tester
 					int choice = in.nextInt();
 					switch(choice){
 					case 1:
+						System.out.println("Enter store id.");
+						int id = in.nextInt();
 						System.out.println("Enter starting cash.");
 						double cash = in.nextDouble();
-						int tempid = SystemBox.getSystem().nextStoreId();
 						System.out.println("Enter cash per cashier");
 						double cpc = in.nextDouble();
-						SystemBox.getSystem().addStore(new Store(tempid, cash, cpc));
-						System.out.println("Store added. StoreID: "+tempid);
+						SystemBox.getSystem().addStore(new Store(id, cash, cpc));
+						System.out.println("Store added. StoreID: "+id);
 						break;
 					case 2:
 						SystemBox.backup();
@@ -322,52 +328,6 @@ public class Tester
 					}
 					break;
 				case 5:
-					System.out.println("1 = View Customer List");
-					System.out.println("2 = View Inventory List");
-					System.out.println("3 = View Store List");
-					choice = in.nextInt();
-					switch(choice){
-					case 1:
-						Iterator<Customer> cust = SystemBox.getSystem().customerIterator();
-						while(cust.hasNext()){
-							Customer curr = cust.next();
-							System.out.println(curr.getId()+": "+curr.getLastName()+", "+curr.getFirstName()+
-							" PTS EARNED: "+curr.getPtsEarned()+" REDEEMED PTS: "+curr.getPointsRedeemed()+" USABLE PTS: "+curr.getUsablePoints());
-							
-						}
-						break;
-					case 2:
-						Iterator<Item> items = SystemBox.getSystem().itemIterator();
-						while(items.hasNext()){
-							Item curr = items.next();
-							System.out.println(curr.getItemCode()+": "+curr.getItemCategory()+" "+curr.getItemName()+" "+curr.getUnitName()+" "+curr.getUnitPrice());
-						}
-						break;
-						
-					case 3:
-						Iterator<Store> stores = SystemBox.getSystem().storeIterator();
-						while(stores.hasNext()){
-							Store store = stores.next();
-							System.out.println("Store ID: "+store.getStoreID()+" Cash: "+store.getTotalCash());
-							Iterator<Cashier> cashiers = store.cashierIterator();
-							int counter=0;
-							while(cashiers.hasNext()){
-								System.out.println("Cashier index: "+counter+" Cash: "+cashiers.next().getCash());
-								counter++;
-							}
-							Iterator<Map.Entry<Item, Integer>> inventory = store.inventoryIterator();
-							System.out.println("Drawing Inventory table...");
-							while(inventory.hasNext()){
-								Map.Entry<Item, Integer> curr = inventory.next();
-								System.out.println("Item: "+curr.getKey().getItemCode()+" "+curr.getKey().getItemName()+" Quantity left: "+curr.getValue());
-							}
-						}
-						break;
-					default:
-						break;
-					}
-					break;
-				case 6:
 					System.out.println("Bye");
 					break out;
 			}

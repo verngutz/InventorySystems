@@ -196,7 +196,7 @@ public class ItemSummaryCard {
 				
 				int y = 4;
 				
-				Iterator<Store> stores = SystemBox.getSystem().storeIterator();
+				Iterator<Store> stores = SystemBox.getSystem().getStoreList().iterator();
 				while(stores.hasNext())
 				{
 					Store s = stores.next();

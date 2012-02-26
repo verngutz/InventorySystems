@@ -1,9 +1,16 @@
 package system;
 import java.util.*;
 
+import system.dao.impl.CashierDaoImpl;
+
 
 public class Cashier 
 {
+	public Cashier() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	private int index;
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
@@ -52,6 +59,8 @@ public class Cashier
 	{
 		this.cash = store.giveCashToCashier();
 		online = true;
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(this);
 	}
 	
 	public TransactionE getCurrentTransaction()
@@ -131,6 +140,10 @@ public class Cashier
 		double toReturn = cash;
 		store.addCash(cash);
 		cash = 0;
+
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(this);
+		
 		return toReturn;
 	}
 
@@ -149,6 +162,4 @@ public class Cashier
 	public void setOnline(boolean online) {
 		this.online = online;
 	}
-	
 }
-

@@ -1,12 +1,27 @@
 package system;
 import java.util.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+
+import system.dao.impl.CashierDaoImpl;
 
 
 public class Store implements Cloneable
 {
+	public Store(int id, Map<Item, Integer> inventory, double totalCash,
+			double cashPerCashier, List<Cashier> cashiers,
+			List<TransactionE> transactions) {
+		super();
+		this.id = id;
+		this.inventory = inventory;
+		this.totalCash = totalCash;
+		this.cashPerCashier = cashPerCashier;
+		this.cashiers = cashiers;
+		this.transactions = transactions;
+	}
+
+	public Store() {
+		super();
+	}
+
 	int id;
 	Map<Item, Integer> inventory;
 	double totalCash;
@@ -96,27 +111,23 @@ public class Store implements Cloneable
 	
 	public void addCashier(Cashier toAdd)
 	{
-		cashiers.add(toAdd);
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(toAdd);
 	}
 	
 	public void addCashier(int cashierID)
 	{
-		cashiers.add(new Cashier(this, cashierID));
-		//cashPerCashier = totalCash / cashiers.size();
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		cashdao.save(new Cashier(this, cashierID));
 	}
 	
 	public void removeCashier(int cashierID)
 	{
-		for(int i = 0; i < cashiers.size(); i++)
-		{
-			if(cashiers.get(i).getIndex()==cashierID)
-			{
-				cashiers.remove(i);
-				return;
-			}
-		}
-		throw new IllegalArgumentException();
-		//cashPerCashier = totalCash / cashiers.size();
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		Cashier c = cashdao.get(cashierID);
+		if(c == null)
+			throw new IllegalArgumentException();
+		cashdao.delete(cashierID);
 	}
 	
 	public int getNumCashiers()
@@ -136,10 +147,8 @@ public class Store implements Cloneable
 	
 	public Cashier getCashier(int cashierIndex) 
 	{
-		for(int i = 0; i < cashiers.size(); i++)
-			if(cashiers.get(i).getIndex()==cashierIndex)
-				return cashiers.get(i);
-		return null;
+		CashierDaoImpl cashdao = new CashierDaoImpl();
+		return cashdao.get(cashierIndex);
 	}
 	
 	public double giveCashToCashier()
