@@ -15,8 +15,8 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-import system.SystemBox;
 import system.Item;
+import system.SystemBox;
 
 public class ChangePriceCard 
 {

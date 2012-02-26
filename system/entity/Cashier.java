@@ -1,13 +1,15 @@
-package system;
+package system.entity;
+
 import java.util.*;
 
 public class Cashier 
 {
 
 	public static final double POINTS_PER_PESO = 500;
+	private int id;
 	private Store store;
 	private double cash;
-	private Transaction currentTransaction;
+	private TransactionE currentTransaction;
 	private boolean online;
 	private double rawCashDue;
 	
@@ -17,7 +19,7 @@ public class Cashier
 		online = false;
 	}
 	
-	public Cashier(Store store, double cash, Transaction currentTransaction, boolean online)
+	public Cashier(Store store, double cash, TransactionE currentTransaction, boolean online)
 	{
 		this.store = store;
 		this.cash = cash;
@@ -25,11 +27,31 @@ public class Cashier
 		this.online = online;
 	}
 	
-	public Store getStore()
-	{
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Store getStore() {
 		return store;
 	}
-	
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
+
+	public double getCash() {
+		return cash;
+	}
+
+	public void setCash(double cash) {
+		this.cash = cash;
+	}
+
+
 	public boolean isOnline()
 	{
 		return online;
@@ -46,19 +68,18 @@ public class Cashier
 		this.cash = store.giveCashToCashier();
 	}
 	
-	public Transaction getCurrentTransaction()
+	public TransactionE getCurrentTransaction()
 	{
 		return currentTransaction;
 	}
 	
-	public double getCash(){ return cash; }
 	public void startTransaction()
 	{
 		if(!online)
 		{
 			throw new IllegalStateException("Cashier is not online.");
 		}
-		currentTransaction = new Transaction();
+		currentTransaction = new TransactionE();
 		rawCashDue = 0;
 	}
 	
@@ -76,7 +97,7 @@ public class Cashier
 		rawCashDue += quantity * currentItem.getUnitPrice();
 	}
 	
-	public Transaction endTransaction(Customer loyalBuyer, int pointsUsed)
+	public TransactionE endTransaction(Customer loyalBuyer, int pointsUsed)
 	{
 		if(!online)
 		{
@@ -107,7 +128,7 @@ public class Cashier
 		}
 		currentTransaction.setRevenue(cashDue);
 		cash += cashDue;
-		Transaction toReturn = currentTransaction;
+		TransactionE toReturn = currentTransaction;
 		currentTransaction = null;
 		rawCashDue = 0;
 		return toReturn;

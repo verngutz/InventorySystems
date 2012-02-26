@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="system.entity" >
+<class name="TransactionE" table="TRANSACTION">
+
+<id name="id" column="TRANSACTION_ID">
+	<generator class="native"/>
+</id>
+<many-to-one name="store"
+     		 cascade="all"
+			 column="STORE_ID"
+			 lazy="false"
+			 class="Store"/>
+			 
+<many-to-one name="cashier"
+     		 cascade="all"
+			 column="CASHIER_ID"
+			 lazy="false"
+			 class="Cashier"/>
+
+<list name="itemsSold"
+     cascade="all, delete-orphan"
+     lazy="false">
+    <key column="parentsPK" />
+    <index column="idx" />
+	<one-to-many class="TransactionItem"/>
+</list>
+
+<property name="dateTime" type="timestamp" column="DATE_TIME"/>
+
+<many-to-one name="customer"
+     		 cascade="all"
+			 column="CUSTOMER_ID"
+			 lazy="false"
+			 class="Customer"/>
+
+<property name="pointsUsed" type="long" column="POINTS_USED"/>
+
+<property name="revenue" type="double" column="REVENUE"/>
+
+</class>
+
+</hibernate-mapping>

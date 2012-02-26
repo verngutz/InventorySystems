@@ -16,9 +16,9 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-import system.SystemBox;
-import system.Customer;
 import system.Cashier;
+import system.Customer;
+import system.SystemBox;
 import system.Transaction;
 
 public class MakeSaleCard3 

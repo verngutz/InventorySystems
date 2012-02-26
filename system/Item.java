@@ -19,6 +19,10 @@ public class Item implements Cloneable{
 		this.unitPrice = unitPrice;
 	}
 	
+	public Item() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getItemCode(){ return itemCode; }
 	public String getItemName(){ return itemName; }
 	public String getItemCategory(){ return itemCategory; }

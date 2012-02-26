@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="system.entity" >
+<class name="Delivery" table="DELIVERY">
+
+<id name="id" column="DELIVERY_ID">
+	<generator class="native"/>
+</id>
+
+<many-to-one name="store"
+     		 cascade="all"
+			 column="STORE_ID"
+			 lazy="false"
+			 class="Store"/>
+			 
+<property name="dateTime" type="timestamp" column="DATE_TIME"/>
+
+<list name="items"
+     cascade="all, delete-orphan"
+     lazy="false">
+    <key column="parentsPK" />
+    <index column="idx" />
+	<one-to-many class="TransactionItem"/>
+</list>
+
+</class>
+
+</hibernate-mapping>

@@ -16,8 +16,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import system.SystemBox;
 import system.Customer;
+import system.SystemBox;
 
 public class CustomerCard
 {

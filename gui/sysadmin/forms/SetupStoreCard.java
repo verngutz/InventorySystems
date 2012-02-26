@@ -23,8 +23,8 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import system.SystemBox;
 import system.Store;
+import system.SystemBox;
 
 public class SetupStoreCard 
 {

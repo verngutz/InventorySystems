@@ -15,10 +15,10 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-import system.SystemBox;
-import system.Store;
-import system.Item;
 import system.Delivery;
+import system.Item;
+import system.Store;
+import system.SystemBox;
 
 import java.util.LinkedList;
 

@@ -14,8 +14,8 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-import system.SystemBox;
 import system.Store;
+import system.SystemBox;
 
 public class RestockCard1 
 {

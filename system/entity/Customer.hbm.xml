@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="system.entity" >
+<class name="Customer" table="CUSTOMER">
+
+<id name="id" column="CUSTOMER_ID">
+	<generator class="native"/>
+</id>
+
+<property name="firstName" type="string" column="FIRST_NAME"/>
+
+<property name="lastName" type="string" column="LAST_NAME"/>
+
+<property name="address" type="string" column="ADDRESS"/>
+
+<property name="gender" type="string" column="GENDER"/>
+
+<property name="age" type="integer" column="AGE"/>
+
+<property name="ptsEarned" type="integer" column="POINTS_EARNED"/>
+
+<property name="ptsRedeemed" type="integer" column="POINTS_REDEEMED"/>
+
+</class>
+
+</hibernate-mapping>

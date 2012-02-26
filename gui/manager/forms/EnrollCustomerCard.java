@@ -15,8 +15,8 @@ import javax.swing.*;
 import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
-import system.SystemBox;
 import system.Customer;
+import system.SystemBox;
 
 public class EnrollCustomerCard 
 {
