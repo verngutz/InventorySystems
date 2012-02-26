@@ -33,6 +33,7 @@ public class SetupStoreCard
 	
 	private JTextField textField;
 	private JTextField textField_1;
+	private JTextField textField_2;
 	
 	public JPanel getCard(Container con)
 	{
@@ -73,8 +74,13 @@ public class SetupStoreCard
 			FormFactory.DEFAULT_ROWSPEC,
 		}));
 		
-		JLabel lblNewStore = new JLabel("New Store:");
-		sysadmin_setup.add(lblNewStore, "2, 2");
+		JLabel lblNewStore = new JLabel("Store ID:");
+		lblNewStore.setHorizontalAlignment(SwingConstants.RIGHT);
+		sysadmin_setup.add(lblNewStore, "2, 2, right, default");
+		
+		textField_2 = new JTextField();
+		sysadmin_setup.add(textField_2, "4, 2, fill, default");
+		textField_2.setColumns(10);
 		
 		JLabel lblStartingCash = new JLabel("Starting Cash:");
 		lblStartingCash.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -105,7 +111,12 @@ public class SetupStoreCard
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Specified Starting Cash is in an improper format.");
+					JOptionPane.showMessageDialog(sysadmin_setup, "Specified Starting Cash is in an improper format.");
+					return;
+				}
+				if(cash < 0)
+				{
+					JOptionPane.showMessageDialog(sysadmin_setup, "Starting Cash cannot be negative.");
 					return;
 				}
 				double cashPerCashier = 0;
@@ -115,10 +126,25 @@ public class SetupStoreCard
 				}
 				catch(NumberFormatException nfe)
 				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Specified Cash per Cashier is in an improper format.");
+					JOptionPane.showMessageDialog(sysadmin_setup, "Specified Cash per Cashier is in an improper format.");
 					return;
 				}
-				int storeId = SystemBox.getSystem().nextStoreId();
+				if(cashPerCashier < 0)
+				{
+					JOptionPane.showMessageDialog(sysadmin_setup, "Cash per Cashier cannot be negative.");
+					return;
+				}
+				int storeId = 0;
+				try
+				{
+					storeId = Integer.parseInt(textField_2.getText());
+				}
+				catch(NumberFormatException nfe)
+				{
+					JOptionPane.showMessageDialog(sysadmin_setup, "Specified Store ID is in an improper format.");
+					return;
+				}
+				
 				SystemBox.getSystem().addStore(new Store(storeId, cash, cashPerCashier));
 				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Successfully set up store with ID " + storeId + ".");
 				returnToPreviousScreen();

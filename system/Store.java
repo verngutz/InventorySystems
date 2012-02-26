@@ -64,6 +64,10 @@ public class Store implements Cloneable
 		{
 			throw new IllegalStateException("No active delivery batch.");
 		}
+		if(currDelivery.getTotalPrice() > totalCash)
+		{
+			throw new IllegalStateException("Specified store does not have enough store balance to pay for this restock operation.");
+		}
 		Iterator<TransactionItem> iterator = currDelivery.itemIterator();
 		while(iterator.hasNext())
 		{
@@ -132,6 +136,8 @@ public class Store implements Cloneable
 	
 	public double giveCashToCashier()
 	{
+		if(totalCash < cashPerCashier)
+			throw new IllegalStateException("Specified store does not have enough store-wide balance to begin another cashier's operations.");
 		totalCash -= cashPerCashier;
 		return cashPerCashier;
 	}

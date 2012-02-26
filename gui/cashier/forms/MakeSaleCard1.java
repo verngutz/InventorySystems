@@ -118,12 +118,8 @@ public class MakeSaleCard1
 					JOptionPane.showMessageDialog(makesale, "Specified Cashier ID is in an improper format.");
 					return;
 				}
-				Cashier c = null;
-				try
-				{
-					c = s.getCashier(cashierindex);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Cashier c = s.getCashier(cashierindex);
+				if(c == null)
 				{
 					JOptionPane.showMessageDialog(makesale, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;

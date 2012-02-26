@@ -112,12 +112,8 @@ public class StartDayCard
 					JOptionPane.showMessageDialog(startday, "Specified Cashier ID is in an improper format.");
 					return;
 				}
-				Cashier c = null;
-				try
-				{
-					c = s.getCashier(cashierindex);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Cashier c = s.getCashier(cashierindex);
+				if(c == null)
 				{
 					JOptionPane.showMessageDialog(startday, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
@@ -127,7 +123,15 @@ public class StartDayCard
 					JOptionPane.showMessageDialog(startday, "Store " + storeId + " Cashier " + cashierindex + " is already online.");
 					return;
 				}
-				c.startDay();
+				try
+				{
+					c.startDay();
+				}
+				catch(IllegalStateException ise)
+				{
+					JOptionPane.showMessageDialog(startday, ise.getMessage());
+					return;
+				}
 				double cashGiven = s.getCashPerCashier();
 				JOptionPane.showMessageDialog(startday, "Store " + storeId + " Cashier " + cashierindex + " is now online. " + cashGiven + " was transferred from the store balance to the cashier." );
 				returnToPreviousScreen();

@@ -53,8 +53,8 @@ public class Cashier
 	
 	public void startDay()
 	{
-		online = true;
 		this.cash = store.giveCashToCashier();
+		online = true;
 	}
 	
 	public Transaction getCurrentTransaction()
