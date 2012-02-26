@@ -51,9 +51,24 @@ public class InventorySystems {
 	public boolean containsItem(String itemCode)
 	{
 		ItemDaoImpl itemdao = new ItemDaoImpl();
+		return itemdao.get(itemCode) != null;
 	}
 	
 	public Item getItem(String itemCode)
 	{
+		ItemDaoImpl itemdao = new ItemDaoImpl();
+		return itemdao.get(itemCode);
+	}
+	
+	public List<Item> getItemList()
+	{
+		ItemDaoImpl itemdao = new ItemDaoImpl();
+		return itemdao.getItems();
+	}
+	
+	public int nextCustomerId()
+	{
+		CustomerDaoImpl cusdao = new CustomerDaoImpl();
+		
 	}
 }
