@@ -69,6 +69,12 @@ public class InventorySystems {
 	public int nextCustomerId()
 	{
 		CustomerDaoImpl cusdao = new CustomerDaoImpl();
-		
+		return cusdao.getCustomers().size();
+	}
+	
+	public List<Store> getStoreList()
+	{
+		StoreDaoImpl storedao = new StoreDaoImpl();
+		return storedao.getStores();
 	}
 }

@@ -165,7 +165,7 @@ public class CustomerReportCard {
 				}
 				activeTransactions.clear();
 				comboBox.removeAllItems();
-				Iterator<Store> stores = SystemBox.getSystem().storeIterator();
+				Iterator<Store> stores = SystemBox.getSystem().getStoreList().iterator();
 				while(stores.hasNext())
 				{
 					Store s = stores.next();

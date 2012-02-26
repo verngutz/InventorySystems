@@ -4,6 +4,11 @@ import java.util.*;
 
 public class Cashier 
 {
+	public Cashier() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	private int index;
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;

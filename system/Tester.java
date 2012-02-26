@@ -107,7 +107,15 @@ public class Tester
 								System.out.println("Enter Item Unit:");
 								String itemUnit = in.nextLine();
 								System.out.println("Enter Unit Price:");
-								double unitPrice = in.nextDouble();
+								double unitPrice = 0;
+								try
+								{
+									unitPrice = in.nextDouble();
+								}
+								catch(InputMismatchException ime)
+								{
+									System.out.println(itemName + " " + itemCategory + " " + itemUnit + " " + unitPrice);
+								}
 								SystemBox.getSystem().addItem(new Item(itemCode, itemName, itemCategory, itemUnit, unitPrice));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();

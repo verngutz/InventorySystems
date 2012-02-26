@@ -7,7 +7,7 @@
 <class name="Cashier" table="CASHIER">
 
 <id name="index" column="CASHIER_INDEX">
-	<generator class="native"/>
+	<generator class="assigned"/>
 </id>
 
 <many-to-one name="store"
