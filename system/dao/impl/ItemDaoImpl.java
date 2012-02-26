@@ -1,6 +1,9 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -89,4 +92,20 @@ public class ItemDaoImpl implements ItemDao {
         }
 	}
 
+	public List<Item> getItems()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Item");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }

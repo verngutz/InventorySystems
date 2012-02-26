@@ -1,10 +1,15 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.StoreDao;
+import system.Cashier;
+import system.Delivery;
 import system.Store;
 
 public class StoreDaoImpl implements StoreDao {
@@ -87,5 +92,35 @@ public class StoreDaoImpl implements StoreDao {
             session.close();
         }
 	}
+	
+	public Store get(int id){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (Store) session.get(Store.class, id);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+
+	public List<Store> getStores()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Store");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }

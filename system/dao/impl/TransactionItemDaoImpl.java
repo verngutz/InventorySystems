@@ -1,10 +1,15 @@
 package system.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.dao.TransactionItemDao;
+import system.Cashier;
+import system.Delivery;
 import system.TransactionItem;
 
 public class TransactionItemDaoImpl implements TransactionItemDao {
@@ -87,5 +92,35 @@ public class TransactionItemDaoImpl implements TransactionItemDao {
             session.close();
         }
 	}
+	
+	public TransactionItem get(int id){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            return (TransactionItem) session.get(TransactionItem.class, id);
 
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
+	
+	public List<TransactionItem> getTransactionItems()
+    {
+        Session session = null;
+        
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from TransactionItem");
+            List results = q.list();            
+            return results;
+        }
+        finally 
+        {
+            session.close();
+        }
+    }
 }
