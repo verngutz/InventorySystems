@@ -163,6 +163,13 @@ public class CashPositionCard
 				}
 				double cash = s.getTotalCash();
 				textField_1.setText(cash + "");
+				
+				for(JTextField j : cashierDetails)
+				{
+					j.setVisible(false);
+					panel_1.remove(j);
+				}
+				
 				Iterator<Cashier> i = s.cashierIterator();
 				int y = 4;
 				int index = 0;
@@ -216,6 +223,7 @@ public class CashPositionCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
+				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.MANAGER.getLabel());
 			}
