@@ -124,7 +124,7 @@ public class MakeSaleCard1
 					JOptionPane.showMessageDialog(makesale, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
 				}
-				if(!c.isOnline())
+				if(!c.getOnline())
 				{
 					JOptionPane.showMessageDialog(makesale, "Store " + storeId + " Cashier " + cashierindex + " is not online.");
 					return;

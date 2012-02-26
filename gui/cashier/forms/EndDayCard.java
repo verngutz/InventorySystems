@@ -119,7 +119,7 @@ public class EndDayCard
 					JOptionPane.showMessageDialog(endday, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
 				}
-				if(!c.isOnline())
+				if(!c.getOnline())
 				{
 					JOptionPane.showMessageDialog(endday, "Store " + storeId + " Cashier " + cashierindex + " is not online.");
 					return;

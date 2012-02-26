@@ -6,15 +6,10 @@
 <hibernate-mapping package="system" >
 <class name="Cashier" table="CASHIER">
 
-<id name="index" column="CASHIER_INDEX">
-	<generator class="native"/>
-</id>
-
-<many-to-one name="store"
-     		 cascade="all"
-			 column="STORE_ID"
-			 lazy="false"
-			 class="Store"/>
+<composite-id name="index" class="CashierPK">
+    <key-property name="index" type="integer" column="INDEX"/>
+    <key-many-to-one name="store" cascade="all" lazy="false" class="Store" column="STORE_ID"/>
+</composite-id>
 			 
 <property name="cash" type="double" column="CASH"/>
 

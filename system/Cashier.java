@@ -38,7 +38,7 @@ public class Cashier
 		return index;
 	}
 	
-	public boolean isOnline()
+	public boolean getOnline()
 	{
 		return online;
 	}
@@ -144,6 +144,10 @@ public class Cashier
 
 	public void setCash(double cash) {
 		this.cash = cash;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
 	}
 	
 }

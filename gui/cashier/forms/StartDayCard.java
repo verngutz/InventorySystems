@@ -118,7 +118,7 @@ public class StartDayCard
 					JOptionPane.showMessageDialog(startday, "Store " + storeId + " does not have a Cashier " + cashierindex + ".");
 					return;
 				}
-				if(c.isOnline())
+				if(c.getOnline())
 				{
 					JOptionPane.showMessageDialog(startday, "Store " + storeId + " Cashier " + cashierindex + " is already online.");
 					return;
