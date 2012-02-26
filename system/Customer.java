@@ -59,6 +59,11 @@ public class Customer implements Cloneable{
 		return gender;
 	}
 	
+	public int getAge()
+	{
+		return age;
+	}
+	
 	public int getPointsEarned()
 	{
 		return ptsEarned;

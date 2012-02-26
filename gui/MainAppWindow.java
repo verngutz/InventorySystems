@@ -37,6 +37,7 @@ public class MainAppWindow
 	private RestockCard2 restockCard2;
 	private ItemSummaryCard itemSummaryCard;
 	private CashPositionCard cashPositionCard;
+	private CustomerReportCard customerReportCard;
 	
 	private MakeSaleCard1 makeSaleCard1;
 	private MakeSaleCard2 makeSaleCard2;
@@ -148,6 +149,8 @@ public class MainAppWindow
 					restockCard1.resetFields();
 					restockCard2.resetFields();
 					cashPositionCard.resetFields();
+					customerReportCard.resetFields();
+					itemSummaryCard.resetFields();
 					CardLayout cl = (CardLayout) frame.getContentPane().getLayout();
 					cl.show(frame.getContentPane(), Card.MANAGER.getLabel());
 				} 
@@ -258,7 +261,8 @@ public class MainAppWindow
 		JPanel ma21 = restockCard1.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma21, Card.MA21.getLabel());
 		
-		JSplitPane ma3 = (new CustomerReportCard()).getCard(frame.getContentPane());
+		customerReportCard = new CustomerReportCard();
+		JSplitPane ma3 = customerReportCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(ma3, Card.MA3.getLabel());
 		
 		cashPositionCard = new CashPositionCard();

@@ -88,7 +88,7 @@ public class CashPositionCard
 			FormFactory.DEFAULT_ROWSPEC,
 		}));
 		
-		JLabel lblItem = new JLabel("Cashier Index");
+		JLabel lblItem = new JLabel("Cashier ID");
 		panel_1.add(lblItem, "2, 2");
 		
 		JLabel lblPrice = new JLabel("Cash");
@@ -172,18 +172,18 @@ public class CashPositionCard
 				
 				Iterator<Cashier> i = s.cashierIterator();
 				int y = 4;
-				int index = 0;
 				while(i.hasNext())
 				{
+					Cashier c = i.next();
 					JTextField tempCashier = new JTextField();
-					tempCashier.setText(index++ + "");
+					tempCashier.setText(c.getIndex() + "");
 					tempCashier.setEditable(false);
 					panel_1.add(tempCashier, "2, " + y + ", fill, default");
 					tempCashier.setColumns(10);
 					cashierDetails.add(tempCashier);
 					
 					JTextField tempCash = new JTextField();
-					double currCash = i.next().getCash();
+					double currCash = c.getCash();
 					cash += currCash;
 					tempCash.setText(currCash + "");
 					tempCash.setEditable(false);
