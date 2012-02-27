@@ -6,16 +6,18 @@
 <hibernate-mapping package="system" >
 <class name="Cashier" table="CASHIER">
 
-<id name="index" column="CASHIER_INDEX">
-	<generator class="assigned"/>
+<id name="index_seq" column="CASHIER_ID">
+	<generator class="native"/>
 </id>
+
+<property name="index" type="integer" column="INDEX"/>
 
 <many-to-one name="store"
      		 cascade="all"
 			 column="STORE_ID"
 			 lazy="false"
 			 class="Store"/>
-			 
+	 
 <property name="cash" type="double" column="CASH"/>
 
 <property name="online" type="boolean" column="ONLINE_STATUS"/>

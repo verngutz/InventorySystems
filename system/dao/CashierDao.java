@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.Cashier;
+import system.Store;
 
 public class CashierDao
 {
@@ -86,7 +87,7 @@ public class CashierDao
             session.close();
         }
 	}
-	
+	/*
 	public Cashier get(int index)
 	{
 		Session session = null;
@@ -101,7 +102,23 @@ public class CashierDao
             session.close();
         }
 	}
-	
+	*/
+	public Cashier get(int index, Store store){
+		Session session = null;
+        try 
+        {
+            session = SessionFactorySingleton.getSessionFactory().openSession();
+            Query q = session.createQuery("from Cashier cas where index = :ind And cas.store = :sto");
+            q.setParameter("ind", index);
+            q.setParameter("sto", store);
+            return (Cashier) q.uniqueResult();
+
+        }
+        finally 
+        {
+            session.close();
+        }
+	}
 	@SuppressWarnings("unchecked")
 	public List<Cashier> getCashiers()
     {
