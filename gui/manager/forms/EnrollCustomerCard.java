@@ -16,17 +16,17 @@ import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
 import system.Customer;
-import system.SystemBox;
+import system.InventorySystems;
 
 public class EnrollCustomerCard 
 {
 	private JPanel panel;
 	private Container con;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField;
+	private JTextField textFieldFirstName;
+	private JTextField textFieldLastName;
+	private JTextField textFieldGender;
+	private JTextField textFieldAge;
+	private JTextField textFieldAddress;
 	
 	public JPanel getCard(Container con)
 	{
@@ -76,37 +76,37 @@ public class EnrollCustomerCard
 		JLabel lblFirstName = new JLabel("First Name:");
 		panel.add(lblFirstName, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		panel.add(textField_1, "4, 6, fill, default");
-		textField_1.setColumns(10);
+		textFieldFirstName = new JTextField();
+		panel.add(textFieldFirstName, "4, 6, fill, default");
+		textFieldFirstName.setColumns(10);
 		
 		JLabel lblLastName = new JLabel("Last Name:");
 		panel.add(lblLastName, "2, 8, right, default");
 		
-		textField_2 = new JTextField();
-		panel.add(textField_2, "4, 8, fill, default");
-		textField_2.setColumns(10);
+		textFieldLastName = new JTextField();
+		panel.add(textFieldLastName, "4, 8, fill, default");
+		textFieldLastName.setColumns(10);
 		
 		JLabel lblAddress = new JLabel("Address:");
 		panel.add(lblAddress, "2, 10, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 10, fill, default");
-		textField.setColumns(10);
+		textFieldAddress = new JTextField();
+		panel.add(textFieldAddress, "4, 10, fill, default");
+		textFieldAddress.setColumns(10);
 		
 		JLabel lblGender = new JLabel("Gender:");
 		panel.add(lblGender, "2, 12, right, default");
 		
-		textField_3 = new JTextField();
-		panel.add(textField_3, "4, 12, fill, default");
-		textField_3.setColumns(10);
+		textFieldGender = new JTextField();
+		panel.add(textFieldGender, "4, 12, fill, default");
+		textFieldGender.setColumns(10);
 		
-		JLabel lblAgel = new JLabel("Age:");
-		panel.add(lblAgel, "2, 14, right, default");
+		JLabel lblAge = new JLabel("Age:");
+		panel.add(lblAge, "2, 14, right, default");
 		
-		textField_4 = new JTextField();
-		panel.add(textField_4, "4, 14, fill, default");
-		textField_4.setColumns(10);
+		textFieldAge = new JTextField();
+		panel.add(textFieldAge, "4, 14, fill, default");
+		textFieldAge.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addMouseListener(new MouseAdapter() 
@@ -114,18 +114,21 @@ public class EnrollCustomerCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				int id = SystemBox.getSystem().nextCustomerId();
+				int id = InventorySystems.getSystem().nextCustomerId();
 				int age = 0;
-				try
+				if(!textFieldAge.getText().equals(""))
 				{
-					age = Integer.parseInt(textField_4.getText());
+					try
+					{
+						age = Integer.parseInt(textFieldAge.getText());
+					}
+					catch(NumberFormatException nfe)
+					{
+						JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(panel), "Supplied Age is in an improper format.");
+						return;
+					}
 				}
-				catch(NumberFormatException nfe)
-				{
-					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(panel), "Supplied Age is in an improper format.");
-					return;
-				}
-				SystemBox.getSystem().addCustomer(new Customer(textField_1.getText(), textField_2.getText(), id, textField.getText(), textField_3.getText(), age));
+				InventorySystems.getSystem().addCustomer(new Customer(textFieldFirstName.getText(), textFieldLastName.getText(), id, textFieldAddress.getText(), textFieldGender.getText(), age));
 				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(panel), "Successfully enrolled customer with ID " + id + ".");
 				returnToPreviousScreen();
 			}
@@ -146,11 +149,11 @@ public class EnrollCustomerCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
-		textField_3.setText("");
-		textField_4.setText("");
+		textFieldAddress.setText("");
+		textFieldFirstName.setText("");
+		textFieldLastName.setText("");
+		textFieldGender.setText("");
+		textFieldAge.setText("");
 	}
 	
 	public void returnToPreviousScreen()

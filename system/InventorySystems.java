@@ -1,80 +1,112 @@
 package system;
-import gui.MainAppWindow;
 
-import java.util.*;
+import java.util.List;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
+import system.dao.CustomerDao;
+import system.dao.DeliveryDao;
+import system.dao.ItemDao;
+import system.dao.StoreDao;
+import system.dao.TransactionDao;
+import system.dao.TransactionItemDao;
 
-import system.dao.*;
-import system.dao.impl.*;
-
-
-public class InventorySystems {
+public class InventorySystems 
+{
+	//
+	// Singleton
+	//
+	private static InventorySystems system = new InventorySystems();	
+	public static InventorySystems getSystem() { return system; }
+	private InventorySystems() { }
+	
+	public void backup()
+	{
+	}
+	
+	public void restore()
+	{
+	}
 	
 	public void addStore(Store newStore)
 	{
-		StoreDao storedao = new StoreDaoImpl();
+		StoreDao storedao = new StoreDao();
 		storedao.save(newStore);
 	}
 	
 	public void addCustomer(Customer newCustomer)
 	{
-		CustomerDao cusdao = new CustomerDaoImpl();
+		CustomerDao cusdao = new CustomerDao();
 		cusdao.save(newCustomer);
 	}
 	
 	public void addItem(Item newItem)
 	{
-		ItemDao itedao = new ItemDaoImpl();
+		ItemDao itedao = new ItemDao();
 		itedao.save(newItem);
 	}
 	
 	public void addDelivery(Delivery newDelivery)
 	{
-		DeliveryDao deldao = new DeliveryDaoImpl();
+		DeliveryDao deldao = new DeliveryDao();
 		deldao.save(newDelivery);
 	}
 	
 	public Store getStore(int id)
 	{
-		StoreDaoImpl storedao = new StoreDaoImpl();
+		StoreDao storedao = new StoreDao();
 		return storedao.get(id);
 	}
 	
 	public Customer getCustomer(int id)
 	{
-		CustomerDaoImpl cusdao = new CustomerDaoImpl();
+		CustomerDao cusdao = new CustomerDao();
 		return cusdao.get(id);
 	}
 	
 	public boolean containsItem(String itemCode)
 	{
-		ItemDaoImpl itemdao = new ItemDaoImpl();
+		ItemDao itemdao = new ItemDao();
 		return itemdao.get(itemCode) != null;
 	}
 	
 	public Item getItem(String itemCode)
 	{
-		ItemDaoImpl itemdao = new ItemDaoImpl();
+		ItemDao itemdao = new ItemDao();
 		return itemdao.get(itemCode);
 	}
 	
 	public List<Item> getItemList()
 	{
-		ItemDaoImpl itemdao = new ItemDaoImpl();
+		ItemDao itemdao = new ItemDao();
 		return itemdao.getItems();
+	}
+
+	public List<Store> getStoreList()
+	{
+		StoreDao storedao = new StoreDao();
+		return storedao.getStores();
 	}
 	
 	public int nextCustomerId()
 	{
-		CustomerDaoImpl cusdao = new CustomerDaoImpl();
+		CustomerDao cusdao = new CustomerDao();
 		return cusdao.getCustomers().size();
 	}
 	
-	public List<Store> getStoreList()
+	public int nextDeliveryId()
 	{
-		StoreDaoImpl storedao = new StoreDaoImpl();
-		return storedao.getStores();
+		DeliveryDao deldao = new DeliveryDao();
+		return deldao.getDeliveries().size();
+	}
+	
+	public int nextTransactionId()
+	{
+		TransactionDao transdao = new TransactionDao();
+		return transdao.getTransactions().size();
+	}
+	
+	public int nextTransactionItemId()
+	{
+		TransactionItemDao transitemdao = new TransactionItemDao();
+		return transitemdao.getTransactionItems().size();
 	}
 }

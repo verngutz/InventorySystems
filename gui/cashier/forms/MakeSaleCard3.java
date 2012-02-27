@@ -4,39 +4,41 @@ import gui.Card;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
 import system.Cashier;
 import system.Customer;
-import system.SystemBox;
+import system.InventorySystems;
 import system.TransactionE;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class MakeSaleCard3 
 {
 	private JPanel makesale;
 	private Container con;
 	
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldCustomerId;
+	private JTextField textFieldUsablePoints;
+	private JTextField textFieldPointsToUse;
+	private JTextField textFieldAmountDue;
 	
 	private Cashier cashier;
 	
 	public void setCashier(Cashier c)
 	{
 		cashier = c;
-		textField_3.setText(c.getRawCashDue() + "");
+		textFieldAmountDue.setText(c.getRawCashDue() + "");
 	}
 	
 	public JPanel getCard(Container con)
@@ -83,9 +85,9 @@ public class MakeSaleCard3
 		JLabel lblLoyalCustomerId = new JLabel("Loyal Customer ID:");
 		makesale.add(lblLoyalCustomerId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		makesale.add(textField, "4, 2, left, default");
-		textField.setColumns(10);
+		textFieldCustomerId = new JTextField();
+		makesale.add(textFieldCustomerId, "4, 2, left, default");
+		textFieldCustomerId.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Fetch Customer Info");
 		btnNewButton.addMouseListener(new MouseAdapter() 
@@ -93,7 +95,7 @@ public class MakeSaleCard3
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				String customerIdString = textField.getText();
+				String customerIdString = textFieldCustomerId.getText();
 				int customerId = 0;
 				try
 				{
@@ -104,17 +106,13 @@ public class MakeSaleCard3
 					JOptionPane.showMessageDialog(makesale, "Specified Customer ID is in an improper format.");
 					return;
 				}
-				Customer c = null;
-				try
-				{
-					c = SystemBox.getSystem().getCustomer(customerId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Customer c = InventorySystems.getSystem().getCustomer(customerId);
+				if(c == null)
 				{
 					JOptionPane.showMessageDialog(makesale, "Customer not found.");
 					return;
 				}
-				textField_1.setText(c.getUsablePoints() + "");
+				textFieldUsablePoints.setText(c.getUsablePoints() + "");
 			}
 		});
 		makesale.add(btnNewButton, "4, 4, left, default");
@@ -122,25 +120,25 @@ public class MakeSaleCard3
 		JLabel lblNewLabel = new JLabel("Usable Points:");
 		makesale.add(lblNewLabel, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		makesale.add(textField_1, "4, 6, left, default");
-		textField_1.setColumns(10);
+		textFieldUsablePoints = new JTextField();
+		textFieldUsablePoints.setEditable(false);
+		makesale.add(textFieldUsablePoints, "4, 6, left, default");
+		textFieldUsablePoints.setColumns(10);
 		
 		JLabel lblPointsToUse = new JLabel("Points to Use:");
 		makesale.add(lblPointsToUse, "2, 8, right, default");
 		
-		textField_2 = new JTextField();
-		makesale.add(textField_2, "4, 8, left, default");
-		textField_2.setColumns(10);
+		textFieldPointsToUse = new JTextField();
+		makesale.add(textFieldPointsToUse, "4, 8, left, default");
+		textFieldPointsToUse.setColumns(10);
 		
 		JLabel lblAmountDuel = new JLabel("Amount Due:");
 		makesale.add(lblAmountDuel, "2, 12, right, default");
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		makesale.add(textField_3, "4, 12, left, default");
-		textField_3.setColumns(10);
+		textFieldAmountDue = new JTextField();
+		textFieldAmountDue.setEditable(false);
+		makesale.add(textFieldAmountDue, "4, 12, left, default");
+		textFieldAmountDue.setColumns(10);
 		
 		JButton btnEndTransaction = new JButton("End Transaction");
 		btnEndTransaction.addMouseListener(new MouseAdapter() 
@@ -149,7 +147,7 @@ public class MakeSaleCard3
 			public void mousePressed(MouseEvent e) 
 			{
 				TransactionE t;
-				String customerIdString = textField.getText();
+				String customerIdString = textFieldCustomerId.getText();
 				Customer c = null;
 				int pointsUsed = 0;
 				if(!customerIdString.equals(""))
@@ -164,20 +162,17 @@ public class MakeSaleCard3
 						JOptionPane.showMessageDialog(makesale, "Specified Customer ID is in an improper format.");
 						return;
 					}
-					try
-					{
-						c = SystemBox.getSystem().getCustomer(customerId);
-					}
-					catch(IndexOutOfBoundsException ioobe)
+					c = InventorySystems.getSystem().getCustomer(customerId);
+					if(c == null)
 					{
 						JOptionPane.showMessageDialog(makesale, "Customer not found.");
 						return;
 					}
-					if(!textField_2.getText().equals(""))
+					if(!textFieldPointsToUse.getText().equals(""))
 					{
 						try
 						{
-							pointsUsed = Integer.parseInt(textField_2.getText());
+							pointsUsed = Integer.parseInt(textFieldPointsToUse.getText());
 						}
 						catch(NumberFormatException nfe)
 						{
@@ -190,7 +185,7 @@ public class MakeSaleCard3
 						JOptionPane.showMessageDialog(makesale, "Customer " + c.getFirstName() + " " + c.getLastName() + " does not have enough points.");
 						return;
 					}
-					if(pointsUsed > Double.parseDouble(textField_3.getText()))
+					if(pointsUsed > Double.parseDouble(textFieldAmountDue.getText()))
 					{
 						JOptionPane.showMessageDialog(makesale, "Too many points specified.");
 						return;
@@ -200,9 +195,9 @@ public class MakeSaleCard3
 				{
 					t = cashier.endTransaction(c, pointsUsed);
 				}
-				catch(IllegalArgumentException iae)
+				catch(Exception ex)
 				{
-					JOptionPane.showMessageDialog(makesale, iae.getMessage());
+					JOptionPane.showMessageDialog(makesale, ex.getMessage());
 					return;
 				}
 				if(c != null)
@@ -233,10 +228,10 @@ public class MakeSaleCard3
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
-		textField_3.setText("");
+		textFieldCustomerId.setText("");
+		textFieldUsablePoints.setText("");
+		textFieldPointsToUse.setText("");
+		textFieldAmountDue.setText("");
 	}
 	
 	public void returnToPreviousScreen()

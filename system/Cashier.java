@@ -1,23 +1,20 @@
 package system;
-import java.util.*;
 
-import system.dao.impl.CashierDaoImpl;
-
+import system.dao.CashierDao;
+import system.dao.TransactionItemDao;
 
 public class Cashier 
 {
-	public Cashier() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	private int index;
 	public static final double POINTS_PER_PESO = 500;
+	
+	private int index;
 	private Store store;
 	private double cash;
 	private TransactionE currentTransaction;
 	private boolean online;
 	private double rawCashDue;
+
+	public Cashier() { }
 	
 	public Cashier(Store store, int index)
 	{
@@ -25,41 +22,23 @@ public class Cashier
 		this.index = index;
 		online = false;
 	}
+
+	public int getIndex() { return index; }
+	public Store getStore() { return store; }
+	public double getCash(){ return cash; }
+	public boolean getOnline() { return online; }
+	public double getRawCashDue() { return rawCashDue; }
 	
-	public Cashier(Store store, int index, double cash, TransactionE currentTransaction, boolean online)
-	{
-		this.store = store;
-		this.index = index;
-		this.cash = cash;
-		this.currentTransaction = currentTransaction;
-		this.online = online;
-	}
-	
-	public Store getStore()
-	{
-		return store;
-	}
-	
-	public int getIndex()
-	{
-		return index;
-	}
-	
-	public boolean getOnline()
-	{
-		return online;
-	}
-	
-	public double getRawCashDue()
-	{
-		return rawCashDue;
-	}
+	public void setIndex(int index) { this.index = index; }
+	public void setStore(Store store) { this.store = store; }
+	public void setCash(double cash) { this.cash = cash; }
+	public void setOnline(boolean online) { this.online = online; }
 	
 	public void startDay()
 	{
 		this.cash = store.giveCashToCashier();
 		online = true;
-		CashierDaoImpl cashdao = new CashierDaoImpl();
+		CashierDao cashdao = new CashierDao();
 		cashdao.save(this);
 	}
 	
@@ -68,14 +47,13 @@ public class Cashier
 		return currentTransaction;
 	}
 	
-	public double getCash(){ return cash; }
 	public void startTransaction()
 	{
 		if(!online)
 		{
 			throw new IllegalStateException("Cashier is not online.");
 		}
-		currentTransaction = new TransactionE();
+		currentTransaction = new TransactionE(store, this);
 		rawCashDue = 0;
 	}
 	
@@ -107,11 +85,16 @@ public class Cashier
 		{
 			throw new IllegalArgumentException("Customer does not have enough points to use.");
 		}
-		double cashDue = rawCashDue;
-		Iterator<TransactionItem> itemsSold = currentTransaction.itemsSoldIterator();
-		while(itemsSold.hasNext())
+		if(currentTransaction.getItemsSold().size() == 0)
 		{
-			TransactionItem entry = itemsSold.next();
+			throw new IllegalStateException("No items to sell!");
+		}
+		double cashDue = rawCashDue;
+		
+		TransactionItemDao transitemdao = new TransactionItemDao();
+		for(TransactionItem entry : currentTransaction.getItemsSold())
+		{
+			transitemdao.save(entry);
 			store.deductFromStock(entry.getItem(), entry.getQuantity());
 		}
 		if(loyalBuyer != null)
@@ -127,6 +110,8 @@ public class Cashier
 		TransactionE toReturn = currentTransaction;
 		currentTransaction = null;
 		rawCashDue = 0;
+		CashierDao cashdao = new CashierDao();
+		cashdao.save(this);
 		return toReturn;
 	}
 	
@@ -141,26 +126,10 @@ public class Cashier
 		store.addCash(cash);
 		cash = 0;
 
-		CashierDaoImpl cashdao = new CashierDaoImpl();
+		CashierDao cashdao = new CashierDao();
 		cashdao.save(this);
 		
 		return toReturn;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
-	public void setCash(double cash) {
-		this.cash = cash;
-	}
-
-	public void setOnline(boolean online) {
-		this.online = online;
 	}
 }
 

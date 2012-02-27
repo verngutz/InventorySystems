@@ -2,32 +2,32 @@ package gui.manager.forms;
 
 import gui.Card;
 
+import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
-import system.Cashier;
+import system.InventorySystems;
 import system.Store;
-import system.SystemBox;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class AddCashierCard 
 {
 	private JPanel addcashier;
 	private Container con;
 	
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldStoreId;
+	private JTextField textFieldCashierIndex;
 	
 	public JPanel getCard(Container con)
 	{
@@ -67,19 +67,19 @@ public class AddCashierCard
 		JLabel lblStoreId = new JLabel("Store ID:");
 		addcashier.add(lblStoreId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		addcashier.add(textField, "4, 2, left, default");
-		textField.setColumns(10);
+		textFieldStoreId = new JTextField();
+		addcashier.add(textFieldStoreId, "4, 2, left, default");
+		textFieldStoreId.setColumns(10);
 		
 		JLabel lblCashierIndex = new JLabel("Cashier ID:");
 		addcashier.add(lblCashierIndex, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		addcashier.add(textField_1, "4, 4, left, default");
-		textField_1.setColumns(10);
+		textFieldCashierIndex = new JTextField();
+		addcashier.add(textFieldCashierIndex, "4, 4, left, default");
+		textFieldCashierIndex.setColumns(10);
 		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addMouseListener(new MouseAdapter() 
+		JButton btnOK = new JButton("OK");
+		btnOK.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mousePressed(MouseEvent e) 
@@ -87,19 +87,15 @@ public class AddCashierCard
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(addcashier, "Specified Store ID is in an improper format.");
 					return;
 				}
-				Store s = null;
-				try
-				{
-					s = SystemBox.getSystem().getStore(storeId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Store s = InventorySystems.getSystem().getStore(storeId);
+				if(s == null)
 				{
 					JOptionPane.showMessageDialog(addcashier, "Store not found.");
 					return;
@@ -107,7 +103,7 @@ public class AddCashierCard
 				int cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField_1.getText());
+					cashierindex = Integer.parseInt(textFieldCashierIndex.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -124,7 +120,7 @@ public class AddCashierCard
 				returnToPreviousScreen();
 			}
 		});
-		addcashier.add(btnNewButton, "4, 8, left, default");
+		addcashier.add(btnOK, "4, 8, left, default");
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addMouseListener(new MouseAdapter() 
@@ -140,8 +136,8 @@ public class AddCashierCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
+		textFieldStoreId.setText("");
+		textFieldCashierIndex.setText("");
 	}
 	
 	public void returnToPreviousScreen()

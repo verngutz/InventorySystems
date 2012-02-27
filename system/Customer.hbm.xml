@@ -7,7 +7,7 @@
 <class name="Customer" table="CUSTOMER">
 
 <id name="id" column="CUSTOMER_ID">
-	<generator class="native"/>
+	<generator class="assigned"/>
 </id>
 
 <property name="firstName" type="string" column="FIRST_NAME"/>

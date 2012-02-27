@@ -4,31 +4,36 @@ import gui.Card;
 
 import java.awt.CardLayout;
 import java.awt.Container;
-
-import javax.swing.JPanel;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
-import system.Cashier;
-import system.Item;
-import system.Store;
-import system.SystemBox;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
-public class MakeSaleCard2 {
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+
+import system.Cashier;
+import system.InventorySystems;
+import system.Item;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
+public class MakeSaleCard2 
+{
 	private JSplitPane makesale;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JPanel panel_1;
+	private JTextField textFieldItemId;
+	private JTextField textFieldQuantity;
+	private JTextField textFieldAmountDue;
+	private JPanel panelTransactionDetails;
 	
 	private LinkedList<JTextField> transactionDetails;
 	private int transactionDrawingPosition;
@@ -48,7 +53,8 @@ public class MakeSaleCard2 {
 	
 	public JSplitPane getCard(Container con)
 	{
-		if(makesale==null){
+		if(makesale==null)
+		{
 			makesale = new JSplitPane();
 			this.con = con;
 			init();
@@ -61,9 +67,9 @@ public class MakeSaleCard2 {
 		JScrollPane scrollPane = new JScrollPane();
 		makesale.setRightComponent(scrollPane);
 		
-		panel_1 = new JPanel();
-		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new FormLayout(
+		panelTransactionDetails = new JPanel();
+		scrollPane.setViewportView(panelTransactionDetails);
+		panelTransactionDetails.setLayout(new FormLayout(
 		new ColumnSpec[] 
 		{
 			FormFactory.RELATED_GAP_COLSPEC,
@@ -104,13 +110,13 @@ public class MakeSaleCard2 {
 		}));
 		
 		JLabel lblQuantity_1 = new JLabel("Quantity");
-		panel_1.add(lblQuantity_1, "2, 2");
+		panelTransactionDetails.add(lblQuantity_1, "2, 2");
 		
 		JLabel lblItem = new JLabel("Item");
-		panel_1.add(lblItem, "4, 2");
+		panelTransactionDetails.add(lblItem, "4, 2");
 		
 		JLabel lblPrice = new JLabel("Price");
-		panel_1.add(lblPrice, "6, 2");
+		panelTransactionDetails.add(lblPrice, "6, 2");
 		
 		transactionDetails = new LinkedList<JTextField>();
 		transactionDrawingPosition = 4;
@@ -150,16 +156,16 @@ public class MakeSaleCard2 {
 		JLabel lblItemId = new JLabel("Item ID:");
 		panel.add(lblItemId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldItemId = new JTextField();
+		panel.add(textFieldItemId, "4, 2, fill, default");
+		textFieldItemId.setColumns(10);
 		
 		JLabel lblQuantity = new JLabel("Quantity:");
 		panel.add(lblQuantity, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		panel.add(textField_1, "4, 4, fill, default");
-		textField_1.setColumns(10);
+		textFieldQuantity = new JTextField();
+		panel.add(textFieldQuantity, "4, 4, fill, default");
+		textFieldQuantity.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() 
@@ -167,12 +173,12 @@ public class MakeSaleCard2 {
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldItemId.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(makesale, "No Item Code specified.");
 					return;
 				}
-				if(!SystemBox.getSystem().containsItem(textField.getText()))
+				if(!InventorySystems.getSystem().containsItem(textFieldItemId.getText()))
 				{
 					JOptionPane.showMessageDialog(makesale, "Item not found.");
 					return;
@@ -180,7 +186,7 @@ public class MakeSaleCard2 {
 				int quantity = 0;
 				try
 				{
-					quantity = Integer.parseInt(textField_1.getText());
+					quantity = Integer.parseInt(textFieldQuantity.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -192,13 +198,13 @@ public class MakeSaleCard2 {
 					JOptionPane.showMessageDialog(makesale, "Specified Quantity must be greater than 0.");
 					return;
 				}
-				Item toSell = SystemBox.getSystem().getItem(textField.getText());
+				Item toSell = InventorySystems.getSystem().getItem(textFieldItemId.getText());
 				cashier.sell(toSell, quantity);
 				double added = quantity * toSell.getUnitPrice();
 				
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
+				textFieldItemId.setText("");
+				textFieldQuantity.setText("");
+				textFieldAmountDue.setText(Double.parseDouble(textFieldAmountDue.getText()) + added + "");
 				
 				JTextField tempQuantity = new JTextField();
 				JTextField tempItem = new JTextField();
@@ -212,15 +218,15 @@ public class MakeSaleCard2 {
 				tempItem.setText(toSell.getItemName() + " at " + toSell.getUnitPrice() + " per " + toSell.getUnitName());
 				tempTotalPrice.setText(added + "");
 				
-				panel_1.add(tempQuantity, "2, " + transactionDrawingPosition + ", fill, default");
-				panel_1.add(tempItem, "4, " + transactionDrawingPosition + ", fill, default");
-				panel_1.add(tempTotalPrice, "6, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempQuantity, "2, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempItem, "4, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempTotalPrice, "6, " + transactionDrawingPosition + ", fill, default");
 				
 				tempQuantity.setColumns(10);
 				tempItem.setColumns(10);
 				tempTotalPrice.setColumns(10);
 				
-				panel_1.revalidate();
+				panelTransactionDetails.revalidate();
 		
 				transactionDetails.add(tempQuantity);
 				transactionDetails.add(tempItem);
@@ -243,18 +249,17 @@ public class MakeSaleCard2 {
 				cl.show(con, Card.CA3.getLabel());
 			}
 		});
-		
 		panel.add(btnEnd, "4, 10");
 		
 		JLabel lblAmountDue = new JLabel("Amount Due:");
 		panel.add(lblAmountDue, "2, 14");
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_2.setEditable(false);
-		textField_2.setText("0.0");
-		panel.add(textField_2, "2, 16, fill, default");
-		textField_2.setColumns(10);
+		textFieldAmountDue = new JTextField();
+		textFieldAmountDue.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldAmountDue.setEditable(false);
+		textFieldAmountDue.setText("0.0");
+		panel.add(textFieldAmountDue, "2, 16, fill, default");
+		textFieldAmountDue.setColumns(10);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addMouseListener(new MouseAdapter() 
@@ -272,13 +277,13 @@ public class MakeSaleCard2 {
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("0.0");
+		textFieldItemId.setText("");
+		textFieldQuantity.setText("");
+		textFieldAmountDue.setText("0.0");
 		
 		for(JTextField j : transactionDetails)
 		{
-			panel_1.remove(j);
+			panelTransactionDetails.remove(j);
 		}
 		
 		transactionDetails = new LinkedList<JTextField>();

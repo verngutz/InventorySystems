@@ -37,7 +37,7 @@
 			 lazy="false"
 			 class="Customer"/>
 
-<property name="pointsUsed" type="long" column="POINTS_USED"/>
+<property name="pointsUsed" type="integer" column="POINTS_USED"/>
 
 <property name="revenue" type="double" column="REVENUE"/>
 

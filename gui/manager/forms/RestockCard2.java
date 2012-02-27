@@ -18,7 +18,7 @@ import com.jgoodies.forms.layout.*;
 import system.Delivery;
 import system.Item;
 import system.Store;
-import system.SystemBox;
+import system.InventorySystems;
 
 import java.util.LinkedList;
 
@@ -26,11 +26,11 @@ public class RestockCard2
 {
 	private JSplitPane restockpane;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_9;
-	private JPanel panel_1;
+	private JTextField textFieldItemId;
+	private JTextField textFieldQuantity;
+	private JTextField textFieldAmountDue;
+	private JTextField textFieldWholesalePrice;
+	private JPanel panelTransactionDetails;
 	
 	private LinkedList<JTextField> transactionDetails;
 	private int transactionDrawingPosition;
@@ -58,9 +58,9 @@ public class RestockCard2
 		JScrollPane scrollPane = new JScrollPane();
 		restockpane.setRightComponent(scrollPane);
 		
-		panel_1 = new JPanel();
-		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new FormLayout(
+		panelTransactionDetails = new JPanel();
+		scrollPane.setViewportView(panelTransactionDetails);
+		panelTransactionDetails.setLayout(new FormLayout(
 		new ColumnSpec[] 
 		{
 			FormFactory.RELATED_GAP_COLSPEC,
@@ -101,13 +101,13 @@ public class RestockCard2
 		}));
 		
 		JLabel lblQuantity_1 = new JLabel("Quantity");
-		panel_1.add(lblQuantity_1, "2, 2");
+		panelTransactionDetails.add(lblQuantity_1, "2, 2");
 		
 		JLabel lblItem = new JLabel("Item");
-		panel_1.add(lblItem, "4, 2");
+		panelTransactionDetails.add(lblItem, "4, 2");
 		
 		JLabel lblPrice = new JLabel("Total Price");
-		panel_1.add(lblPrice, "6, 2");
+		panelTransactionDetails.add(lblPrice, "6, 2");
 		
 		transactionDetails = new LinkedList<JTextField>();
 		transactionDrawingPosition = 4;
@@ -147,38 +147,23 @@ public class RestockCard2
 		JLabel lblItemId = new JLabel("Item Code:");
 		panel.add(lblItemId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldItemId = new JTextField();
+		panel.add(textFieldItemId, "4, 2, fill, default");
+		textFieldItemId.setColumns(10);
 		
 		JLabel lblQuantity = new JLabel("Quantity:");
 		panel.add(lblQuantity, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		panel.add(textField_1, "4, 4, fill, default");
-		textField_1.setColumns(10);
+		textFieldQuantity = new JTextField();
+		panel.add(textFieldQuantity, "4, 4, fill, default");
+		textFieldQuantity.setColumns(10);
 		
-		JButton btnEnd = new JButton("End");
-		btnEnd.addMouseListener(new MouseAdapter() 
-		{
-			@Override
-			public void mousePressed(MouseEvent e) 
-			{
-				try
-				{
-					Delivery d = store.endDeliveryBatch();
-					SystemBox.getSystem().addDelivery(d);
-					JOptionPane.showMessageDialog(restockpane, "Delivery ended. The total amount due is " + d.getTotalPrice() + ".");
-					resetFields();
-					CardLayout cl = (CardLayout) con.getLayout();
-					cl.show(con, Card.MANAGER.getLabel());
-				}
-				catch(IllegalStateException ise)
-				{
-					JOptionPane.showMessageDialog(restockpane, ise.getMessage());
-				}
-			}
-		});
+		JLabel lblWholesalePrice = new JLabel("Wholesale Price:");
+		panel.add(lblWholesalePrice, "2, 6, right, default");
+		
+		textFieldWholesalePrice = new JTextField();
+		panel.add(textFieldWholesalePrice, "4, 6, fill, default");
+		textFieldWholesalePrice.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() 
@@ -186,12 +171,12 @@ public class RestockCard2
 			@Override
 			public void mousePressed(MouseEvent e) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldItemId.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(restockpane, "No Item Code specified.");
 					return;
 				}
-				if(!SystemBox.getSystem().containsItem(textField.getText()))
+				if(!InventorySystems.getSystem().containsItem(textFieldItemId.getText()))
 				{
 					JOptionPane.showMessageDialog(restockpane, "Item not found.");
 					return;
@@ -199,7 +184,7 @@ public class RestockCard2
 				int quantity = 0;
 				try
 				{
-					quantity = Integer.parseInt(textField_1.getText());
+					quantity = Integer.parseInt(textFieldQuantity.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -209,20 +194,20 @@ public class RestockCard2
 				double price = 0;
 				try
 				{
-					price = Double.parseDouble(textField_9.getText());
+					price = Double.parseDouble(textFieldWholesalePrice.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(restockpane, "Specified Price is in an improper format.");
 					return;
 				}
-				Item accepted = SystemBox.getSystem().getItem(textField.getText());
+				Item accepted = InventorySystems.getSystem().getItem(textFieldItemId.getText());
 				double added = store.acceptDeliveryItem(accepted, quantity, price);
 				
-				textField.setText("");
-				textField_1.setText("");
-				textField_9.setText("");
-				textField_2.setText(Double.parseDouble(textField_2.getText()) + added + "");
+				textFieldItemId.setText("");
+				textFieldQuantity.setText("");
+				textFieldWholesalePrice.setText("");
+				textFieldAmountDue.setText(Double.parseDouble(textFieldAmountDue.getText()) + added + "");
 				
 				JTextField tempQuantity = new JTextField();
 				JTextField tempItem = new JTextField();
@@ -236,15 +221,15 @@ public class RestockCard2
 				tempItem.setText(accepted.getItemName() + " at " + price + " per " + accepted.getUnitName());
 				tempTotalPrice.setText(quantity * price + "");
 				
-				panel_1.add(tempQuantity, "2, " + transactionDrawingPosition + ", fill, default");
-				panel_1.add(tempItem, "4, " + transactionDrawingPosition + ", fill, default");
-				panel_1.add(tempTotalPrice, "6, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempQuantity, "2, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempItem, "4, " + transactionDrawingPosition + ", fill, default");
+				panelTransactionDetails.add(tempTotalPrice, "6, " + transactionDrawingPosition + ", fill, default");
 				
 				tempQuantity.setColumns(10);
 				tempItem.setColumns(10);
 				tempTotalPrice.setColumns(10);
 				
-				panel_1.revalidate();
+				panelTransactionDetails.revalidate();
 		
 				transactionDetails.add(tempQuantity);
 				transactionDetails.add(tempItem);
@@ -253,25 +238,40 @@ public class RestockCard2
 				transactionDrawingPosition += 2;
 			}
 		});
-		
-		JLabel lblWholesalePrice = new JLabel("Wholesale Price:");
-		panel.add(lblWholesalePrice, "2, 6, right, default");
-		
-		textField_9 = new JTextField();
-		panel.add(textField_9, "4, 6, fill, default");
-		textField_9.setColumns(10);
 		panel.add(btnAdd, "4, 10, fill, top");
+		
+		JButton btnEnd = new JButton("End");
+		btnEnd.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				try
+				{
+					Delivery d = store.endDeliveryBatch();
+					InventorySystems.getSystem().addDelivery(d);
+					JOptionPane.showMessageDialog(restockpane, "Delivery ended. The total amount due is " + d.getTotalPrice() + ".");
+					resetFields();
+					CardLayout cl = (CardLayout) con.getLayout();
+					cl.show(con, Card.MANAGER.getLabel());
+				}
+				catch(IllegalStateException ise)
+				{
+					JOptionPane.showMessageDialog(restockpane, ise.getMessage());
+				}
+			}
+		});
 		panel.add(btnEnd, "4, 12");
 		
 		JLabel lblAmountDue = new JLabel("Amount Due:");
 		panel.add(lblAmountDue, "2, 14");
 		
-		textField_2 = new JTextField();
-		textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		textField_2.setEditable(false);
-		textField_2.setText("0.0");
-		panel.add(textField_2, "2, 16, fill, default");
-		textField_2.setColumns(10);
+		textFieldAmountDue = new JTextField();
+		textFieldAmountDue.setHorizontalAlignment(SwingConstants.RIGHT);
+		textFieldAmountDue.setEditable(false);
+		textFieldAmountDue.setText("0.0");
+		panel.add(textFieldAmountDue, "2, 16, fill, default");
+		textFieldAmountDue.setColumns(10);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addMouseListener(new MouseAdapter() 
@@ -289,14 +289,14 @@ public class RestockCard2
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("0.0");
-		textField_9.setText("");
+		textFieldItemId.setText("");
+		textFieldQuantity.setText("");
+		textFieldAmountDue.setText("0.0");
+		textFieldWholesalePrice.setText("");
 		
 		for(JTextField j : transactionDetails)
 		{
-			panel_1.remove(j);
+			panelTransactionDetails.remove(j);
 		}
 		
 		transactionDetails = new LinkedList<JTextField>();

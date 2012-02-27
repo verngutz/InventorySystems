@@ -4,24 +4,21 @@ import gui.Card;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class ManagerCard 
 {
 	private JPanel manager;
 	private Container con;
-	private JTextField textField_2;
-	private JTextField textField_3;
 	
 	public JPanel getCard(Container con)
 	{
@@ -34,9 +31,6 @@ public class ManagerCard
 		return manager;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void init()
 	{
 		manager.setLayout(new FormLayout(new ColumnSpec[] {
@@ -72,6 +66,52 @@ public class ManagerCard
 		});
 		manager.add(btnEnrollCustomer, "2, 2");
 		
+		JButton btnRestock = new JButton("Restock");
+		btnRestock.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MA21.getLabel());
+			}
+		});
+		manager.add(btnRestock, "2, 4");
+		
+		JButton btnGetCustomerReport = new JButton("Get Customer Report");
+		btnGetCustomerReport.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MA3.getLabel());
+			}
+		});
+		manager.add(btnGetCustomerReport, "2, 6");
+		
+		JButton btnCashPosition = new JButton("Get Cash Position");
+		btnCashPosition.addMouseListener(new MouseAdapter() 
+		{
+			@Override
+			public void mousePressed(MouseEvent e) 
+			{
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MA4.getLabel());
+			}
+		});
+		manager.add(btnCashPosition, "2, 8");
+		
+		JButton btnGetItemSummary = new JButton("Get Item Summary");
+		btnGetItemSummary.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				CardLayout cl = (CardLayout) con.getLayout();
+				cl.show(con, Card.MA9.getLabel());
+			}
+		});
+		manager.add(btnGetItemSummary, "2, 10");
+		
 		JButton btnAddNewItem = new JButton("Add New Item");
 		btnAddNewItem.addMouseListener(new MouseAdapter() 
 		{
@@ -84,30 +124,8 @@ public class ManagerCard
 		});
 		manager.add(btnAddNewItem, "4, 2");
 		
-		JButton btnNewButton = new JButton("Restock");
-		btnNewButton.addMouseListener(new MouseAdapter() 
-		{
-			@Override
-			public void mousePressed(MouseEvent e) 
-			{
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MA21.getLabel());
-			}
-		});
-		
-		JButton btnGetItemSummary = new JButton("Get Item Summary");
-		btnGetItemSummary.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MA9.getLabel());
-			}
-		});
-		manager.add(btnGetItemSummary, "6, 2");
-		manager.add(btnNewButton, "2, 4");
-		
-		JButton btnNewButton_3 = new JButton("Change Unit Price");
-		btnNewButton_3.addMouseListener(new MouseAdapter() 
+		JButton btnChangeUnitPrice = new JButton("Change Unit Price");
+		btnChangeUnitPrice.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mousePressed(MouseEvent e) 
@@ -116,19 +134,7 @@ public class ManagerCard
 				cl.show(con, Card.MA6.getLabel());
 			}
 		});
-		manager.add(btnNewButton_3, "4, 4");
-		
-		JButton btnNewButton_1 = new JButton("Get Customer Report");
-		btnNewButton_1.addMouseListener(new MouseAdapter() 
-		{
-			@Override
-			public void mousePressed(MouseEvent e) 
-			{
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MA3.getLabel());
-			}
-		});
-		manager.add(btnNewButton_1, "2, 6");
+		manager.add(btnChangeUnitPrice, "4, 4");
 		
 		JButton btnAddcashier = new JButton("Add Cashier");
 		btnAddcashier.addMouseListener(new MouseAdapter() 
@@ -141,18 +147,6 @@ public class ManagerCard
 			}
 		});
 		manager.add(btnAddcashier, "4, 6");
-		
-		JButton btnNewButton_2 = new JButton("Get Cash Position");
-		btnNewButton_2.addMouseListener(new MouseAdapter() 
-		{
-			@Override
-			public void mousePressed(MouseEvent e) 
-			{
-				CardLayout cl = (CardLayout) con.getLayout();
-				cl.show(con, Card.MA4.getLabel());
-			}
-		});
-		manager.add(btnNewButton_2, "2, 8");
 		
 		JButton btnRemoveCashier = new JButton("Remove Cashier");
 		btnRemoveCashier.addMouseListener(new MouseAdapter() 

@@ -15,14 +15,14 @@ import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
 import system.Store;
-import system.SystemBox;
+import system.InventorySystems;
 
 public class RestockCard1 
 {
 	private JPanel restockpanel;
 	private Container con;
 	
-	private JTextField textField;
+	private JTextField textFieldStoreId;
 	
 	private RestockCard2 restockCard2;
 	
@@ -69,9 +69,9 @@ public class RestockCard1
 		JLabel lblStoreId = new JLabel("Store ID:");
 		restockpanel.add(lblStoreId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		restockpanel.add(textField, "4, 2, left, default");
-		textField.setColumns(10);
+		textFieldStoreId = new JTextField();
+		restockpanel.add(textFieldStoreId, "4, 2, left, default");
+		textFieldStoreId.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addMouseListener(new MouseAdapter() 
@@ -82,19 +82,15 @@ public class RestockCard1
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(restockpanel, "Specified Store ID is in an improper format.");
 					return;
 				}
-				Store s = null;
-				try
-				{
-					s = SystemBox.getSystem().getStore(storeId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Store s = InventorySystems.getSystem().getStore(storeId);
+				if(s == null)
 				{
 					JOptionPane.showMessageDialog(restockpanel, "Store not found.");
 					return;
@@ -124,6 +120,6 @@ public class RestockCard1
 	
 	public void resetFields()
 	{
-		textField.setText("");
+		textFieldStoreId.setText("");
 	}
 }

@@ -6,21 +6,18 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.NoSuchElementException;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import system.InventorySystems;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-
-import system.SystemBox;
-
-import java.util.NoSuchElementException;
 
 public class SystemAdminCard 
 {
@@ -74,7 +71,7 @@ public class SystemAdminCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				SystemBox.backup();
+				InventorySystems.getSystem().backup();
 				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "System successfully backed up. A new restore point was created.");
 			}
 		});
@@ -89,7 +86,7 @@ public class SystemAdminCard
 			{
 				try
 				{
-					SystemBox.restore();
+					InventorySystems.getSystem().restore();
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "System successfully reverted to the last restore point.");
 				}
 				catch(NoSuchElementException nsee)

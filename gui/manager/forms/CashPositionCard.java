@@ -1,33 +1,38 @@
 package gui.manager.forms;
 
 import gui.Card;
+
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
-import system.SystemBox;
-import system.Store;
 import system.Cashier;
+import system.InventorySystems;
+import system.Store;
 
-import java.util.*;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class CashPositionCard 
 {
 	private JSplitPane reportpane;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JPanel panel_1;
+	private JTextField textFieldStoreId;
+	private JTextField textFieldCashOnStore;
+	private JTextField textFieldTotalCash;
+	private JPanel panelCashPosition;
 	
 	private LinkedList<JTextField> cashierDetails;
 	
@@ -42,15 +47,14 @@ public class CashPositionCard
 		return reportpane;
 	}
 	
-	
 	public void init()
 	{
 		JScrollPane scrollPane = new JScrollPane();
 		reportpane.setRightComponent(scrollPane);
 		
-		panel_1 = new JPanel();
-		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new FormLayout(
+		panelCashPosition = new JPanel();
+		scrollPane.setViewportView(panelCashPosition);
+		panelCashPosition.setLayout(new FormLayout(
 		new ColumnSpec[] 
 		{
 			FormFactory.RELATED_GAP_COLSPEC,
@@ -88,11 +92,11 @@ public class CashPositionCard
 			FormFactory.DEFAULT_ROWSPEC,
 		}));
 		
-		JLabel lblItem = new JLabel("Cashier ID");
-		panel_1.add(lblItem, "2, 2");
+		JLabel lblCashierId = new JLabel("Cashier ID");
+		panelCashPosition.add(lblCashierId, "2, 2");
 		
-		JLabel lblPrice = new JLabel("Cash");
-		panel_1.add(lblPrice, "4, 2");
+		JLabel lblCash = new JLabel("Cash");
+		panelCashPosition.add(lblCash, "4, 2");
 		
 		cashierDetails = new LinkedList<JTextField>();
 		
@@ -128,12 +132,12 @@ public class CashPositionCard
 			FormFactory.DEFAULT_ROWSPEC,
 		}));
 		
-		JLabel lblItemId = new JLabel("Store ID:");
-		panel.add(lblItemId, "2, 2, right, default");
+		JLabel lblStoreId = new JLabel("Store ID:");
+		panel.add(lblStoreId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldStoreId = new JTextField();
+		panel.add(textFieldStoreId, "4, 2, fill, default");
+		textFieldStoreId.setColumns(10);
 		
 		JButton btnInquire = new JButton("Inquire");
 		btnInquire.addMouseListener(new MouseAdapter() 
@@ -144,41 +148,35 @@ public class CashPositionCard
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(reportpane, "Specified Store ID is in an improper format.");
 					return;
 				}
-				Store s = null;
-				try
-				{
-					s = SystemBox.getSystem().getStore(storeId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Store s = InventorySystems.getSystem().getStore(storeId);
+				if(s == null)
 				{
 					JOptionPane.showMessageDialog(reportpane, "Store not found.");
 					return;
 				}
 				double cash = s.getTotalCash();
-				textField_1.setText(cash + "");
+				textFieldCashOnStore.setText(cash + "");
 				
 				for(JTextField j : cashierDetails)
 				{
-					j.setVisible(false);
-					panel_1.remove(j);
+					panelCashPosition.remove(j);
 				}
+				cashierDetails = new LinkedList<JTextField>();
 				
-				Iterator<Cashier> i = s.cashierIterator();
 				int y = 4;
-				while(i.hasNext())
+				for(Cashier c : s.getCashiers())
 				{
-					Cashier c = i.next();
 					JTextField tempCashier = new JTextField();
 					tempCashier.setText(c.getIndex() + "");
 					tempCashier.setEditable(false);
-					panel_1.add(tempCashier, "2, " + y + ", fill, default");
+					panelCashPosition.add(tempCashier, "2, " + y + ", fill, default");
 					tempCashier.setColumns(10);
 					cashierDetails.add(tempCashier);
 					
@@ -187,16 +185,15 @@ public class CashPositionCard
 					cash += currCash;
 					tempCash.setText(currCash + "");
 					tempCash.setEditable(false);
-					panel_1.add(tempCash, "4, " + y + ", fill, default");
+					panelCashPosition.add(tempCash, "4, " + y + ", fill, default");
 					tempCash.setColumns(10);
 					cashierDetails.add(tempCash);
-					
 					
 					y+=2;
 				}
 				
-				panel_1.revalidate();
-				textField_2.setText(cash + "");
+				panelCashPosition.revalidate();
+				textFieldTotalCash.setText(cash + "");
 			}
 		});
 		panel.add(btnInquire, "2, 4");
@@ -204,18 +201,18 @@ public class CashPositionCard
 		JLabel lblCashOnStore = new JLabel("Cash on Store:");
 		panel.add(lblCashOnStore, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		panel.add(textField_1, "4, 6, fill, default");
-		textField_1.setColumns(10);
+		textFieldCashOnStore = new JTextField();
+		textFieldCashOnStore.setEditable(false);
+		panel.add(textFieldCashOnStore, "4, 6, fill, default");
+		textFieldCashOnStore.setColumns(10);
 		
 		JLabel lblTotalCash = new JLabel("Total Cash:");
 		panel.add(lblTotalCash, "2, 8, right, default");
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		panel.add(textField_2, "4, 8, fill, default");
-		textField_2.setColumns(10);
+		textFieldTotalCash = new JTextField();
+		textFieldTotalCash.setEditable(false);
+		panel.add(textFieldTotalCash, "4, 8, fill, default");
+		textFieldTotalCash.setColumns(10);
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addMouseListener(new MouseAdapter() 
@@ -233,13 +230,15 @@ public class CashPositionCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
+		textFieldStoreId.setText("");
+		textFieldCashOnStore.setText("");
+		textFieldTotalCash.setText("");
 		
 		for(JTextField j : cashierDetails)
 		{
-			panel_1.remove(j);
+			panelCashPosition.remove(j);
 		}
+		
+		cashierDetails = new LinkedList<JTextField>();
 	}
 }
