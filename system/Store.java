@@ -118,6 +118,8 @@ public class Store
 		transactions.add(transaction);
 		TransactionDao transdao = new TransactionDao();
 		transdao.save(transaction);
+		StoreDao storedao = new StoreDao();
+		storedao.save(this);
 	}
 	
 	public void deductFromStock(Item item, int quantity)

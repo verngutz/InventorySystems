@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -21,6 +22,8 @@ import system.Item;
 import system.Store;
 import system.TransactionE;
 import system.TransactionItem;
+import system.dao.ItemDao;
+import system.dao.TransactionDao;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -165,6 +168,8 @@ public class ItemSummaryCard
 			{
 				String itemCode = textFieldItemId.getText();
 				Item i = InventorySystems.getSystem().getItem(itemCode);
+				//ItemDao itedao = new ItemDao();
+				//Item i = itedao.get(itemCode);
 				if(i == null)
 				{
 					JOptionPane.showMessageDialog(reportpane, "Item not found.");
@@ -202,14 +207,17 @@ public class ItemSummaryCard
 				}
 				
 				int y = 4;
-				for(Store s : InventorySystems.getSystem().getStoreList())
+				TransactionDao transdao = new TransactionDao();
+				ArrayList<TransactionE> q = (ArrayList<TransactionE>) transdao.getTransactions();
+				//if(query != null && !query.equals(s))
+				//if(query != null && !query.equals(s))
+				//{
+				//	continue;
+				//}
+				for(TransactionE t : q)
 				{
-					if(query != null && !query.equals(s))
-					{
-						continue;
-					}
-					for(TransactionE t : s.getTransactions())
-					{
+					if(t.getStore().getId()==query.getId()){
+						
 						for(TransactionItem ti : t.getItemsSold())
 						{
 							if(ti.getItem().equals(i))
@@ -229,7 +237,7 @@ public class ItemSummaryCard
 								quantity.setText(ti.getQuantity() + "");
 								customer.setText(t.getCustomer().getId() + ": " + t.getCustomer().getFirstName() + " " + t.getCustomer().getLastName() + ", " + t.getCustomer().getAge() + ", " + t.getCustomer().getGender());
 								price.setText(ti.getPrice() + "");
-
+	
 								panelItemDetails.add(quantity, "2, " + y + ", fill, default");
 								panelItemDetails.add(customer, "4, " + y + ", fill, default");
 								panelItemDetails.add(price, "6, " + y + ", fill, default");

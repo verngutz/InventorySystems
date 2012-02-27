@@ -8,8 +8,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +27,7 @@ import system.InventorySystems;
 import system.Store;
 import system.TransactionE;
 import system.TransactionItem;
+import system.dao.TransactionDao;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -175,15 +178,14 @@ public class CustomerReportCard
 				}
 				activeTransactions.clear();
 				comboBoxTransactions.removeAllItems();
-				for(Store s : InventorySystems.getSystem().getStoreList())
+				TransactionDao transdao = new TransactionDao();
+				ArrayList<TransactionE> q = (ArrayList<TransactionE>) transdao.getTransactions();
+				for(TransactionE t : q)
 				{
-					for(TransactionE t : s.getTransactions())
+					if(t.getCustomer().equals(c))
 					{
-						if(t.getCustomer().equals(c))
-						{
-							comboBoxTransactions.addItem(t.getDateTime().toString());
-							activeTransactions.put(t.getDateTime().toString(), t);
-						}
+						comboBoxTransactions.addItem(t.getDateTime().toString());
+						activeTransactions.put(t.getDateTime().toString(), t);
 					}
 				}
 				comboBoxTransactions.revalidate();
