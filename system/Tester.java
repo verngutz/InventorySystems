@@ -176,6 +176,7 @@ public class Tester
 							System.out.println("Enter cashier index");
 							int cashierIndex = in.nextInt();
 							Cashier cashier = store.getCashier(cashierIndex);
+							System.out.println(cashier==null ? "NULL" : "NOT NULL");
 							cashier.startDay();
 							System.out.println("Welcome!");
 							break;

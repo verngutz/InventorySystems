@@ -7,7 +7,6 @@ public class Cashier
 {
 	public static final double POINTS_PER_PESO = 500;
 	
-	private int index_seq;
 	private int index;
 	private Store store;
 	private double cash;
@@ -29,13 +28,11 @@ public class Cashier
 	public double getCash(){ return cash; }
 	public boolean getOnline() { return online; }
 	public double getRawCashDue() { return rawCashDue; }
-	public int getIndex_seq() { return index_seq; }
 	
 	public void setIndex(int index) { this.index = index; }
 	public void setStore(Store store) { this.store = store; }
 	public void setCash(double cash) { this.cash = cash; }
 	public void setOnline(boolean online) { this.online = online; }
-	public void setIndex_seq(int index_seq) { this.index_seq = index_seq; }
 
 	
 	public void startDay()
@@ -121,16 +118,19 @@ public class Cashier
 	
 	public double endDay()
 	{
-		if(!online)
+		CashierDao cashdao = new CashierDao();
+		Cashier cas = cashdao.get(this.getIndex());
+		System.out.println(this.getIndex());
+		if(!cas.getOnline())
 		{
 			throw new IllegalStateException("Cashier is not online.");
 		}
-		online = false;
+		cas.setOnline(false);
 		double toReturn = cash;
 		store.addCash(cash);
 		cash = 0;
 
-		CashierDao cashdao = new CashierDao();
+		
 		cashdao.save(this);
 		
 		return toReturn;

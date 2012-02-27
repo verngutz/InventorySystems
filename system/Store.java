@@ -65,7 +65,7 @@ public class Store
 	{	
 		CashierDao cashdao = new CashierDao();
 		
-		if(cashdao.get(cashierID, this) != null)
+		if(cashdao.get(cashierID) != null)
 			throw new IndexOutOfBoundsException();		
 		
 		Cashier c = new Cashier(this, cashierID);
@@ -76,13 +76,13 @@ public class Store
 	public Cashier getCashier(int cashierIndex) 
 	{
 		CashierDao cashdao = new CashierDao();
-		return cashdao.get(cashierIndex, this);
+		return cashdao.get(cashierIndex);
 	}
 	
 	public void removeCashier(int cashierID)
 	{
 		CashierDao cashdao = new CashierDao();
-		Cashier c = cashdao.get(cashierID, this);
+		Cashier c = cashdao.get(cashierID);
 		
 		if(c == null)
 			throw new IllegalArgumentException();

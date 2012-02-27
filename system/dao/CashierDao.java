@@ -87,7 +87,7 @@ public class CashierDao
             session.close();
         }
 	}
-	/*
+	
 	public Cashier get(int index)
 	{
 		Session session = null;
@@ -102,7 +102,7 @@ public class CashierDao
             session.close();
         }
 	}
-	*/
+	/*
 	public Cashier get(int index, Store store){
 		Session session = null;
         try 
@@ -119,6 +119,7 @@ public class CashierDao
             session.close();
         }
 	}
+	*/
 	@SuppressWarnings("unchecked")
 	public List<Cashier> getCashiers()
     {
