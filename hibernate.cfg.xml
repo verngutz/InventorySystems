@@ -30,5 +30,6 @@
 		<mapping resource="system/Store.hbm.xml"/>
 		<mapping resource="system/TransactionE.hbm.xml"/>
 		<mapping resource="system/TransactionItem.hbm.xml"/>
+		<mapping resource="system/Backup.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

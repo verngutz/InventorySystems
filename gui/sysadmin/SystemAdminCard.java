@@ -6,6 +6,7 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 import javax.swing.JButton;
@@ -71,7 +72,15 @@ public class SystemAdminCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				InventorySystems.getSystem().backup();
+				try
+				{
+					InventorySystems.getSystem().backup();
+				}
+				catch(IOException ioe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "Cannot start mysqldump process for creating a backup.");
+					return;
+				}
 				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "System successfully backed up. A new restore point was created.");
 			}
 		});
@@ -88,6 +97,12 @@ public class SystemAdminCard
 				{
 					InventorySystems.getSystem().restore();
 					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "System successfully reverted to the last restore point.");
+				}
+				catch(IOException ioe)
+				{
+					JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin), "Cannot start mysql process for restoring.");
+					System.out.println(ioe.getMessage());
+					return;
 				}
 				catch(NoSuchElementException nsee)
 				{

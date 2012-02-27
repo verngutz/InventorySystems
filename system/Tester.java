@@ -312,7 +312,14 @@ public class Tester
 						System.out.println("Store added. StoreID: "+id);
 						break;
 					case 2:
-						InventorySystems.getSystem().backup();
+						try
+						{
+							InventorySystems.getSystem().backup();
+						}
+						catch(IOException ioe)
+						{
+							System.out.println("Cannot start mysqldump for backing up.");
+						}
 						System.out.println("System successfully backed up.");
 						break;
 					case 3:
@@ -320,6 +327,10 @@ public class Tester
 						{
 							InventorySystems.getSystem().restore();
 							System.out.println("System successfully restored to previous restore point.");
+						}
+						catch(IOException ioe)
+						{
+							System.out.println("Cannot start mysql for restoration.");
 						}
 						catch(NoSuchElementException nsee)
 						{
