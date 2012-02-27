@@ -3,3 +3,4 @@
 *.classpath
 .settings/
 dump_*
+hibernate.cfg.xml
