@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,7 +23,6 @@ import javax.swing.JTextField;
 
 import system.Customer;
 import system.InventorySystems;
-import system.Store;
 import system.TransactionE;
 import system.TransactionItem;
 import system.dao.TransactionDao;

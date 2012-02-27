@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import system.Cashier;
-import system.Store;
 
 public class CashierDao
 {

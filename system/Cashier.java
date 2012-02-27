@@ -1,7 +1,6 @@
 package system;
 
 import system.dao.CashierDao;
-import system.dao.StoreDao;
 import system.dao.TransactionItemDao;
 
 public class Cashier 

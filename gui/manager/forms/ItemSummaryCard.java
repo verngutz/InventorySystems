@@ -22,7 +22,6 @@ import system.Item;
 import system.Store;
 import system.TransactionE;
 import system.TransactionItem;
-import system.dao.ItemDao;
 import system.dao.TransactionDao;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -216,7 +215,7 @@ public class ItemSummaryCard
 				//}
 				for(TransactionE t : q)
 				{
-					if(t.getStore().getId()==query.getId()){
+					if(query == null || t.getStore().getId()==query.getId()){
 						
 						for(TransactionItem ti : t.getItemsSold())
 						{
