@@ -10,7 +10,7 @@ public class Cashier
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	private int index_seq;
 	private int index;
 	public static final double POINTS_PER_PESO = 500;
 	private Store store;
@@ -161,5 +161,13 @@ public class Cashier
 
 	public void setOnline(boolean online) {
 		this.online = online;
+	}
+
+	public int getIndex_seq() {
+		return index_seq;
+	}
+
+	public void setIndex_seq(int index_seq) {
+		this.index_seq = index_seq;
 	}
 }

@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 
 import system.dao.CashierDao;
 import system.Cashier;
+import system.Store;
 
 public class CashierDaoImpl implements CashierDao {
 
@@ -92,12 +93,15 @@ public class CashierDaoImpl implements CashierDao {
         }
 	}
 	
-	public Cashier get(int index){
+	public Cashier get(int index, Store store){
 		Session session = null;
         try 
         {
             session = SessionFactorySingleton.getSessionFactory().openSession();
-            return (Cashier) session.get(Cashier.class, index);
+            Query q = session.createQuery("from Cashier cas where index = :ind And cas.store = :sto");
+            q.setParameter("ind", index);
+            q.setParameter("sto", store);
+            return (Cashier) q.uniqueResult();
 
         }
         finally 

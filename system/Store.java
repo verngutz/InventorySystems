@@ -124,7 +124,7 @@ public class Store implements Cloneable
 	public void removeCashier(int cashierID)
 	{
 		CashierDaoImpl cashdao = new CashierDaoImpl();
-		Cashier c = cashdao.get(cashierID);
+		Cashier c = cashdao.get(cashierID, this);
 		if(c == null)
 			throw new IllegalArgumentException();
 		cashdao.delete(cashierID);
@@ -148,7 +148,7 @@ public class Store implements Cloneable
 	public Cashier getCashier(int cashierIndex) 
 	{
 		CashierDaoImpl cashdao = new CashierDaoImpl();
-		return cashdao.get(cashierIndex);
+		return cashdao.get(cashierIndex, this);
 	}
 	
 	public double giveCashToCashier()
