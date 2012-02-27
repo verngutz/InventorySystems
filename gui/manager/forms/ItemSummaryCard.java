@@ -1,47 +1,52 @@
 package gui.manager.forms;
 
 import gui.Card;
+
 import java.awt.CardLayout;
 import java.awt.Container;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Iterator;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.LinkedList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 
-import system.Cashier;
+import system.InventorySystems;
 import system.Item;
 import system.Store;
-import system.SystemBox;
 import system.TransactionE;
 import system.TransactionItem;
 
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
-public class ItemSummaryCard {
+public class ItemSummaryCard 
+{
 	private JSplitPane reportpane;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldItemId;
+	private JTextField textFieldQuantitySold;
+	private JTextField textFieldAmountMade;
+	private JTextField textFieldItemName;
 	
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField textFieldStoreId;
+	private JTextField textFieldStock;
 	
-	private JPanel panel_1;
+	private JPanel panelItemDetails;
 	
 	private LinkedList<JTextField> itemDetails;
 	
-	public JSplitPane getCard(Container con){
-		if(reportpane==null){
+	public JSplitPane getCard(Container con)
+	{
+		if(reportpane==null)
+		{
 			reportpane = new JSplitPane();
 			this.con = con;
 			init();
@@ -49,145 +54,147 @@ public class ItemSummaryCard {
 		return reportpane;
 	}
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public void init(){
+	public void init()
+	{
 		reportpane = new JSplitPane();
 		JScrollPane scrollPane = new JScrollPane();
 		reportpane.setRightComponent(scrollPane);
 		itemDetails = new LinkedList<JTextField>();
-		panel_1 = new JPanel();
-		scrollPane.setViewportView(panel_1);
-		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.MIN_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("min:grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		panelItemDetails = new JPanel();
+		scrollPane.setViewportView(panelItemDetails);
+		panelItemDetails.setLayout(new FormLayout(
+		new ColumnSpec[] 
+        {
+			FormFactory.RELATED_GAP_COLSPEC,
+			FormFactory.MIN_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("min:grow"),
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("default:grow"),
+		},
+		new RowSpec[] 
+        {
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
-		JLabel lblItem = new JLabel("Quantity");
-		panel_1.add(lblItem, "2, 2");
+		JLabel lblQuantity = new JLabel("Quantity");
+		panelItemDetails.add(lblQuantity, "2, 2");
 		
-		JLabel lblPrice = new JLabel("Customer");
-		panel_1.add(lblPrice, "4, 2");
+		JLabel lblCustomer = new JLabel("Customer");
+		panelItemDetails.add(lblCustomer, "4, 2");
 		
-		JLabel lblPrice_1 = new JLabel("Price");
-		panel_1.add(lblPrice_1, "6, 2");
-		
+		JLabel lblPrice = new JLabel("Price");
+		panelItemDetails.add(lblPrice, "6, 2");
 		
 		JPanel panel = new JPanel();
 		reportpane.setLeftComponent(panel);
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				FormFactory.MIN_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(55dlu;default):grow"),},
-			new RowSpec[] {
-				FormFactory.LINE_GAP_ROWSPEC,
-				RowSpec.decode("23px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		panel.setLayout(new FormLayout(
+		new ColumnSpec[] 
+        {
+			FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+			FormFactory.MIN_COLSPEC,
+			FormFactory.RELATED_GAP_COLSPEC,
+			ColumnSpec.decode("max(55dlu;default):grow"),
+		},
+		new RowSpec[] 
+        {
+			FormFactory.LINE_GAP_ROWSPEC,
+			RowSpec.decode("23px"),
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+			FormFactory.RELATED_GAP_ROWSPEC,
+			FormFactory.DEFAULT_ROWSPEC,
+		}));
 		
 		JLabel lblItemId = new JLabel("Item ID:");
 		panel.add(lblItemId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldItemId = new JTextField();
+		panel.add(textFieldItemId, "4, 2, fill, default");
+		textFieldItemId.setColumns(10);
 		
-		JLabel store = new JLabel("Store ID:");
-		panel.add(store, "2, 4, right, default");
+		JLabel storeId = new JLabel("Store ID:");
+		panel.add(storeId, "2, 4, right, default");
 		
-		textField_4 = new JTextField();
-		panel.add(textField_4, "4, 4, fill, default");
-		textField_4.setColumns(10);
+		textFieldStoreId = new JTextField();
+		panel.add(textFieldStoreId, "4, 4, fill, default");
+		textFieldStoreId.setColumns(10);
 		
 		JButton btnInquire = new JButton("Inquire");
-		btnInquire.addMouseListener(new MouseAdapter() {
+		btnInquire.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
-				String itemCode = textField.getText();
-				Item i;
-				try
-				{
-					i = SystemBox.getSystem().getItem(itemCode);
-				}
-				catch(NullPointerException npe)
+			public void mousePressed(MouseEvent arg0) 
+			{
+				String itemCode = textFieldItemId.getText();
+				Item i = InventorySystems.getSystem().getItem(itemCode);
+				if(i == null)
 				{
 					JOptionPane.showMessageDialog(reportpane, "Item not found.");
 					return;
 				}
-				textField_3.setText(i.getItemName());
+				textFieldItemName.setText(i.getItemName());
 				int quantitySold = 0;
 				double amountMade = 0;
 				
 				for(JTextField j : itemDetails)
 				{
-					j.setVisible(false);
-					panel_1.remove(j);
+					panelItemDetails.remove(j);
 				}
+				itemDetails = new LinkedList<JTextField>();
 
 				Store query = null;
-				if(!textField_4.getText().equals(""))
+				if(!textFieldStoreId.getText().equals(""))
 				{
 					int storeId = 0;
 					try
 					{
-						storeId = Integer.parseInt(textField_4.getText());
+						storeId = Integer.parseInt(textFieldStoreId.getText());
 					}
 					catch(NumberFormatException nfe)
 					{
 						JOptionPane.showMessageDialog(reportpane, "Specified Store ID is in an improper format.");
 						return;
 					}
-					try
-					{
-						query = SystemBox.getSystem().getStore(storeId);
-					}
-					catch(IndexOutOfBoundsException ioobe)
+					query = InventorySystems.getSystem().getStore(storeId);
+					if(query == null)
 					{
 						JOptionPane.showMessageDialog(reportpane, "Store not found.");
 						return;
@@ -195,23 +202,16 @@ public class ItemSummaryCard {
 				}
 				
 				int y = 4;
-				
-				Iterator<Store> stores = SystemBox.getSystem().getStoreList().iterator();
-				while(stores.hasNext())
+				for(Store s : InventorySystems.getSystem().getStoreList())
 				{
-					Store s = stores.next();
 					if(query != null && !query.equals(s))
 					{
 						continue;
 					}
-					Iterator<TransactionE> transactions = s.transactionIterator();
-					while(transactions.hasNext())
+					for(TransactionE t : s.getTransactions())
 					{
-						TransactionE t = transactions.next();
-						Iterator<TransactionItem> items = t.itemsSoldIterator();
-						while(items.hasNext())
+						for(TransactionItem ti : t.getItemsSold())
 						{
-							TransactionItem ti = items.next();
 							if(ti.getItem().equals(i))
 							{
 								JTextField quantity = new JTextField();
@@ -230,9 +230,9 @@ public class ItemSummaryCard {
 								customer.setText(t.getCustomer().getId() + ": " + t.getCustomer().getFirstName() + " " + t.getCustomer().getLastName() + ", " + t.getCustomer().getAge() + ", " + t.getCustomer().getGender());
 								price.setText(ti.getPrice() + "");
 
-								panel_1.add(quantity, "2, " + y + ", fill, default");
-								panel_1.add(customer, "4, " + y + ", fill, default");
-								panel_1.add(price, "6, " + y + ", fill, default");
+								panelItemDetails.add(quantity, "2, " + y + ", fill, default");
+								panelItemDetails.add(customer, "4, " + y + ", fill, default");
+								panelItemDetails.add(price, "6, " + y + ", fill, default");
 								
 								itemDetails.add(quantity);
 								itemDetails.add(customer);
@@ -247,13 +247,13 @@ public class ItemSummaryCard {
 					}
 				}
 				
-				panel_1.revalidate();
-				textField_1.setText(quantitySold + "");
-				textField_2.setText(amountMade + "");
+				panelItemDetails.revalidate();
+				textFieldQuantitySold.setText(quantitySold + "");
+				textFieldAmountMade.setText(amountMade + "");
 				if(query != null)
-					textField_5.setText(query.checkInventory(i) + "");
+					textFieldStock.setText(query.checkInventory(i) + "");
 				else
-					textField_5.setText("");
+					textFieldStock.setText("");
 			}
 		});
 		panel.add(btnInquire, "2, 6");
@@ -261,40 +261,42 @@ public class ItemSummaryCard {
 		JLabel lblItemName = new JLabel("Item Name:");
 		panel.add(lblItemName, "2, 8, right, default");
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		panel.add(textField_3, "4, 8, fill, default");
-		textField_3.setColumns(10);
+		textFieldItemName = new JTextField();
+		textFieldItemName.setEditable(false);
+		panel.add(textFieldItemName, "4, 8, fill, default");
+		textFieldItemName.setColumns(10);
 		
-		JLabel lblCashOnStore = new JLabel("Quantity Sold:");
-		panel.add(lblCashOnStore, "2, 10, right, default");
+		JLabel lblQuantitySold = new JLabel("Quantity Sold:");
+		panel.add(lblQuantitySold, "2, 10, right, default");
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		panel.add(textField_1, "4, 10, fill, default");
-		textField_1.setColumns(10);
+		textFieldQuantitySold = new JTextField();
+		textFieldQuantitySold.setEditable(false);
+		panel.add(textFieldQuantitySold, "4, 10, fill, default");
+		textFieldQuantitySold.setColumns(10);
 		
-		JLabel lblTotalCash = new JLabel("Amount Made:");
-		panel.add(lblTotalCash, "2, 12, right, default");
+		JLabel lblAmountMade = new JLabel("Amount Made:");
+		panel.add(lblAmountMade, "2, 12, right, default");
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		panel.add(textField_2, "4, 12, fill, default");
-		textField_2.setColumns(10);
+		textFieldAmountMade = new JTextField();
+		textFieldAmountMade.setEditable(false);
+		panel.add(textFieldAmountMade, "4, 12, fill, default");
+		textFieldAmountMade.setColumns(10);
 		
-		JLabel stock = new JLabel("Available Stock in Store:");
-		panel.add(stock, "2, 14, right, default");
+		JLabel lblStock = new JLabel("Available Stock in Store:");
+		panel.add(lblStock, "2, 14, right, default");
 		
-		textField_5 = new JTextField();
-		textField_5.setEditable(false);
-		panel.add(textField_5, "4, 14, fill, default");
-		textField_5.setColumns(10);
+		textFieldStock = new JTextField();
+		textFieldStock.setEditable(false);
+		panel.add(textFieldStock, "4, 14, fill, default");
+		textFieldStock.setColumns(10);
 		
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addMouseListener(new MouseAdapter() {
+		btnCancel.addMouseListener(new MouseAdapter() 
+		{
 			@Override
-			public void mousePressed(MouseEvent arg0) {
+			public void mousePressed(MouseEvent arg0) 
+			{
 				resetFields();
 				CardLayout cl = (CardLayout) con.getLayout();
 				cl.show(con, Card.MANAGER.getLabel());
@@ -306,15 +308,16 @@ public class ItemSummaryCard {
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
-		textField_3.setText("");
-		textField_4.setText("");
-		textField_5.setText("");
+		textFieldItemId.setText("");
+		textFieldQuantitySold.setText("");
+		textFieldAmountMade.setText("");
+		textFieldItemName.setText("");
+		textFieldStoreId.setText("");
+		textFieldStock.setText("");
 		for(JTextField j : itemDetails)
 		{
-			panel_1.remove(j);
+			panelItemDetails.remove(j);
 		}
+		itemDetails = new LinkedList<JTextField>();
 	}
 }

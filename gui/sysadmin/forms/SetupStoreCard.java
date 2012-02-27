@@ -24,16 +24,16 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import system.Store;
-import system.SystemBox;
+import system.InventorySystems;
 
 public class SetupStoreCard 
 {
 	private JPanel sysadmin_setup;
 	Container con;
 	
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField textFieldStartingCash;
+	private JTextField textFieldCashPerCashier;
+	private JTextField textFieldStoreId;
 	
 	public JPanel getCard(Container con)
 	{
@@ -74,29 +74,29 @@ public class SetupStoreCard
 			FormFactory.DEFAULT_ROWSPEC,
 		}));
 		
-		JLabel lblNewStore = new JLabel("Store ID:");
-		lblNewStore.setHorizontalAlignment(SwingConstants.RIGHT);
-		sysadmin_setup.add(lblNewStore, "2, 2, right, default");
+		JLabel lblStoreId = new JLabel("Store ID:");
+		lblStoreId.setHorizontalAlignment(SwingConstants.RIGHT);
+		sysadmin_setup.add(lblStoreId, "2, 2, right, default");
 		
-		textField_2 = new JTextField();
-		sysadmin_setup.add(textField_2, "4, 2, fill, default");
-		textField_2.setColumns(10);
+		textFieldStoreId = new JTextField();
+		sysadmin_setup.add(textFieldStoreId, "4, 2, fill, default");
+		textFieldStoreId.setColumns(10);
 		
 		JLabel lblStartingCash = new JLabel("Starting Cash:");
 		lblStartingCash.setHorizontalAlignment(SwingConstants.RIGHT);
 		sysadmin_setup.add(lblStartingCash, "2, 4, right, default");
 		
-		textField = new JTextField();
-		sysadmin_setup.add(textField, "4, 4, fill, default");
-		textField.setColumns(10);
+		textFieldStartingCash = new JTextField();
+		sysadmin_setup.add(textFieldStartingCash, "4, 4, fill, default");
+		textFieldStartingCash.setColumns(10);
 		
 		JLabel lblCashPerCashier = new JLabel("Cash per Cashier:");
 		lblCashPerCashier.setHorizontalAlignment(SwingConstants.RIGHT);
 		sysadmin_setup.add(lblCashPerCashier, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		sysadmin_setup.add(textField_1, "4, 6, fill, default");
-		textField_1.setColumns(10);
+		textFieldCashPerCashier = new JTextField();
+		sysadmin_setup.add(textFieldCashPerCashier, "4, 6, fill, default");
+		textFieldCashPerCashier.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() 
@@ -107,7 +107,7 @@ public class SetupStoreCard
 				double cash = 0;
 				try
 				{
-					cash = Double.parseDouble(textField.getText());
+					cash = Double.parseDouble(textFieldStartingCash.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -122,7 +122,7 @@ public class SetupStoreCard
 				double cashPerCashier = 0;
 				try
 				{
-					cashPerCashier = Double.parseDouble(textField_1.getText());
+					cashPerCashier = Double.parseDouble(textFieldCashPerCashier.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -137,7 +137,7 @@ public class SetupStoreCard
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField_2.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -145,7 +145,7 @@ public class SetupStoreCard
 					return;
 				}
 				
-				SystemBox.getSystem().addStore(new Store(storeId, cash, cashPerCashier));
+				InventorySystems.getSystem().addStore(new Store(storeId, cash, cashPerCashier));
 				JOptionPane.showMessageDialog(JOptionPane.getFrameForComponent(sysadmin_setup), "Successfully set up store with ID " + storeId + ".");
 				returnToPreviousScreen();
 			}
@@ -163,13 +163,14 @@ public class SetupStoreCard
 			}
 		});
 		sysadmin_setup.add(btnCancel, "2, 14");
-		sysadmin_setup.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textField, textField_1, btnAdd, btnCancel, lblStartingCash, lblCashPerCashier, lblNewStore}));
+		sysadmin_setup.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{textFieldStartingCash, textFieldCashPerCashier, btnAdd, btnCancel, lblStartingCash, lblCashPerCashier, lblStoreId}));
 	}
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
+		textFieldStartingCash.setText("");
+		textFieldCashPerCashier.setText("");
+		textFieldStoreId.setText("");
 	}
 	
 	public void returnToPreviousScreen()

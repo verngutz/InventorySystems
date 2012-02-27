@@ -58,14 +58,14 @@ public class Tester
 								String gender = in.nextLine();
 								System.out.println("Enter Customer's Age:");
 								int age = in.nextInt();
-								SystemBox.getSystem().addCustomer(new Customer(firstname, lastname, SystemBox.getSystem().nextCustomerId(), address, gender, age));
+								InventorySystems.getSystem().addCustomer(new Customer(firstname, lastname, InventorySystems.getSystem().nextCustomerId(), address, gender, age));
 								System.out.println("Customer successfully enrolled! Press the enter key to continue.");
 								in.nextLine();
 								break;
 							case 2:
 								System.out.println("Enter Store Id:");
 								int id = in.nextInt();
-								Store toRestock = SystemBox.getSystem().getStore(id);
+								Store toRestock = InventorySystems.getSystem().getStore(id);
 								toRestock.startDeliveryBatch();
 								while(true)
 								{
@@ -75,9 +75,10 @@ public class Tester
 									if(itemCode.equals("q")) break;
 									int quantity = in.nextInt();
 									double wholesalePrice = in.nextDouble();
-									toRestock.acceptDeliveryItem(SystemBox.getSystem().getItem(itemCode), quantity, wholesalePrice);
+									toRestock.acceptDeliveryItem(InventorySystems.getSystem().getItem(itemCode), quantity, wholesalePrice);
 								}
-								toRestock.endDeliveryBatch();
+								Delivery d = toRestock.endDeliveryBatch();
+								InventorySystems.getSystem().addDelivery(d);
 								break;
 							case 3:
 								System.out.println("This feature is not available yet. Press the enter key to continue.");
@@ -93,7 +94,7 @@ public class Tester
 								{
 									System.out.println("Enter Item Code:");
 									itemCode = in.nextLine();
-									if(SystemBox.getSystem().containsItem(itemCode))
+									if(InventorySystems.getSystem().containsItem(itemCode))
 									{
 										System.out.println("That item code is already assigned to a different item.");
 									}
@@ -116,7 +117,7 @@ public class Tester
 								{
 									System.out.println(itemName + " " + itemCategory + " " + itemUnit + " " + unitPrice);
 								}
-								SystemBox.getSystem().addItem(new Item(itemCode, itemName, itemCategory, itemUnit, unitPrice));
+								InventorySystems.getSystem().addItem(new Item(itemCode, itemName, itemCategory, itemUnit, unitPrice));
 								System.out.println("Item successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -126,7 +127,7 @@ public class Tester
 								System.out.println("Enter New Price:");
 								unitPrice = in.nextDouble();
 								in.nextLine();
-								SystemBox.getSystem().getItem(itemCode).setUnitPrice(unitPrice);
+								InventorySystems.getSystem().getItem(itemCode).setUnitPrice(unitPrice);
 								System.out.println("Unit successfully added! Press the enter key to continue.");
 								in.nextLine();
 								break;
@@ -137,7 +138,7 @@ public class Tester
 								System.out.println("Enter Cashier Id:");
 								int cashierid = in.nextInt();
 								in.nextLine();
-								Store store = SystemBox.getSystem().getStore(id);
+								Store store = InventorySystems.getSystem().getStore(id);
 								store.addCashier(cashierid);
 								System.out.println("Cashier successfully added! Press the enter key to continue.");
 								in.nextLine();
@@ -148,7 +149,7 @@ public class Tester
 								in.nextLine();
 								System.out.println("Enter Cashier Id:");
 								cashierid = in.nextInt();
-								store = SystemBox.getSystem().getStore(id);
+								store = InventorySystems.getSystem().getStore(id);
 								store.removeCashier(cashierid);
 								System.out.println("Cashier successfully removed! Press the enter key to continue.");
 								in.nextLine();
@@ -171,7 +172,7 @@ public class Tester
 						case 1:
 							System.out.println("Enter store id");
 							int storeid = in.nextInt();
-							Store store = SystemBox.getSystem().getStore(storeid);
+							Store store = InventorySystems.getSystem().getStore(storeid);
 							System.out.println("Enter cashier index");
 							int cashierIndex = in.nextInt();
 							Cashier cashier = store.getCashier(cashierIndex);
@@ -181,7 +182,7 @@ public class Tester
 						case 2:
 							System.out.println("Enter store id");
 							storeid = in.nextInt();
-							store = SystemBox.getSystem().getStore(storeid);
+							store = InventorySystems.getSystem().getStore(storeid);
 							System.out.println("Enter cashier index");
 							cashierIndex = in.nextInt();
 							cashier = store.getCashier(cashierIndex);
@@ -195,7 +196,7 @@ public class Tester
 								if(itemid.equals("0")) break a;
 								Item currentItem = null;
 								Item tempItem;
-								Iterator<Item> itemsList = SystemBox.getSystem().getItemList().iterator();
+								Iterator<Item> itemsList = InventorySystems.getSystem().getItemList().iterator();
 								while(itemsList.hasNext()){
 									tempItem = itemsList.next();
 									if(tempItem.getItemCode().equals(itemid)){
@@ -236,7 +237,7 @@ public class Tester
 							{
 								System.out.println("Enter customer id: ");
 								int customerId = in.nextInt();
-								buyer = SystemBox.getSystem().getCustomer(customerId);
+								buyer = InventorySystems.getSystem().getCustomer(customerId);
 								System.out.println("Usable points: "+buyer.getUsablePoints());
 								System.out.println("Enter points used: ");
 								pointsUsed = in.nextInt();
@@ -258,7 +259,7 @@ public class Tester
 						case 3:
 							System.out.println("Enter store id");
 							storeid = in.nextInt();
-							store = SystemBox.getSystem().getStore(storeid);
+							store = InventorySystems.getSystem().getStore(storeid);
 							System.out.println("Enter cashier index");
 							cashierIndex = in.nextInt();
 							cashier = store.getCashier(cashierIndex);
@@ -278,7 +279,7 @@ public class Tester
 						System.out.println("Enter customer id");
 						int id = in.nextInt();
 						System.out.println("Fetching your info...");
-						Customer current = SystemBox.getSystem().getCustomer(id);
+						Customer current = InventorySystems.getSystem().getCustomer(id);
 						if(current == null)
 							System.out.println("Customer not found.");
 						else
@@ -307,17 +308,17 @@ public class Tester
 						double cash = in.nextDouble();
 						System.out.println("Enter cash per cashier");
 						double cpc = in.nextDouble();
-						SystemBox.getSystem().addStore(new Store(id, cash, cpc));
+						InventorySystems.getSystem().addStore(new Store(id, cash, cpc));
 						System.out.println("Store added. StoreID: "+id);
 						break;
 					case 2:
-						SystemBox.backup();
+						InventorySystems.getSystem().backup();
 						System.out.println("System successfully backed up.");
 						break;
 					case 3:
 						try
 						{
-							SystemBox.restore();
+							InventorySystems.getSystem().restore();
 							System.out.println("System successfully restored to previous restore point.");
 						}
 						catch(NoSuchElementException nsee)

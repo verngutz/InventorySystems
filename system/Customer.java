@@ -1,8 +1,9 @@
 package system;
 
-import system.dao.impl.CustomerDaoImpl;
+import system.dao.CustomerDao;
 
-public class Customer implements Cloneable{
+public class Customer
+{
 	private String firstName;
 	private String lastName;
 	private int id;
@@ -11,6 +12,8 @@ public class Customer implements Cloneable{
 	private int age;
 	private int ptsEarned;
 	private int ptsRedeemed;
+
+	public Customer() { }
 	
 	public Customer(String firstName, String lastName, int id, String address, String gender, int age)
 	{
@@ -24,30 +27,37 @@ public class Customer implements Cloneable{
 		this.ptsRedeemed = 0;
 	}
 	
-	public Customer(String firstName, String lastName, int id, String address, String gender, int age, int ptsEarned, int ptsRedeemed)
-	{
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.id = id;
-		this.address = address;
-		this.gender = gender;
-		this.age = age;
-		this.ptsEarned = ptsEarned;
-		this.ptsRedeemed = ptsRedeemed;
-	}
 	
-	public Customer() {
-		// TODO Auto-generated constructor stub
-	}
+	public String getFirstName() { return firstName; }
+	public String getLastName() { return lastName; }
+	public int getId() { return id; }
+	public String getAddress() { return address; }
+	public String getGender() { return gender; }
+	public int getAge() { return age; }
+	public int getPtsEarned() { return ptsEarned; }
+	public int getPtsRedeemed() { return ptsRedeemed; }
+	
+	public void setFirstName(String firstName) { this.firstName = firstName; }
+	public void setLastName(String lastName) { this.lastName = lastName; }
+	public void setId(int id) { this.id = id; }
+	public void setAddress(String address) { this.address = address; }
+	public void setGender(String gender) { this.gender = gender; }
+	public void setAge(int age) { this.age = age; }
+	public void setPtsEarned(int ptsEarned) { this.ptsEarned = ptsEarned; }
+	public void setPtsRedeemed(int ptsRedeemed) { this.ptsRedeemed = ptsRedeemed; }
 
 	public void addPointsEarned(int points)
 	{
 		ptsEarned += points;
+		CustomerDao cusdao = new CustomerDao();
+		cusdao.save(this);
 	}
 	
 	public void addPointsRedeemed(int points)
 	{
 		ptsRedeemed += points;
+		CustomerDao cusdao = new CustomerDao();
+		cusdao.save(this);
 	}
 	
 	public int getUsablePoints()
@@ -55,72 +65,8 @@ public class Customer implements Cloneable{
 		return ptsEarned - ptsRedeemed; 
 	}
 	
-	public Customer clone()
+	public boolean equals(Object o)
 	{
-		return new Customer(firstName, lastName, id, address, gender, age, ptsEarned, ptsRedeemed);
-	}
-	//getters setters
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public int getPtsEarned() {
-		return ptsEarned;
-	}
-
-	public void setPtsEarned(int ptsEarned) {
-		this.ptsEarned = ptsEarned;
-	}
-
-	public int getPtsRedeemed() {
-		return ptsRedeemed;
-	}
-
-	public void setPtsRedeemed(int ptsRedeemed) {
-		this.ptsRedeemed = ptsRedeemed;
+		return (o instanceof Customer) && id == ((Customer)o).getId();
 	}
 }

@@ -1,6 +1,7 @@
 package gui;
 
-public enum Card {
+public enum Card 
+{
 	SYSADMIN("System Administrator"),
 	SA1("Setup Store"),
 	MANAGER("Manager"),
@@ -24,10 +25,6 @@ public enum Card {
 	COVER("Cover");
 	
 	private String label;
-	private Card(String label){
-		this.label = label;
-	}
-	public String getLabel(){
-		return label;
-	}
+	private Card(String label) { this.label = label; }
+	public String getLabel() { return label; }
 }

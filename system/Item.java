@@ -1,14 +1,16 @@
 package system;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.HashMap;
 
-public class Item implements Cloneable{
-	String itemCode;
-	String itemName;
-	String itemCategory;
-	String unitName;
-	double unitPrice;
+import system.dao.ItemDao;
+
+public class Item
+{
+	private String itemCode;
+	private String itemName;
+	private String itemCategory;
+	private String unitName;
+	private double unitPrice;
+	
+	public Item() { }
 	
 	public Item(String itemCode, String itemName, String itemCategory, String unitName, double unitPrice)
 	{
@@ -18,18 +20,22 @@ public class Item implements Cloneable{
 		this.unitName = unitName;
 		this.unitPrice = unitPrice;
 	}
-	
-	public Item() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public String getItemCode(){ return itemCode; }
 	public String getItemName(){ return itemName; }
 	public String getItemCategory(){ return itemCategory; }
 	public String getUnitName(){ return unitName; }
 	public double getUnitPrice(){ return unitPrice; }
-	public void setUnitPrice(double newPrice){
+	
+	public void setItemCode(String itemCode) { this.itemCode = itemCode; }
+	public void setItemName(String itemName) { this.itemName = itemName; }
+	public void setItemCategory(String itemCategory) { this.itemCategory = itemCategory; }
+	public void setUnitName(String unitName) { this.unitName = unitName; }
+	public void setUnitPrice(double newPrice)
+	{
 		unitPrice = newPrice;
+		ItemDao itemdao = new ItemDao();
+		itemdao.save(this);
 	}
 	
 	public int hashCode()
@@ -39,27 +45,6 @@ public class Item implements Cloneable{
 	
 	public boolean equals(Object o)
 	{
-		return (o instanceof Item) && ((Item)o).itemCode.equals(itemCode);
-	}
-	
-	public Item clone()
-	{
-		return new Item(itemCode, itemName, itemCategory, unitName, unitPrice);
-	}
-
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public void setItemCategory(String itemCategory) {
-		this.itemCategory = itemCategory;
-	}
-
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
+		return (o instanceof Item) && ((Item)o).getItemCode().equals(itemCode);
 	}
 }

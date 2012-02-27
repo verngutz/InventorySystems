@@ -4,29 +4,31 @@ import gui.Card;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
 import system.Cashier;
+import system.InventorySystems;
 import system.Store;
-import system.SystemBox;
+
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class EndDayCard 
 {
 	private JPanel endday;
 	private Container con;
 	
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldStoreId;
+	private JTextField textFieldCashierIndex;
 	
 	public JPanel getCard(Container con)
 	{
@@ -66,19 +68,19 @@ public class EndDayCard
 		JLabel lblStoreId = new JLabel("Store ID:");
 		endday.add(lblStoreId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		endday.add(textField, "4, 2, left, default");
-		textField.setColumns(10);
+		textFieldStoreId = new JTextField();
+		endday.add(textFieldStoreId, "4, 2, left, default");
+		textFieldStoreId.setColumns(10);
 		
 		JLabel lblCashierIndex = new JLabel("Cashier Index:");
 		endday.add(lblCashierIndex, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		endday.add(textField_1, "4, 4, left, default");
-		textField_1.setColumns(10);
+		textFieldCashierIndex = new JTextField();
+		endday.add(textFieldCashierIndex, "4, 4, left, default");
+		textFieldCashierIndex.setColumns(10);
 		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addMouseListener(new MouseAdapter() 
+		JButton btnOK = new JButton("OK");
+		btnOK.addMouseListener(new MouseAdapter() 
 		{
 			@Override
 			public void mousePressed(MouseEvent e) 
@@ -86,19 +88,15 @@ public class EndDayCard
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(endday, "Specified Store ID is in an improper format.");
 					return;
 				}
-				Store s = null;
-				try
-				{
-					s = SystemBox.getSystem().getStore(storeId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Store s = InventorySystems.getSystem().getStore(storeId);
+				if(s == null)
 				{
 					JOptionPane.showMessageDialog(endday, "Store not found.");
 					return;
@@ -106,7 +104,7 @@ public class EndDayCard
 				int cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField_1.getText());
+					cashierindex = Integer.parseInt(textFieldCashierIndex.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -129,7 +127,7 @@ public class EndDayCard
 				returnToPreviousScreen();
 			}
 		});
-		endday.add(btnNewButton, "4, 8, left, default");
+		endday.add(btnOK, "4, 8, left, default");
 		
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addMouseListener(new MouseAdapter() 
@@ -145,8 +143,8 @@ public class EndDayCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
+		textFieldStoreId.setText("");
+		textFieldCashierIndex.setText("");
 	}
 	
 	public void returnToPreviousScreen()

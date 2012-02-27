@@ -2,30 +2,32 @@ package gui.manager.forms;
 
 import gui.Card;
 
+import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import java.awt.*;
-import java.awt.event.*;
+import system.InventorySystems;
 
-import javax.swing.*;
-
-import com.jgoodies.forms.factories.*;
-import com.jgoodies.forms.layout.*;
-
-import system.Item;
-import system.SystemBox;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class ChangePriceCard 
 {
 	private JPanel panel;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField textFieldItemCode;
+	private JTextField textFieldItemName;
+	private JTextField textFieldPrice;
+	private JTextField textFieldNewPrice;
 	
 	public JPanel getCard(Container con)
 	{
@@ -71,9 +73,9 @@ public class ChangePriceCard
 		JLabel lblItemCode = new JLabel("Item Code:");
 		panel.add(lblItemCode, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldItemCode = new JTextField();
+		panel.add(textFieldItemCode, "4, 2, fill, default");
+		textFieldItemCode.setColumns(10);
 		
 		JButton btnInquireCode = new JButton("Inquire Code");
 		btnInquireCode.addMouseListener(new MouseAdapter() 
@@ -81,14 +83,14 @@ public class ChangePriceCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldItemCode.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
 				}
-				else if(SystemBox.getSystem().containsItem(textField.getText()))
+				else if(InventorySystems.getSystem().containsItem(textFieldItemCode.getText()))
 				{
-					textField_1.setText(SystemBox.getSystem().getItem(textField.getText()).getItemName());
-					textField_2.setText(SystemBox.getSystem().getItem(textField.getText()).getUnitPrice() + "");
+					textFieldItemName.setText(InventorySystems.getSystem().getItem(textFieldItemCode.getText()).getItemName());
+					textFieldPrice.setText(InventorySystems.getSystem().getItem(textFieldItemCode.getText()).getUnitPrice() + "");
 				}
 				else
 				{
@@ -101,25 +103,25 @@ public class ChangePriceCard
 		JLabel lblItemName = new JLabel("Item Name:");
 		panel.add(lblItemName, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		panel.add(textField_1, "4, 6, fill, default");
-		textField_1.setColumns(10);
+		textFieldItemName = new JTextField();
+		textFieldItemName.setEditable(false);
+		panel.add(textFieldItemName, "4, 6, fill, default");
+		textFieldItemName.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Price:");
-		panel.add(lblNewLabel, "2, 8, right, default");
+		JLabel lblPrice = new JLabel("Price:");
+		panel.add(lblPrice, "2, 8, right, default");
 		
-		textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		panel.add(textField_2, "4, 8, fill, default");
-		textField_2.setColumns(10);
+		textFieldPrice = new JTextField();
+		textFieldPrice.setEditable(false);
+		panel.add(textFieldPrice, "4, 8, fill, default");
+		textFieldPrice.setColumns(10);
 		
 		JLabel lblNewPrice = new JLabel("New Price:");
 		panel.add(lblNewPrice, "2, 12, right, default");
 		
-		textField_3 = new JTextField();
-		panel.add(textField_3, "4, 12, fill, default");
-		textField_3.setColumns(10);
+		textFieldNewPrice = new JTextField();
+		panel.add(textFieldNewPrice, "4, 12, fill, default");
+		textFieldNewPrice.setColumns(10);
 		
 		JButton btnOk = new JButton("OK");
 		btnOk.addMouseListener(new MouseAdapter() 
@@ -127,12 +129,12 @@ public class ChangePriceCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldItemCode.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
 					return;
 				}
-				if(!SystemBox.getSystem().containsItem(textField.getText()))
+				if(!InventorySystems.getSystem().containsItem(textFieldItemCode.getText()))
 				{
 					JOptionPane.showMessageDialog(panel, "Item not found.");
 					return;
@@ -140,14 +142,14 @@ public class ChangePriceCard
 				double newPrice = 0;
 				try
 				{
-					newPrice = Double.parseDouble(textField_3.getText());
+					newPrice = Double.parseDouble(textFieldNewPrice.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(panel, "Specified New Price is in an improper format.");
 					return;
 				}
-				SystemBox.getSystem().getItem(textField.getText()).setUnitPrice(newPrice);
+				InventorySystems.getSystem().getItem(textFieldItemCode.getText()).setUnitPrice(newPrice);
 				JOptionPane.showMessageDialog(panel, "Price successfully changed.");
 				returnToPreviousScreen();
 			}
@@ -168,10 +170,10 @@ public class ChangePriceCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
-		textField_3.setText("");
+		textFieldItemCode.setText("");
+		textFieldItemName.setText("");
+		textFieldPrice.setText("");
+		textFieldNewPrice.setText("");
 	}
 	
 	public void returnToPreviousScreen()

@@ -19,15 +19,15 @@ import com.jgoodies.forms.layout.*;
 
 import system.Cashier;
 import system.Store;
-import system.SystemBox;
+import system.InventorySystems;
 
 public class RemoveCashierCard 
 {
 	private JPanel removecashier;
 	private Container con;
 	
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldStoreId;
+	private JTextField textFieldCashierIndex;
 	
 	public JPanel getCard(Container con)
 	{
@@ -67,16 +67,16 @@ public class RemoveCashierCard
 		JLabel lblStoreId = new JLabel("Store ID:");
 		removecashier.add(lblStoreId, "2, 2, right, default");
 		
-		textField = new JTextField();
-		removecashier.add(textField, "4, 2, left, default");
-		textField.setColumns(10);
+		textFieldStoreId = new JTextField();
+		removecashier.add(textFieldStoreId, "4, 2, left, default");
+		textFieldStoreId.setColumns(10);
 		
 		JLabel lblCashierIndex = new JLabel("Cashier ID:");
 		removecashier.add(lblCashierIndex, "2, 4, right, default");
 		
-		textField_1 = new JTextField();
-		removecashier.add(textField_1, "4, 4, left, default");
-		textField_1.setColumns(10);
+		textFieldCashierIndex = new JTextField();
+		removecashier.add(textFieldCashierIndex, "4, 4, left, default");
+		textFieldCashierIndex.setColumns(10);
 		
 		JButton btnNewButton = new JButton("OK");
 		btnNewButton.addMouseListener(new MouseAdapter() 
@@ -87,19 +87,15 @@ public class RemoveCashierCard
 				int storeId = 0;
 				try
 				{
-					storeId = Integer.parseInt(textField.getText());
+					storeId = Integer.parseInt(textFieldStoreId.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(removecashier, "Specified Store ID is in an improper format.");
 					return;
 				}
-				Store s = null;
-				try
-				{
-					s = SystemBox.getSystem().getStore(storeId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Store s = InventorySystems.getSystem().getStore(storeId);
+				if(s == null)
 				{
 					JOptionPane.showMessageDialog(removecashier, "Store not found.");
 					return;
@@ -107,7 +103,7 @@ public class RemoveCashierCard
 				int cashierindex = 0;
 				try
 				{
-					cashierindex = Integer.parseInt(textField_1.getText());
+					cashierindex = Integer.parseInt(textFieldCashierIndex.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
@@ -125,15 +121,7 @@ public class RemoveCashierCard
 					JOptionPane.showMessageDialog(removecashier, "Store " + storeId + " Cashier " + cashierindex + " is still online and cannot be removed.");
 					return;
 				}
-				try
-				{
-					s.removeCashier(cashierindex);
-				}
-				catch(IllegalArgumentException iae)
-				{
-					JOptionPane.showMessageDialog(removecashier, "There is no Cashier " + cashierindex + " in Store " + storeId + ".");
-					return;
-				}
+				s.removeCashier(cashierindex);
 				JOptionPane.showMessageDialog(removecashier, "Cashier " + cashierindex + " successfully removed from. Store " + storeId + " now has " + s.getNumCashiers() + " cashier(s).");
 				returnToPreviousScreen();
 			}
@@ -154,8 +142,8 @@ public class RemoveCashierCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
+		textFieldStoreId.setText("");
+		textFieldCashierIndex.setText("");
 	}
 	
 	public void returnToPreviousScreen()

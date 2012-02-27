@@ -1,35 +1,48 @@
 package gui;
 
 import gui.cashier.CashierCard;
-import gui.cashier.forms.*;
+import gui.cashier.forms.EndDayCard;
+import gui.cashier.forms.MakeSaleCard1;
+import gui.cashier.forms.MakeSaleCard2;
+import gui.cashier.forms.MakeSaleCard3;
+import gui.cashier.forms.StartDayCard;
 import gui.customer.CustomerCard;
+import gui.manager.ManagerCard;
+import gui.manager.forms.AddCashierCard;
+import gui.manager.forms.AddItemCard;
+import gui.manager.forms.CashPositionCard;
+import gui.manager.forms.ChangePriceCard;
+import gui.manager.forms.CustomerReportCard;
+import gui.manager.forms.EnrollCustomerCard;
+import gui.manager.forms.ItemSummaryCard;
+import gui.manager.forms.RemoveCashierCard;
+import gui.manager.forms.RestockCard1;
+import gui.manager.forms.RestockCard2;
 import gui.sysadmin.SystemAdminCard;
 import gui.sysadmin.forms.SetupStoreCard;
-import gui.manager.*;
-import gui.manager.forms.*;
 
+import java.awt.CardLayout;
 import java.awt.EventQueue;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSplitPane;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.awt.event.*;
-import com.jgoodies.forms.layout.*;
-import java.awt.*;
-import java.io.File;
-
-import com.jgoodies.forms.factories.FormFactory;
-
-import system.Customer;
-import system.Item;
 import system.Tester;
-import system.dao.CustomerDao;
-import system.dao.ItemDao;
-import system.dao.impl.CustomerDaoImpl;
-import system.dao.impl.ItemDaoImpl;
-import system.dao.impl.SessionFactorySingleton;
+import system.dao.SessionFactorySingleton;
 
 public class MainAppWindow 
 {
@@ -59,11 +72,7 @@ public class MainAppWindow
 	private EndDayCard endDayCard;
 	
 	private static SessionFactory factory;
-	
-	public static SessionFactory getSessionFactory()
-	{
-		return factory;
-	}
+	public static SessionFactory getSessionFactory() { return factory; }
 	
 	public static void main(String[] args) 
 	{
@@ -71,15 +80,11 @@ public class MainAppWindow
         configuration.configure(new File("hibernate.cfg.xml"));
         factory = configuration.buildSessionFactory();
         
-        // set the singleton do all the dao objects can have easy access to it
+        // set the singleton so all the DAO objects can have easy access to it
         SessionFactorySingleton.setSessionFactory(factory);
         
-		args = new String[1];
-		args[0] = "samplein.txt";
-		if(args.length > 0)
-		{
-			new Tester(args[0]);
-		}
+        // edit the following line to change automatic tester input 
+		new Tester("samplein.txt");
 		
 		EventQueue.invokeLater(new Runnable() 
 		{
@@ -126,7 +131,7 @@ public class MainAppWindow
 	private void initialize() 
 	{
 		frame = getFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 450, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -237,17 +242,16 @@ public class MainAppWindow
 		customerCard = new CustomerCard();
 		JPanel customer = customerCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(customer, Card.CUSTOMER.getLabel());
-		
 		// customer end
 		
-		// sysadmin view start
+		// system administrator view start
 		setupStoreCard = new SetupStoreCard();
 		JPanel sysadmin_setup = setupStoreCard.getCard(frame.getContentPane());
 		frame.getContentPane().add(sysadmin_setup, Card.SA1.getLabel());
 
 		JPanel sysadmin = (new SystemAdminCard()).getCard(frame.getContentPane());
 		frame.getContentPane().add(sysadmin, Card.SYSADMIN.getLabel());
-		// sysadmin view end
+		// system administrator view end
 		
 		// cashier view
 		JPanel cashier = (new CashierCard()).getCard(frame.getContentPane());

@@ -3,40 +3,36 @@ package gui.customer;
 import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Frame;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JOptionPane;
+
+import system.Customer;
+import system.InventorySystems;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-import system.Customer;
-import system.SystemBox;
-
 public class CustomerCard
 {
 	private JPanel customer;
 	
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-
-	private Container con;
+	private JTextField textFieldCustomerId;
+	private JTextField textFieldCustomerName;
+	private JTextField textFieldPointsEarned;
+	private JTextField textFieldPointsRedeemed;
+	private JTextField textFieldUsablePoints;
 	
 	public JPanel getCard(Container con)
 	{
 		if(customer==null)
 		{
 			customer=new JPanel();
-			this.con = con;
 			init();
 		}
 		return customer;
@@ -71,9 +67,9 @@ public class CustomerCard
 		JLabel lblCustomerId = new JLabel("Customer ID:");
 		customer.add(lblCustomerId, "2, 2, right, default");
 		
-		textField_2 = new JTextField();
-		customer.add(textField_2, "4, 2, left, default");
-		textField_2.setColumns(10);
+		textFieldCustomerId = new JTextField();
+		customer.add(textFieldCustomerId, "4, 2, left, default");
+		textFieldCustomerId.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Inquire");
 		btnNewButton.addMouseListener(new MouseAdapter() 
@@ -81,7 +77,7 @@ public class CustomerCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				String customerIdString = textField_2.getText();
+				String customerIdString = textFieldCustomerId.getText();
 				int customerId = 0;
 				try
 				{
@@ -92,63 +88,59 @@ public class CustomerCard
 					JOptionPane.showMessageDialog(customer, "Specified Customer ID is in an improper format.");
 					return;
 				}
-				Customer c = null;
-				try
-				{
-					c = SystemBox.getSystem().getCustomer(customerId);
-				}
-				catch(IndexOutOfBoundsException ioobe)
+				Customer c = InventorySystems.getSystem().getCustomer(customerId);
+				if(c == null)
 				{
 					JOptionPane.showMessageDialog(customer, "Customer not found.");
 					return;
 				}
-				textField_3.setText(c.getFirstName() + " " + c.getLastName());
-				textField_4.setText(c.getPtsEarned() + "");
-				textField_5.setText(c.getPtsRedeemed() + "");
-				textField_6.setText(c.getUsablePoints() + "");
+				textFieldCustomerName.setText(c.getFirstName() + " " + c.getLastName());
+				textFieldPointsEarned.setText(c.getPtsEarned() + "");
+				textFieldPointsRedeemed.setText(c.getPtsRedeemed() + "");
+				textFieldUsablePoints.setText(c.getUsablePoints() + "");
 			}
 		});
 		customer.add(btnNewButton, "4, 4, left, default");
 		
-		JLabel lblNewLabel = new JLabel("Customer Name:");
-		customer.add(lblNewLabel, "2, 6, right, default");
+		JLabel lblCustomerName = new JLabel("Customer Name:");
+		customer.add(lblCustomerName, "2, 6, right, default");
 		
-		textField_3 = new JTextField();
-		textField_3.setEditable(false);
-		customer.add(textField_3, "4, 6, fill, default");
-		textField_3.setColumns(10);
+		textFieldCustomerName = new JTextField();
+		textFieldCustomerName.setEditable(false);
+		customer.add(textFieldCustomerName, "4, 6, fill, default");
+		textFieldCustomerName.setColumns(10);
 		
-		JLabel lblPoints = new JLabel("Points Earned:");
-		customer.add(lblPoints, "2, 8, right, default");
+		JLabel lblPointsEarned = new JLabel("Points Earned:");
+		customer.add(lblPointsEarned, "2, 8, right, default");
 		
-		textField_4 = new JTextField();
-		textField_4.setEditable(false);
-		customer.add(textField_4, "4, 8, fill, default");
-		textField_4.setColumns(10);
+		textFieldPointsEarned = new JTextField();
+		textFieldPointsEarned.setEditable(false);
+		customer.add(textFieldPointsEarned, "4, 8, fill, default");
+		textFieldPointsEarned.setColumns(10);
 		
-		JLabel lblPointsRedeamed = new JLabel("Points Redeemed:");
-		customer.add(lblPointsRedeamed, "2, 10, right, default");
+		JLabel lblPointsRedeemed = new JLabel("Points Redeemed:");
+		customer.add(lblPointsRedeemed, "2, 10, right, default");
 		
-		textField_5 = new JTextField();
-		textField_5.setEditable(false);
-		customer.add(textField_5, "4, 10, fill, default");
-		textField_5.setColumns(10);
+		textFieldPointsRedeemed = new JTextField();
+		textFieldPointsRedeemed.setEditable(false);
+		customer.add(textFieldPointsRedeemed, "4, 10, fill, default");
+		textFieldPointsRedeemed.setColumns(10);
 		
 		JLabel lblUsablePoints = new JLabel("Usable Points:");
 		customer.add(lblUsablePoints, "2, 12, right, default");
 		
-		textField_6 = new JTextField();
-		textField_6.setEditable(false);
-		customer.add(textField_6, "4, 12, fill, default");
-		textField_6.setColumns(10);
+		textFieldUsablePoints = new JTextField();
+		textFieldUsablePoints.setEditable(false);
+		customer.add(textFieldUsablePoints, "4, 12, fill, default");
+		textFieldUsablePoints.setColumns(10);
 	}
 	
 	public void resetFields()
 	{
-		textField_2.setText("");
-		textField_3.setText("");
-		textField_4.setText("");
-		textField_5.setText("");
-		textField_6.setText("");
+		textFieldCustomerId.setText("");
+		textFieldCustomerName.setText("");
+		textFieldPointsEarned.setText("");
+		textFieldPointsRedeemed.setText("");
+		textFieldUsablePoints.setText("");
 	}
 }

@@ -7,6 +7,8 @@ public class TransactionItem
 	int quantity;
 	double price;
 	
+	public TransactionItem() { }
+	
 	public TransactionItem(Item item, int quantity, double price)
 	{
 		this.item = item;
@@ -14,27 +16,13 @@ public class TransactionItem
 		this.price = price;
 	}
 	
+	public int getId() { return id; }
 	public Item getItem() { return item; }
 	public int getQuantity(){ return quantity; }
 	public double getPrice(){ return price; }
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
-	public void setPrice(double price) {
-		this.price = price;
-	}
+	
+	public void setId(int id) { this.id = id; }
+	public void setItem(Item item) { this.item = item; }
+	public void setQuantity(int quantity) { this.quantity = quantity; }
+	public void setPrice(double price) { this.price = price; }
 }

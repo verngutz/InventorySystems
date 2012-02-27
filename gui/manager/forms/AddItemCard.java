@@ -16,17 +16,17 @@ import com.jgoodies.forms.factories.*;
 import com.jgoodies.forms.layout.*;
 
 import system.Item;
-import system.SystemBox;
+import system.InventorySystems;
 
 public class AddItemCard 
 {
 	private JPanel panel;
 	private Container con;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
+	private JTextField textFieldNewItemCode;
+	private JTextField textFieldItemName;
+	private JTextField textFieldItemCategory;
+	private JTextField textFieldItemUnit;
+	private JTextField textFieldUnitPrice;
 	
 	public JPanel getCard(Container con)
 	{
@@ -74,9 +74,9 @@ public class AddItemCard
 		JLabel lblNewItemCode = new JLabel("New Item Code:");
 		panel.add(lblNewItemCode, "2, 2, right, default");
 		
-		textField = new JTextField();
-		panel.add(textField, "4, 2, fill, default");
-		textField.setColumns(10);
+		textFieldNewItemCode = new JTextField();
+		panel.add(textFieldNewItemCode, "4, 2, fill, default");
+		textFieldNewItemCode.setColumns(10);
 		
 		JButton btnInquireCode = new JButton("Inquire Code");
 		btnInquireCode.addMouseListener(new MouseAdapter() 
@@ -84,11 +84,11 @@ public class AddItemCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldNewItemCode.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
 				}
-				else if(SystemBox.getSystem().containsItem(textField.getText()))
+				else if(InventorySystems.getSystem().containsItem(textFieldNewItemCode.getText()))
 				{
 					JOptionPane.showMessageDialog(panel, "An item with the specified Item Code already exists.");
 				}
@@ -103,30 +103,30 @@ public class AddItemCard
 		JLabel lblItemName = new JLabel("Item Name:");
 		panel.add(lblItemName, "2, 6, right, default");
 		
-		textField_1 = new JTextField();
-		panel.add(textField_1, "4, 6, fill, default");
-		textField_1.setColumns(10);
+		textFieldItemName = new JTextField();
+		panel.add(textFieldItemName, "4, 6, fill, default");
+		textFieldItemName.setColumns(10);
 		
 		JLabel lblItemCategory = new JLabel("Item Category:");
 		panel.add(lblItemCategory, "2, 8, right, default");
 		
-		textField_2 = new JTextField();
-		panel.add(textField_2, "4, 8, fill, default");
-		textField_2.setColumns(10);
+		textFieldItemCategory = new JTextField();
+		panel.add(textFieldItemCategory, "4, 8, fill, default");
+		textFieldItemCategory.setColumns(10);
 		
 		JLabel lblItemUnit = new JLabel("Item Unit:");
 		panel.add(lblItemUnit, "2, 10, right, default");
 		
-		textField_3 = new JTextField();
-		panel.add(textField_3, "4, 10, fill, default");
-		textField_3.setColumns(10);
+		textFieldItemUnit = new JTextField();
+		panel.add(textFieldItemUnit, "4, 10, fill, default");
+		textFieldItemUnit.setColumns(10);
 		
 		JLabel lblUnitPrice = new JLabel("Unit Price:");
 		panel.add(lblUnitPrice, "2, 12, right, default");
 		
-		textField_4 = new JTextField();
-		panel.add(textField_4, "4, 12, fill, default");
-		textField_4.setColumns(10);
+		textFieldUnitPrice = new JTextField();
+		panel.add(textFieldUnitPrice, "4, 12, fill, default");
+		textFieldUnitPrice.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addMouseListener(new MouseAdapter() 
@@ -134,34 +134,34 @@ public class AddItemCard
 			@Override
 			public void mousePressed(MouseEvent arg0) 
 			{
-				if(textField.getText().equals(""))
+				if(textFieldNewItemCode.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Code specified.");
 					return;
 				}
-				if(SystemBox.getSystem().containsItem(textField.getText()))
+				if(InventorySystems.getSystem().containsItem(textFieldNewItemCode.getText()))
 				{
 					JOptionPane.showMessageDialog(panel, "An item with the specified Item Code already exists.");
 					return;
 				}
-				if(textField_1.getText().equals(""))
+				if(textFieldItemName.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Name specified.");
 					return;
 				}
-				if(textField_2.getText().equals(""))
+				if(textFieldItemCategory.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Item Category specified.");
 					return;
 				}
 
-				if(textField_3.getText().equals(""))
+				if(textFieldItemUnit.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Unit Name specified.");
 					return;
 				}
 				
-				if(textField_4.getText().equals(""))
+				if(textFieldUnitPrice.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(panel, "No Unit Price specified.");
 					return;
@@ -169,14 +169,14 @@ public class AddItemCard
 				double price = 0;
 				try
 				{
-					price = Double.parseDouble(textField_4.getText());
+					price = Double.parseDouble(textFieldUnitPrice.getText());
 				}
 				catch(NumberFormatException nfe)
 				{
 					JOptionPane.showMessageDialog(panel, "Supplied Unit Price is in an improper format.");
 					return;
 				}
-				SystemBox.getSystem().addItem(new Item(textField.getText(), textField_1.getText(), textField_2.getText(), textField_3.getText(), price));
+				InventorySystems.getSystem().addItem(new Item(textFieldNewItemCode.getText(), textFieldItemName.getText(), textFieldItemCategory.getText(), textFieldItemUnit.getText(), price));
 				JOptionPane.showMessageDialog(panel, "Item successfully added.");
 				returnToPreviousScreen();
 			}
@@ -197,11 +197,11 @@ public class AddItemCard
 	
 	public void resetFields()
 	{
-		textField.setText("");
-		textField_1.setText("");
-		textField_2.setText("");
-		textField_3.setText("");
-		textField_4.setText("");
+		textFieldNewItemCode.setText("");
+		textFieldItemName.setText("");
+		textFieldItemCategory.setText("");
+		textFieldItemUnit.setText("");
+		textFieldUnitPrice.setText("");
 	}
 	
 	public void returnToPreviousScreen()
